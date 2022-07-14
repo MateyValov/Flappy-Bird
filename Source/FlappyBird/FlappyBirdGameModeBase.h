@@ -15,6 +15,6 @@ class FLAPPYBIRD_API AFlappyBirdGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 	
 	public:
-		UPROPERTY(EditAnywhere)
-			float speed = 100;
+		AFlappyBirdGameModeBase();
+		
 };

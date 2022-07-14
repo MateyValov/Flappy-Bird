@@ -2,4 +2,10 @@
 
 
 #include "FlappyBirdGameModeBase.h"
+#include "MenuHUD.h"
 
+AFlappyBirdGameModeBase::AFlappyBirdGameModeBase()
+{
+	//PlayerControllerClass = AMenuPlayerController::StaticClass();
+	HUDClass = AMenuHUD::StaticClass();
+}

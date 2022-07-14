@@ -3,6 +3,8 @@
 
 #include "Flappy.h"
 #include "Components/StaticMeshComponent.h"
+#include "Obstacle.h"
+#include "ScoreBox.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -32,15 +34,27 @@ void AFlappy::BeginPlay()
 
 void AFlappy::jump()
 {
-	if (!pressed)currGravity = gravity;
+	if (!pressed) {
+		currGravity = gravity;
+		StartDelegate.ExecuteIfBound();
+		pressed = true;
+	}
 	verticalVelocity = jumpForce;
 }
 
 void AFlappy::die(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Some debug message!"));
+	AObstacle* obst = Cast<AObstacle>(OtherActor);
+	AScoreBox* scorePoint = Cast<AScoreBox>(OtherActor);
+	if (obst != nullptr) {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Some debug message!"));
+	}
+	else if (scorePoint != nullptr) {
+		score++;
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("tochka"));
+	}
+	
 
-	UE_LOG(LogTemp, Warning, TEXT("Some warning message"));
 }
 
 // Called every frame

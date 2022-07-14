@@ -30,15 +30,12 @@ protected:
 	UPROPERTY(EditAnywhere)
 		class UStaticMeshComponent* floor = nullptr;
 	
-	UPROPERTY(EditAnywhere)
-		class UBoxComponent* hitbox = nullptr;
-	UPROPERTY(EditAnywhere)
-		class UBoxComponent* roof = nullptr;
 	
 
 	UFUNCTION()
 		void jumpSignal();
 	
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

@@ -3,7 +3,8 @@
 
 #include "ObstacleGenerator.h"
 #include "Components/BoxComponent.h"
-#include "FlappyBirdGameModeBase.h" 
+#include "Obstacle.h"
+#include "ScoreBox.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -15,20 +16,70 @@ AObstacleGenerator::AObstacleGenerator()
 	SetRootComponent(root);
 	hitbox = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
 	hitbox->SetupAttachment(root);
+	hitbox->OnComponentBeginOverlap.AddDynamic(this, &AObstacleGenerator::registerObst);
+	hitbox->OnComponentEndOverlap.AddDynamic(this, &AObstacleGenerator::kill);
 }
 
 // Called when the game starts or when spawned
 void AObstacleGenerator::BeginPlay()
 {
 	Super::BeginPlay();
-	speed = Cast<AFlappyBirdGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->speed;
-	generate();
+	//speed = Cast<AGameplayGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->speed;
+	bottom = GetActorLocation();
+	mid = bottom;
+	mid.Z += TileSize*3;
+	top = mid;
+	top.Z += TileSize*3;
+	if (flappy != nullptr) {
+		flappy->StartDelegate.BindUFunction(this, FName("generate"));
+	}
+	
 }
 
 void AObstacleGenerator::generate()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("Some debug message!"));
-	GetWorldTimerManager().SetTimer(spawnHandle, this, &AObstacleGenerator::generate, TileSize/speed, false);
+	
+
+	EObstacleGap GapPosition = static_cast<EObstacleGap>(FMath::RandRange(0, 2));
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("spawn"));
+	AObstacle* obst1 = nullptr;
+	AObstacle* obst2 = nullptr;
+	AScoreBox* score = nullptr;
+	if (GapPosition == EObstacleGap::Bottom) {
+		score = (AScoreBox*)GetWorld()->SpawnActor<AScoreBox>(bottom, Rotation, SpawnInfo);
+		obst1 = (AObstacle*)GetWorld()->SpawnActor<AObstacle>(mid, Rotation, SpawnInfo);
+		obst2 = (AObstacle*)GetWorld()->SpawnActor<AObstacle>(top, Rotation, SpawnInfo);
+	}
+	else if (GapPosition == EObstacleGap::Mid) {
+		obst1 = (AObstacle*)GetWorld()->SpawnActor<AObstacle>(bottom, Rotation, SpawnInfo);
+		score = (AScoreBox*)GetWorld()->SpawnActor<AScoreBox>(mid, Rotation, SpawnInfo);
+		obst2 = (AObstacle*)GetWorld()->SpawnActor<AObstacle>(top, Rotation, SpawnInfo);
+	}
+	else if (GapPosition == EObstacleGap::Top) {
+		obst1 = (AObstacle*)GetWorld()->SpawnActor<AObstacle>(bottom, Rotation, SpawnInfo);
+		obst2 = (AObstacle*)GetWorld()->SpawnActor<AObstacle>(mid, Rotation, SpawnInfo);
+		score = (AScoreBox*)GetWorld()->SpawnActor<AScoreBox>(top, Rotation, SpawnInfo);
+	}
+	obst1->Init(speed);
+	obst2->Init(speed);
+	score->Init(speed);
+
+	GetWorldTimerManager().SetTimer(spawnHandle, this, &AObstacleGenerator::generate, 4/speed, false);
+}
+
+void AObstacleGenerator::kill(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("izleze"));
+	AObstacle* obst = Cast<AObstacle>(OtherActor);
+	if (obst != nullptr) {
+		obst->Destroy();
+		
+	}
+}
+
+void AObstacleGenerator::registerObst(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("vleze"));
 }
 
 // Called every frame

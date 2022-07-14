@@ -19,10 +19,7 @@ ACameraPawn::ACameraPawn()
 	
 	floor = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Floor"));
 	floor->SetupAttachment(root);
-	roof = CreateDefaultSubobject<UBoxComponent>(TEXT("Roof"));
-	roof->SetupAttachment(floor);
-	hitbox = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
-	hitbox->SetupAttachment(floor);
+	
 	
 	
 }

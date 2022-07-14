@@ -7,6 +7,8 @@
 #include "CameraPawn.h"
 #include "Flappy.generated.h"
 
+DECLARE_DELEGATE(StartSignature);
+
 UCLASS()
 class FLAPPYBIRD_API AFlappy : public AActor
 {
@@ -22,7 +24,12 @@ public:
 		float gravity = 0;
 	UPROPERTY(EditAnywhere)
 		float jumpForce = 0;
+	UPROPERTY(EditAnywhere)
+		int score = 0;
 	bool pressed = false;
+
+	StartSignature StartDelegate;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
