@@ -8,19 +8,15 @@
 /**
  * 
  */
-class FLAPPYBIRD_API SDeathScreenWidget : public SCompoundWidget
+class FLAPPYBIRD_API SPregameWidget : public SCompoundWidget
 {
 public:
-	SLATE_BEGIN_ARGS(SDeathScreenWidget)
+	SLATE_BEGIN_ARGS(SPregameWidget)
 	{}
 	SLATE_ARGUMENT(TWeakObjectPtr<class AGameplayHUD>, OwningHUD)
 	SLATE_END_ARGS()
 
-	FReply OnPlayClicked() const;
-	FReply OnQuitClicked() const;
-
 	TWeakObjectPtr<class AGameplayHUD> OwningHUD;
-
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
 };

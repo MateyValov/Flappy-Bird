@@ -88,7 +88,7 @@ FReply SMenuCompoundWidget::OnPlayClicked() const
 {
 	FLatentActionInfo LatentInfo;
 	//UGameplayStatics::LoadStreamLevel(this, "Game", true, true, LatentInfo);
-	UGameplayStatics::OpenLevel(GEngine->GetWorld(), "Game");
+	UGameplayStatics::OpenLevel(OwningHUD->GetWorld(), "Game");
 	OwningHUD->hideMenu();
 	return FReply::Handled();
 }

@@ -3,6 +3,8 @@
 
 #include "Flappy.h"
 #include "Components/StaticMeshComponent.h"
+#include "GameplayModeBase.h"
+#include "GameplayHUD.h"
 #include "Obstacle.h"
 #include "ScoreBox.h"
 #include "Components/BoxComponent.h"
@@ -27,6 +29,7 @@ AFlappy::AFlappy()
 void AFlappy::BeginPlay()
 {
 	Super::BeginPlay();
+	UGameplayStatics::GetPlayerController(this, 0)->SetPause(false);
 	if (cameraController != nullptr) {
 		cameraController->JumpDelegate.BindUFunction(this, FName("jump"));
 	}
@@ -38,6 +41,10 @@ void AFlappy::jump()
 		currGravity = gravity;
 		StartDelegate.ExecuteIfBound();
 		pressed = true;
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("castvame"));
+		//Cast<AGameplayHUD>(UGameplayStatics::GetGameMode(GetWorld())->HUDClass)->showScore();
+		Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->PregameStop();
+		Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->showScore();
 	}
 	verticalVelocity = jumpForce;
 }
@@ -47,10 +54,14 @@ void AFlappy::die(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, 
 	AObstacle* obst = Cast<AObstacle>(OtherActor);
 	AScoreBox* scorePoint = Cast<AScoreBox>(OtherActor);
 	if (obst != nullptr) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Some debug message!"));
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Some debug message!"));
+		Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->hideScore();
+		UGameplayStatics::GetPlayerController(this, 0)->SetPause(true);
+		Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->showEnd();
 	}
 	else if (scorePoint != nullptr) {
-		score++;
+		int score = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GetScore()+1;
+		Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->SetScore(score);
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("tochka"));
 	}
 	

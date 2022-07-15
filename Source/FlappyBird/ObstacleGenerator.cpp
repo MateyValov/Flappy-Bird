@@ -41,7 +41,7 @@ void AObstacleGenerator::generate()
 	
 
 	EObstacleGap GapPosition = static_cast<EObstacleGap>(FMath::RandRange(0, 2));
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("spawn"));
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("spawn"));
 	AObstacle* obst1 = nullptr;
 	AObstacle* obst2 = nullptr;
 	AScoreBox* score = nullptr;

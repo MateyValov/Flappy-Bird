@@ -16,12 +16,20 @@ class FLAPPYBIRD_API AGameplayHUD : public AHUD
 protected:
 	TSharedPtr<class SDeathScreenWidget> EndWidget;
 	TSharedPtr<class SWidget> EndWidgetConteiner;
+
 	TSharedPtr<class SScoreWidget> ScoreWidget;
 	TSharedPtr<class SWidget> ScoreWidgetConteiner;
+
+	TSharedPtr<class SPregameWidget> PregameWidget;
+	TSharedPtr<class SWidget> PregameWidgetConteiner;
 	virtual void BeginPlay()override;
+	virtual void Tick(float DeltaTime) override;
 public:
 	void showEnd();
 	void showScore();
 	void hideEnd();
 	void hideScore();
+
+	void PregameStart();
+	void PregameStop();
 };

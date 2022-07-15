@@ -5,7 +5,8 @@
 #include "Widgets/Images/SImage.h"
 #include "GameplayHUD.h"
 #include "SlateOptMacros.h"
-//#include "GameModeBase.h"
+#include "GameplayModeBase.h"
+#include "HighScore.h"
 #include "Kismet/GameplayStatics.h"
 
 #define LOCTEXT_NAMESPACE "EndScreen"
@@ -18,7 +19,10 @@ void SDeathScreenWidget::Construct(const FArguments& InArgs)
 
 	const FMargin ContentPadding = FMargin(500.0f, 300.0f);
 	const FMargin ButtonPadding = FMargin(10.0f);
-	//const FText TitleText = LOCTEXT("GameTitle", "You failed");
+	const FText ScoreText =  FText::FromString(FString::FromInt(Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(OwningHUD->GetWorld()))->GetScore()));
+	int HighScore = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(OwningHUD->GetWorld()))->HighScore;
+	//int neshto = LoadedGame->HighScore;
+	const FText HighScoreText = FText::FromString(FString::FromInt(HighScore));
 	const FText PlayText = LOCTEXT("Play", "Play again");
 	const FText QuitText = LOCTEXT("Quit", "Quit");
 
@@ -47,9 +51,16 @@ void SDeathScreenWidget::Construct(const FArguments& InArgs)
 					[
 						SNew(STextBlock)
 						.Font(TitleFont)
-						.Text(TitleText)
+						.Text(ScoreText)
 						.Justification(ETextJustify::Center)
 					]
+					+ SVerticalBox::Slot()
+						[
+							SNew(STextBlock)
+							.Font(TitleFont)
+							.Text(HighScoreText)
+							.Justification(ETextJustify::Center)
+						]
 					//PLay Button
 					+ SVerticalBox::Slot()
 					.Padding(ButtonPadding)
@@ -64,18 +75,40 @@ void SDeathScreenWidget::Construct(const FArguments& InArgs)
 						]
 
 					]
-	
+					//PLay Button
+					+ SVerticalBox::Slot()
+						.Padding(ButtonPadding)
+						[
+							SNew(SButton)
+							.OnClicked(this, &SDeathScreenWidget::OnQuitClicked)
+						[
+							SNew(STextBlock)
+							.Font(ButtonFont)
+						.Text(QuitText)
+						.Justification(ETextJustify::Center)
+						]
+
+						]
 			]
 		];
 }
 
 FReply SDeathScreenWidget::OnPlayClicked() const
 {
-	FLatentActionInfo LatentInfo;
-	//UGameplayStatics::LoadStreamLevel(this, "Game", true, true, LatentInfo);
-	Cast<AGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->ResetLevel();
+	UGameplayStatics::OpenLevel(OwningHUD->GetWorld(), "Game");
+	OwningHUD->hideEnd();
 	return FReply::Handled();
 }
 
+FReply SDeathScreenWidget::OnQuitClicked() const
+{
+	if (OwningHUD.IsValid()) {
+		if (APlayerController* pc = OwningHUD->PlayerOwner) {
+			pc->ConsoleCommand("quit");
+		}
+	}
+	return FReply::Handled();
+
+}
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
 #undef LOCTEXT_NAMESPACE
