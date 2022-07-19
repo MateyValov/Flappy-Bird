@@ -5,7 +5,6 @@
 #include "Components/StaticMeshComponent.h"
 #include "GameplayModeBase.h"
 #include "GameplayHUD.h"
-#include "Obstacle.h"
 #include "ScoreBox.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -51,19 +50,7 @@ void AFlappy::jump()
 
 void AFlappy::die(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	AObstacle* obst = Cast<AObstacle>(OtherActor);
-	AScoreBox* scorePoint = Cast<AScoreBox>(OtherActor);
-	if (obst != nullptr) {
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("Some debug message!"));
-		Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->hideScore();
-		UGameplayStatics::GetPlayerController(this, 0)->SetPause(true);
-		Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->showEnd();
-	}
-	else if (scorePoint != nullptr) {
-		int score = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GetScore()+1;
-		Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->SetScore(score);
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("tochka"));
-	}
+	
 	
 
 }

@@ -12,11 +12,16 @@
 UCLASS()
 class FLAPPYBIRD_API AMenuHUD : public AHUD
 {
-	GENERATED_BODY()
+	GENERATED_BODY() 
 protected:
-	TSharedPtr<class SMenuCompoundWidget> MenuWidget;
-	TSharedPtr<class SWidget> MenuWidgetConteiner;
+	//TSharedPtr<class SMenuCompoundWidget> MenuWidget;
+	//TSharedPtr<class SWidget> MenuWidgetConteiner;
 
+	//class MainWidget* MenuWidget;
+	TSubclassOf<class UUserWidget> MenuMenuWidgetClass;
+	class UUserWidget* MenuWidget;
+	
+	//TSharedPtr<class Widget> MenuWidgetConteiner;
 	virtual void BeginPlay()override;
 public:
 	void showMenu();
