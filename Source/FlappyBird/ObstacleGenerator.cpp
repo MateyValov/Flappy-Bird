@@ -4,7 +4,7 @@
 #include "ObstacleGenerator.h"
 #include "Components/BoxComponent.h"
 #include "GapObstacle.h"
-#include "ScoreBox.h"
+#include "FlappyController.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -24,9 +24,9 @@ void AObstacleGenerator::BeginPlay()
 	Super::BeginPlay();
 	//speed = Cast<AGameplayGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->speed;
 	
-	if (bird != nullptr) {
-		bird->StartDelegate.BindUFunction(this, FName("generate"));
-	}
+	//if (bird != nullptr) {
+	Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.BindUFunction(this, FName("generate"));
+	//}
 	
 }
 

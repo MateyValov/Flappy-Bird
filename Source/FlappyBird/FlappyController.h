@@ -9,9 +9,12 @@
 /**
  * 
  */
+DECLARE_DELEGATE(StartSignature);
+
 UCLASS()
 class FLAPPYBIRD_API AFlappyController : public APlayerController
 {
 	GENERATED_BODY()
-	
+public:
+		StartSignature StartDelegate;
 };

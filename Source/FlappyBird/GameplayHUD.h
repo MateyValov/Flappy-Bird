@@ -13,23 +13,26 @@ UCLASS()
 class FLAPPYBIRD_API AGameplayHUD : public AHUD
 {
 	GENERATED_BODY()
-protected:
-	TSharedPtr<class SDeathScreenWidget> EndWidget;
-	TSharedPtr<class SWidget> EndWidgetConteiner;
+protected:	
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> EndWidgetClass;
+	//class UUserWidget* EndWidget;
 
-	TSharedPtr<class SScoreWidget> ScoreWidget;
-	TSharedPtr<class SWidget> ScoreWidgetConteiner;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> ScoreWidgetClass;
+	//class UUserWidget* ScoreWidget;
 
-	TSharedPtr<class SPregameWidget> PregameWidget;
-	TSharedPtr<class SWidget> PregameWidgetConteiner;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> PregameWidgetClass;
+	//class UUserWidget* PregameWidget;
+	class UUserWidget* CurrentWidget;
+
 	virtual void BeginPlay()override;
 	virtual void Tick(float DeltaTime) override;
 public:
 	void showEnd();
 	void showScore();
-	void hideEnd();
-	void hideScore();
-
 	void PregameStart();
-	void PregameStop();
+
+	void clear();
 };

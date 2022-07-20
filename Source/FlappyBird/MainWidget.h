@@ -16,11 +16,15 @@ class FLAPPYBIRD_API UMainWidget : public UUserWidget
 	GENERATED_BODY()
 	private:
 	protected:
-		//UPROPERTY(EditAnywhere)
-		//	class AObstacle* perry;
 		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 			class UButton* Play;
 		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 			class UButton* Quit;
+		UFUNCTION()
+		void OnPlayClicked();
+		UFUNCTION()
+		void OnQuitClicked();
+
+		virtual void NativeConstruct() override;
 	public:
 };

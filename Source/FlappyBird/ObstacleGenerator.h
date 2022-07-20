@@ -34,8 +34,8 @@ protected:
 		float spawnTime = 2;
 	UPROPERTY(EditAnywhere)
 		float TileSize = 80;
-	UPROPERTY(EditAnywhere)
-		class ABird* bird = nullptr;
+	//UPROPERTY(EditAnywhere)
+	//	class ABird* bird = nullptr;
 
 	FTimerHandle spawnHandle;
 

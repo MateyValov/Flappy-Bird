@@ -17,9 +17,9 @@ class FLAPPYBIRD_API AGameplayModeBase : public AGameModeBase
 public:
 	AGameplayModeBase();
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 		int score=0;
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 		int HighScore = 0;;
 	UFUNCTION()
 		void SetScore(int points) { score = points; };

@@ -7,7 +7,6 @@
 #include "GameFramework/Pawn.h"
 #include "Bird.generated.h"
 
-DECLARE_DELEGATE(StartSignature);
 
 UCLASS()
 class FLAPPYBIRD_API ABird : public APawn
@@ -23,7 +22,6 @@ public:
 		float jumpForce = 0;
 	bool pressed = false;
 
-	StartSignature StartDelegate;
 protected:
 	UPROPERTY(EditAnywhere)
 		class USceneComponent* root = nullptr;

@@ -2,12 +2,12 @@
 
 
 #include "Bird.h"
+#include "FlappyController.h"
 #include "Components/BoxComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
 #include "GameplayModeBase.h"
 #include "GameplayHUD.h"
-#include "ScoreBox.h"
 #include "Kismet/GameplayStatics.h"
 // Sets default values
 ABird::ABird()
@@ -45,11 +45,10 @@ void ABird::Jump()
 {
 	if (!pressed) {
 		movement->ProjectileGravityScale = gravity;
-		StartDelegate.ExecuteIfBound();
+		Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.ExecuteIfBound();
 		pressed = true;
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("castvame"));
 		//Cast<AGameplayHUD>(UGameplayStatics::GetGameMode(GetWorld())->HUDClass)->showScore();
-		Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->PregameStop();
 		Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->showScore();
 	}
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("skachame"));
@@ -66,7 +65,6 @@ void ABird::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ABird::die()
 {
-	Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->hideScore();
 	UGameplayStatics::GetPlayerController(this, 0)->SetPause(true);
 	Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->showEnd();
 	//}
