@@ -28,7 +28,6 @@ protected:
 	class UUserWidget* CurrentWidget;
 
 	virtual void BeginPlay()override;
-	virtual void Tick(float DeltaTime) override;
 public:
 	void showEnd();
 	void showScore();

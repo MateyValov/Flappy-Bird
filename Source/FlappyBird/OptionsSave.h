@@ -4,18 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/SaveGame.h"
-#include "HighScore.generated.h"
+#include "OptionsSave.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class FLAPPYBIRD_API UHighScore : public USaveGame
+class FLAPPYBIRD_API UOptionsSave : public USaveGame
 {
 	GENERATED_BODY()
 public:
-
-	UPROPERTY(VisibleAnywhere)
-		int HighScore;
-	//UHighScore();
+	UPROPERTY()
+		FString Difficulty = "Easy";
 };

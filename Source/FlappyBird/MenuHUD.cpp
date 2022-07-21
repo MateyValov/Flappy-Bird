@@ -6,20 +6,41 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
 
 #include "Engine/Engine.h"
+
+void AMenuHUD::showMenu()
+{
+	clear();
+	CurrentWidget = CreateWidget<UUserWidget>(UGameplayStatics::GetGameInstance(GetWorld()), MenuMenuWidgetClass);
+	if (PlayerOwner && CurrentWidget) {
+		CurrentWidget->AddToViewport();
+		PlayerOwner->bShowMouseCursor = true;
+		PlayerOwner->SetInputMode(FInputModeUIOnly());
+	}
+}
+
+void AMenuHUD::showOptions()
+{
+	clear();
+	CurrentWidget = CreateWidget<UUserWidget>(UGameplayStatics::GetGameInstance(GetWorld()), OptionsWidgetClass);
+	if (PlayerOwner && CurrentWidget) {
+		CurrentWidget->AddToViewport();
+		PlayerOwner->bShowMouseCursor = true;
+		PlayerOwner->SetInputMode(FInputModeUIOnly());
+	}
+}
+
+void AMenuHUD::clear()
+{
+	UWidgetLayoutLibrary::RemoveAllWidgets(this);
+}
 
 void AMenuHUD::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	MenuWidget = CreateWidget<UUserWidget>(UGameplayStatics::GetGameInstance(GetWorld()), MenuMenuWidgetClass);
-	if (PlayerOwner && MenuWidget) {
-		MenuWidget->AddToViewport();
-		PlayerOwner->bShowMouseCursor = true;
-		PlayerOwner->SetInputMode(FInputModeUIOnly());
-	}
-	//showMenu();
+	showMenu();
 }
 
 

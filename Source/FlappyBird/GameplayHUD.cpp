@@ -18,30 +18,21 @@ void AGameplayHUD::BeginPlay()
 	PregameStart();
 }
 
-void AGameplayHUD::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	//if (GEngine && GEngine->GameViewport && (EndWidgetConteiner.IsValid() || PregameWidgetConteiner.IsValid())) {
-	//	return;
-	//}
-	/*if (GEngine && GEngine->GameViewport && PregameWidgetConteiner.IsValid()) {
-		return;
-	}*/
-	//hideScore();
-	//showScore();
-}
 
 void AGameplayHUD::showEnd()
 {
 	clear();
-	int HighScore = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->HighScore;
-	int score = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GetScore();
+	AGameplayModeBase* gamemode = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	int HighScore = gamemode->HighScore;
+	int score = gamemode->GetScore();
 
 	if (HighScore < score) {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("bi si scora"));
+
 		UHighScore* SaveGameInstance = Cast<UHighScore>(UGameplayStatics::CreateSaveGameObject(UHighScore::StaticClass()));
 		SaveGameInstance->HighScore = score;
-		UGameplayStatics::SaveGameToSlot(SaveGameInstance,"HighScore", 0);
-		Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->UpdateHighScore();
+		UGameplayStatics::SaveGameToSlot(SaveGameInstance, gamemode->dificulty, 0);
+		gamemode->UpdateHighScore();
 	}
 	
 	CurrentWidget = CreateWidget<UUserWidget>(UGameplayStatics::GetGameInstance(GetWorld()), EndWidgetClass);

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "OptionsSave.h"
 #include "FlappyBirdGameModeBase.generated.h"
 
 /**
@@ -16,5 +17,5 @@ class FLAPPYBIRD_API AFlappyBirdGameModeBase : public AGameModeBase
 	
 	public:
 		AFlappyBirdGameModeBase();
-		
+		FString difficulty;
 };

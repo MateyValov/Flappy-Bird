@@ -24,6 +24,10 @@ class FLAPPYBIRD_API UMainWidget : public UUserWidget
 		void OnPlayClicked();
 		UFUNCTION()
 		void OnQuitClicked();
+		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
+			class UButton* Options;
+		UFUNCTION()
+			void OnOptionsClicked();
 
 		virtual void NativeConstruct() override;
 	public:

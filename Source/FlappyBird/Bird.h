@@ -17,22 +17,24 @@ public:
 	// Sets default values for this pawn's properties
 	ABird();
 	UPROPERTY(EditAnywhere)
-		float gravity = 0;
+		float gravity = 1;
 	UPROPERTY(EditAnywhere)
-		float jumpForce = 0;
+		float jumpForce = 500;
 	bool pressed = false;
 
 protected:
 	UPROPERTY(EditAnywhere)
 		class USceneComponent* root = nullptr;
 	UPROPERTY(EditAnywhere)
-		class UStaticMeshComponent* mesh = nullptr;
+		class USkeletalMeshComponent* mesh = nullptr;
 	UPROPERTY(EditAnywhere)
 		class UBoxComponent* hitbox = nullptr;
 	UPROPERTY(EditAnywhere)
 		class UCameraComponent* camera = nullptr;
 	UPROPERTY(EditAnywhere)
 	class UProjectileMovementComponent* movement = nullptr;
+	UPROPERTY(EditAnywhere)
+		class UAnimationAsset* AnimObj = nullptr;
 
 public:	
 

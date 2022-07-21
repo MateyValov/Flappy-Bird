@@ -3,3 +3,7 @@
 
 #include "ScoreWidget.h"
 
+void UScoreWidget::NativeConstruct()
+{
+	GameMode = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+}

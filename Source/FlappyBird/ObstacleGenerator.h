@@ -29,8 +29,10 @@ protected:
 	UPROPERTY(EditAnywhere)
 		class UBoxComponent* hitbox = nullptr;
 	UPROPERTY(EditAnywhere)
-		float speed = 2;
-	UPROPERTY(EditAnywhere)
+		float DefaultSpeed = 200;
+	UPROPERTY(VisibleAnywhere)
+		float speed;
+	UPROPERTY(VisibleAnywhere)
 		float spawnTime = 2;
 	UPROPERTY(EditAnywhere)
 		float TileSize = 80;

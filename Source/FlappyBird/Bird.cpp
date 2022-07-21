@@ -19,24 +19,33 @@ ABird::ABird()
 
 	movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComp"));
 	movement->ProjectileGravityScale = 0;
-	movement->Velocity.X = 0;
-	movement->InitialSpeed = jumpForce;
-	movement->MaxSpeed = movement->InitialSpeed;
+	movement->Velocity = FVector(0, 0, 0);
 
-	mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+	mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	mesh->SetupAttachment(root);
-	ConstructorHelpers::FObjectFinder<UStaticMesh> MeshObj(TEXT("StaticMesh'/Engine/BasicShapes/Cylinder.Cylinder'"));
-	mesh->SetStaticMesh(MeshObj.Object);
-	mesh->SetRelativeScale3D(FVector(0.8, 0.8, 0.8));
-
+	ConstructorHelpers::FObjectFinder<USkeletalMesh> MeshObj(TEXT("SkeletalMesh'/Game/BirdMesh/BirdModel.BirdModel'"));
+	mesh->SetSkeletalMesh(MeshObj.Object);
+	mesh->SetRelativeScale3D(FVector(0.5, 0.5, 0.5));
+	mesh->SetAnimationMode(EAnimationMode::AnimationSingleNode);
+	//mesh->SetGenerateOverlapEvents(true);
+	//mesh->SetCollisionProfileName(FName("OverlapAll"));
+	ConstructorHelpers::FObjectFinder<UAnimationAsset> anim(TEXT("AnimSequence'/Game/BirdMesh/BirdModel_Anim.BirdModel_Anim'"));
+	AnimObj = anim.Object;
+	
+	
 	hitbox = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
 	hitbox->SetupAttachment(mesh);
-	hitbox->SetRelativeScale3D(FVector(1.42, 1.42, 1.58));
+	hitbox->SetRelativeScale3D(FVector(3, 3, 2.5));
+	hitbox->SetRelativeLocation(FVector(0,-6,0));
 
-	SetActorRotation(FRotator(0, 0, 90));
+	SetActorRotation(FRotator(0, 180, 0));
 	//SetActorLocation(FVector(101.796166,738.922339,413.471660));
 	camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	camera->SetProjectionMode(ECameraProjectionMode::Orthographic);
+	camera->OrthoWidth = 1400;
+	camera->SetWorldLocation(FVector(-520,810,325));
 	
+	AutoPossessPlayer = EAutoReceiveInput::Player0;
 }
 
 
@@ -44,6 +53,9 @@ ABird::ABird()
 void ABird::Jump()
 {
 	if (!pressed) {
+		mesh->PlayAnimation(AnimObj,true);
+		movement->InitialSpeed = jumpForce;
+		movement->MaxSpeed = movement->InitialSpeed*2;
 		movement->ProjectileGravityScale = gravity;
 		Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.ExecuteIfBound();
 		pressed = true;
@@ -53,6 +65,7 @@ void ABird::Jump()
 	}
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("skachame"));
 	movement->Velocity.Z = jumpForce;
+	
 }
 
 // Called to bind functionality to input

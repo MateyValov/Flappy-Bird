@@ -16,10 +16,15 @@ class FLAPPYBIRD_API AMenuHUD : public AHUD
 protected:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UUserWidget> MenuMenuWidgetClass;
-	class UUserWidget* MenuWidget;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> OptionsWidgetClass;
+	class UUserWidget* CurrentWidget;
 
-	
+	void clear();
+
 	virtual void BeginPlay()override;
-public:
 
+public:
+	void showMenu();
+	void showOptions();
 };

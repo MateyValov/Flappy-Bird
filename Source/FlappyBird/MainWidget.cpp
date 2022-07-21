@@ -2,26 +2,29 @@
 
 
 #include "MainWidget.h"
+#include "MenuHUD.h"
 #include "Kismet/GameplayStatics.h"
 
 void UMainWidget::OnPlayClicked()
 {
 	FLatentActionInfo LatentInfo;
-	//UGameplayStatics::LoadStreamLevel(this, "Game", true, true, LatentInfo);
 	UGameplayStatics::OpenLevel(GetWorld(), "Game");
-	//OwningHUD->hideMenu();
-	//return FReply::Handled();
 }
 
 void UMainWidget::OnQuitClicked()
 {
-	//if (OwningHUD.IsValid()) {
-		if (APlayerController* pc = GetOwningPlayer()) {
-			pc->ConsoleCommand("quit");
-		}
-	//}*/
-	//return FReply::Handled();
+	if (APlayerController* pc = GetOwningPlayer()) {
+		pc->ConsoleCommand("quit");
+	}
 
+}
+
+void UMainWidget::OnOptionsClicked()
+{
+	if (APlayerController* pc = GetOwningPlayer()) {
+		Cast<AMenuHUD>(pc->GetHUD())->showOptions();
+	}
+	
 }
 
 void UMainWidget::NativeConstruct()
@@ -29,5 +32,5 @@ void UMainWidget::NativeConstruct()
 	Super::NativeConstruct();
 	Play->OnClicked.AddDynamic(this, &UMainWidget::OnPlayClicked);
 	Quit->OnClicked.AddDynamic(this, &UMainWidget::OnQuitClicked);
-	UE_LOG(LogTemp, Warning, TEXT("I just started crashing"));
+	Options->OnClicked.AddDynamic(this, &UMainWidget::OnOptionsClicked);
 }

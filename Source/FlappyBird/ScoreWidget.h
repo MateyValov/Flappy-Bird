@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/TextBlock.h"
+#include "GameplayModeBase.h"
+#include "Kismet/GameplayStatics.h"
+
 #include "ScoreWidget.generated.h"
 
 /**
@@ -18,4 +21,9 @@ class FLAPPYBIRD_API UScoreWidget : public UUserWidget
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 	class UTextBlock* CurrentScore;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	class AGameplayModeBase* GameMode = nullptr;
+
+	virtual void NativeConstruct() override;
 };

@@ -4,6 +4,7 @@
 #include "ObstacleGenerator.h"
 #include "Components/BoxComponent.h"
 #include "GapObstacle.h"
+#include "GameplayModeBase.h"
 #include "FlappyController.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -22,8 +23,18 @@ AObstacleGenerator::AObstacleGenerator()
 void AObstacleGenerator::BeginPlay()
 {
 	Super::BeginPlay();
-	//speed = Cast<AGameplayGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->speed;
+	FString diff = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->dificulty;
 	
+	if (diff == "Easy") {
+		speed = DefaultSpeed;
+	}
+	else if (diff == "Normal") {
+		speed = DefaultSpeed + 150;
+	}
+	else if (diff == "Hard") {
+		speed = DefaultSpeed + 300;
+	}
+	spawnTime = 4 / (speed / 100);
 	//if (bird != nullptr) {
 	Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.BindUFunction(this, FName("generate"));
 	//}
@@ -34,6 +45,7 @@ void AObstacleGenerator::generate()
 {
 	
 	float gapPosition = (FMath::RandRange(-150, 450));
+	//float gapPosition = (FMath::RandRange(150, 150));
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("spawn"));
 	AGapObstacle* obst = nullptr;
 	obst = (AGapObstacle*)GetWorld()->SpawnActor<AGapObstacle>(FVector(GetActorLocation().X, GetActorLocation().Y,gapPosition), Rotation, SpawnInfo);

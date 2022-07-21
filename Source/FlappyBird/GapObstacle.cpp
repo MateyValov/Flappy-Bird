@@ -21,10 +21,12 @@ AGapObstacle::AGapObstacle()
 	movement->ProjectileGravityScale = 0;
 
 	ConstructorHelpers::FObjectFinder<UStaticMesh> MeshObj(TEXT("StaticMesh'/Engine/BasicShapes/Cylinder.Cylinder'"));
+	ConstructorHelpers::FObjectFinder<UMaterial> MeshMat(TEXT("Material'/Game/BirdMesh/green_Mat.green_Mat'"));
 	//bottom
 	meshbottom = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshBottom"));
 	meshbottom->SetupAttachment(root);
 	meshbottom->SetStaticMesh(MeshObj.Object);
+	meshbottom->SetMaterial(0,MeshMat.Object);
 	meshbottom->SetRelativeScale3D(FVector(0.8, 0.8, 6));
 	meshbottom->SetRelativeLocation(FVector(0, 0, -220));
 
@@ -39,6 +41,7 @@ AGapObstacle::AGapObstacle()
 	meshtop->SetStaticMesh(MeshObj.Object);
 	meshtop->SetRelativeScale3D(FVector(0.8, 0.8, 6));
 	meshtop->SetRelativeLocation(FVector(0, 0, 640));
+	meshtop->SetMaterial(0, MeshMat.Object);
 
 	hitboxtop = CreateDefaultSubobject<UBoxComponent>(TEXT("HitboxTop"));
 	hitboxtop->SetupAttachment(meshtop);
@@ -72,18 +75,23 @@ void AGapObstacle::kill1(UPrimitiveComponent* OverlappedComponent, AActor* Other
 void AGapObstacle::kill2(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("umrq"));
 
 	ABird* bird = Cast<ABird>(OtherActor);
 	if (bird != nullptr) {
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("umrq"));
+
 		bird->die();
 	}
 	
 }
 void AGapObstacle::scoreUp(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Orange, TEXT(""));
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Orange, TEXT("tochka"));
+
 	ABird* bird = Cast<ABird>(OtherActor);
 	if (bird != nullptr) {
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Magenta, TEXT("tochka"));
 		int points = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GetScore() + 1;
 		Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->SetScore(points);
 		return;
