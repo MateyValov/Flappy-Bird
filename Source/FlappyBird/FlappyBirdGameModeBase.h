@@ -17,5 +17,5 @@ class FLAPPYBIRD_API AFlappyBirdGameModeBase : public AGameModeBase
 	
 	public:
 		AFlappyBirdGameModeBase();
-		FString difficulty;
+		
 };

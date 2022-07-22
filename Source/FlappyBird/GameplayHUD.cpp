@@ -27,8 +27,7 @@ void AGameplayHUD::showEnd()
 	int score = gamemode->GetScore();
 
 	if (HighScore < score) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("bi si scora"));
-
+		
 		UHighScore* SaveGameInstance = Cast<UHighScore>(UGameplayStatics::CreateSaveGameObject(UHighScore::StaticClass()));
 		SaveGameInstance->HighScore = score;
 		UGameplayStatics::SaveGameToSlot(SaveGameInstance, gamemode->dificulty, 0);

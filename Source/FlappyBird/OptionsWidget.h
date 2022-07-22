@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
+#include "Components/InputKeySelector.h"
 #include "OptionsWidget.generated.h"
 
 /**
@@ -28,6 +29,11 @@ protected:
 		class UButton* Hard;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 		class UButton* Exit;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
+		class UButton* Save;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
+		class UInputKeySelector* jumpBinding;
 	
 	UFUNCTION()
 		void OnEasyClicked();
@@ -37,9 +43,17 @@ protected:
 		void OnHardClicked();
 	UFUNCTION()
 		void OnExitClicked();
+	UFUNCTION()
+		void OnSaveClicked();
+	UFUNCTION()
+		void OnBindSelected(FInputChord SelectedKey);
 
 	UFUNCTION()
 		void ResetDifficulty();
+
+	FString difficulty = "";
+	FString jumpbind = "";
+	FString Oldjumpbind;
 
 	virtual void NativeConstruct() override;
 	

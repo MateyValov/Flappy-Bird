@@ -35,7 +35,7 @@ ABird::ABird()
 	
 	hitbox = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
 	hitbox->SetupAttachment(mesh);
-	hitbox->SetRelativeScale3D(FVector(3, 3, 2.5));
+	hitbox->SetRelativeScale3D(FVector(2.5, 2.5, 2.5));
 	hitbox->SetRelativeLocation(FVector(0,-6,0));
 
 	SetActorRotation(FRotator(0, 180, 0));
@@ -46,6 +46,8 @@ ABird::ABird()
 	camera->SetWorldLocation(FVector(-520,810,325));
 	
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
+
+	
 }
 
 
@@ -53,6 +55,18 @@ ABird::ABird()
 void ABird::Jump()
 {
 	if (!pressed) {
+		FString diff = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->dificulty;
+
+		if (diff == "Easy") {
+			gravity = Defaultgravity;
+		}
+		else if (diff == "Normal") {
+			gravity = Defaultgravity + DefficultyAddition;
+		}
+		else if (diff == "Hard") {
+			gravity = Defaultgravity + DefficultyAddition * 2;
+		}
+		jumpForce = (DefaultjumpForce*2) - (DefaultjumpForce/ gravity);
 		mesh->PlayAnimation(AnimObj,true);
 		movement->InitialSpeed = jumpForce;
 		movement->MaxSpeed = movement->InitialSpeed*2;

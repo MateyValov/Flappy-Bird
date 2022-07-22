@@ -21,8 +21,8 @@ public:
 		int score=0;
 	UPROPERTY(BlueprintReadOnly)
 		int HighScore = 0;
-	UPROPERTY(BlueprintReadOnly)
-		float Speed = 0;
+	/*UPROPERTY(BlueprintReadOnly)
+		float Speed = 0;*/
 	UPROPERTY(BlueprintReadOnly)
 		FString dificulty = "";
 	UFUNCTION()

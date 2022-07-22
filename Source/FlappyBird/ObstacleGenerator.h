@@ -30,6 +30,8 @@ protected:
 		class UBoxComponent* hitbox = nullptr;
 	UPROPERTY(EditAnywhere)
 		float DefaultSpeed = 200;
+	UPROPERTY(EditAnywhere)
+		float DefficultyAddition = 150;
 	UPROPERTY(VisibleAnywhere)
 		float speed;
 	UPROPERTY(VisibleAnywhere)

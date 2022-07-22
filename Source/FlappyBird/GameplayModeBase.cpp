@@ -12,6 +12,8 @@ AGameplayModeBase::AGameplayModeBase()
 	if (UGameplayStatics::DoesSaveGameExist("Options", 0)) {
 		UOptionsSave* LoadedGame = Cast<UOptionsSave>(UGameplayStatics::LoadGameFromSlot("Options", 0));
 		dificulty = LoadedGame->Difficulty;
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, dificulty);
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, LoadedGame->JumpBind);
 	}
 	UpdateHighScore();
 }
