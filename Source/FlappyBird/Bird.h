@@ -17,9 +17,15 @@ public:
 	// Sets default values for this pawn's properties
 	ABird();
 	UPROPERTY(EditAnywhere)
-		float gravity = 1;
+		float Defaultgravity = 1;
+	UPROPERTY(VisibleAnywhere)
+		float gravity;
 	UPROPERTY(EditAnywhere)
-		float jumpForce = 500;
+		float DefficultyAddition = 0.6;
+	UPROPERTY(EditAnywhere)
+		float DefaultjumpForce = 500;
+	UPROPERTY(VisibleAnywhere)
+		float jumpForce;
 	bool pressed = false;
 
 protected:

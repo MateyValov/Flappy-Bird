@@ -24,11 +24,7 @@ protected:
 	UPROPERTY(EditAnywhere)
 		class UStaticMeshComponent* meshbottom = nullptr;
 	UPROPERTY(EditAnywhere)
-		class UBoxComponent* hitboxbottom = nullptr;
-	UPROPERTY(EditAnywhere)
 		class UStaticMeshComponent* meshtop = nullptr;
-	UPROPERTY(EditAnywhere)
-		class UBoxComponent* hitboxtop = nullptr;
 	UPROPERTY(EditAnywhere)
 		class UBoxComponent* score = nullptr;
 

@@ -20,33 +20,33 @@ AGapObstacle::AGapObstacle()
 	movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComp"));
 	movement->ProjectileGravityScale = 0;
 
-	ConstructorHelpers::FObjectFinder<UStaticMesh> MeshObj(TEXT("StaticMesh'/Engine/BasicShapes/Cylinder.Cylinder'"));
-	ConstructorHelpers::FObjectFinder<UMaterial> MeshMat(TEXT("Material'/Game/BirdMesh/green_Mat.green_Mat'"));
+	//ConstructorHelpers::FObjectFinder<UStaticMesh> MeshObj(TEXT("StaticMesh'/Engine/BasicShapes/Cylinder.Cylinder'"));
+	ConstructorHelpers::FObjectFinder<UStaticMesh> MeshObj(TEXT("StaticMesh'/Game/BirdMesh/Pipe.Pipe'"));
+	ConstructorHelpers::FObjectFinder<UMaterial> MeshMat(TEXT("Material'/Game/BirdMesh/dark_green_Mat.dark_green_Mat'"));
+	FVector scale(0.45, 0.45, 0.25);
 	//bottom
 	meshbottom = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshBottom"));
 	meshbottom->SetupAttachment(root);
 	meshbottom->SetStaticMesh(MeshObj.Object);
 	meshbottom->SetMaterial(0,MeshMat.Object);
-	meshbottom->SetRelativeScale3D(FVector(0.8, 0.8, 6));
+	meshbottom->SetRelativeScale3D(scale);
 	meshbottom->SetRelativeLocation(FVector(0, 0, -220));
-
-	hitboxbottom = CreateDefaultSubobject<UBoxComponent>(TEXT("HitboxBottom"));
-	hitboxbottom->SetupAttachment(meshbottom);
-	hitboxbottom->SetRelativeScale3D(FVector(1.42, 1.42, 1.58));
-	hitboxbottom->OnComponentBeginOverlap.AddDynamic(this, &AGapObstacle::kill1);
+	meshbottom->SetGenerateOverlapEvents(true);
+	meshbottom->SetCollisionProfileName("OverlapAll");
+	meshbottom->OnComponentBeginOverlap.AddDynamic(this, &AGapObstacle::kill1); 
 
 	//top
 	meshtop = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshTop"));
 	meshtop->SetupAttachment(root);
 	meshtop->SetStaticMesh(MeshObj.Object);
-	meshtop->SetRelativeScale3D(FVector(0.8, 0.8, 6));
-	meshtop->SetRelativeLocation(FVector(0, 0, 640));
 	meshtop->SetMaterial(0, MeshMat.Object);
+	meshtop->SetRelativeScale3D(scale);
+	meshtop->SetRelativeLocation(FVector(0, 0, 640));
+	meshtop->SetRelativeRotation(FRotator(180, 0, 0));
+	meshtop->SetGenerateOverlapEvents(true);
+	meshtop->SetCollisionProfileName("OverlapAll");
+	meshtop->OnComponentBeginOverlap.AddDynamic(this, &AGapObstacle::kill2);
 
-	hitboxtop = CreateDefaultSubobject<UBoxComponent>(TEXT("HitboxTop"));
-	hitboxtop->SetupAttachment(meshtop);
-	hitboxtop->SetRelativeScale3D(FVector(1.42, 1.42, 1.58));
-	hitboxtop->OnComponentBeginOverlap.AddDynamic(this, &AGapObstacle::kill2);
 
 	//score
 	score = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
