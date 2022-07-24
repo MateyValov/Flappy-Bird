@@ -25,7 +25,7 @@ ABird::ABird()
 	mesh->SetupAttachment(root);
 	ConstructorHelpers::FObjectFinder<USkeletalMesh> MeshObj(TEXT("SkeletalMesh'/Game/BirdMesh/BirdModel.BirdModel'"));
 	mesh->SetSkeletalMesh(MeshObj.Object);
-	mesh->SetRelativeScale3D(FVector(0.5, 0.5, 0.5));
+	mesh->SetRelativeScale3D(FVector(0.4, 0.4, 0.4));
 	mesh->SetAnimationMode(EAnimationMode::AnimationSingleNode);
 	//mesh->SetGenerateOverlapEvents(true);
 	//mesh->SetCollisionProfileName(FName("OverlapAll"));
