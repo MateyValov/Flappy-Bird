@@ -44,6 +44,8 @@ void UOptionsWidget::OnSaveClicked()
 	
 	if(difficulty != "")SaveGameInstance->Difficulty = difficulty;
 
+	SaveGameInstance->JumpBind = Oldjumpbind;
+
 	if (jumpbind != "" ) {
 		UInputSettings* Settings = const_cast<UInputSettings*>(GetDefault<UInputSettings>());
 		Settings->AddActionMapping(FInputActionKeyMapping("Jump", FKey(FName(jumpbind))));
@@ -61,7 +63,6 @@ void UOptionsWidget::OnSaveClicked()
 
 void UOptionsWidget::OnBindSelected(FInputChord SelectedKey)
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("selectna kluch"));
 	jumpbind = SelectedKey.GetInputText().ToString();
 }
 
