@@ -48,6 +48,8 @@ void UOptionsWidget::OnSaveClicked()
 		Settings->AddActionMapping(jumpbind);
 		Settings->RemoveActionMapping(Oldjumpbind);
 		Settings->SaveKeyMappings();
+
+		Oldjumpbind = jumpbind;
 	}
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, "Options", 0);
 
