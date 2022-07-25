@@ -36,7 +36,7 @@ void AObstacleGenerator::BeginPlay()
 	}
 	spawnTime = 4 / (speed / 100);
 	//if (bird != nullptr) {
-	Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.BindUFunction(this, FName("generate"));
+	Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.AddDynamic(this, &AObstacleGenerator::generate);
 	//}
 	
 }

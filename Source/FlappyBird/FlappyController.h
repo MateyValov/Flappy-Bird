@@ -9,14 +9,12 @@
 /**
  * 
  */
-DECLARE_DELEGATE(StartSignature);
-DECLARE_DELEGATE(BackgroundSignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FStartSignature);
 
 UCLASS()
 class FLAPPYBIRD_API AFlappyController : public APlayerController
 {
 	GENERATED_BODY()
 public:
-		StartSignature StartDelegate;
-		BackgroundSignature BackgroundDelegate;
+		FStartSignature StartDelegate;
 };

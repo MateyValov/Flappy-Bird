@@ -13,7 +13,7 @@
 ABird::ABird()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	SetRootComponent(root);
 
@@ -71,8 +71,8 @@ void ABird::Jump()
 		movement->InitialSpeed = jumpForce;
 		movement->MaxSpeed = movement->InitialSpeed*2;
 		movement->ProjectileGravityScale = gravity;
-		Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.ExecuteIfBound();
-		Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->BackgroundDelegate.ExecuteIfBound();
+		Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.Broadcast();
+		//Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->BackgroundDelegate.ExecuteIfBound();
 		pressed = true;
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("castvame"));
 		//Cast<AGameplayHUD>(UGameplayStatics::GetGameMode(GetWorld())->HUDClass)->showScore();

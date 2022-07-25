@@ -16,7 +16,7 @@
 ABackgroundBlock::ABackgroundBlock()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	
 	
 	root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
@@ -24,6 +24,7 @@ ABackgroundBlock::ABackgroundBlock()
 
 	movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComp"));
 	movement->ProjectileGravityScale = 0;
+	movement->Velocity = FVector(0, 0, 0);
 
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshBottom"));
 	mesh->SetupAttachment(root);
@@ -39,15 +40,16 @@ ABackgroundBlock::ABackgroundBlock()
 // Called when the game starts or when spawned
 void ABackgroundBlock::BeginPlay()
 {
-	Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->BackgroundDelegate.BindUFunction(this, FName("Init"));
+	Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.AddDynamic(this, &ABackgroundBlock::Init);
+	movement->InitialSpeed = speed;
+	movement->MaxSpeed = movement->InitialSpeed*2;
+	//movement->Velocity = FVector(0, 0, 0);
 }
 
 void ABackgroundBlock::Init()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("DVIJA SE BE"));
-	movement->Velocity = FVector(0, -speed, 0);
-	movement->InitialSpeed = speed;
-	movement->MaxSpeed = movement->InitialSpeed;
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("DVIJA SE BE"));
+	movement->Velocity.Y = -speed;
 }
 
 void ABackgroundBlock::teleport(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -59,10 +61,4 @@ void ABackgroundBlock::teleport(UPrimitiveComponent* OverlappedComponent, AActor
 	}
 }
 
-// Called every frame
-void ABackgroundBlock::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
 

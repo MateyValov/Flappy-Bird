@@ -30,7 +30,7 @@ protected:
 	UPROPERTY(EditAnywhere)
 	class UProjectileMovementComponent* movement = nullptr;
 	UPROPERTY(VisibleAnywhere)
-	int speed = 200000;
+	float speed = 400;
 
 	
 	UFUNCTION()
@@ -38,6 +38,5 @@ protected:
 
 public:	
 	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 };
