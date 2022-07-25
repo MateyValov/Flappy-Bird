@@ -72,6 +72,7 @@ void ABird::Jump()
 		movement->MaxSpeed = movement->InitialSpeed*2;
 		movement->ProjectileGravityScale = gravity;
 		Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.ExecuteIfBound();
+		Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->BackgroundDelegate.ExecuteIfBound();
 		pressed = true;
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("castvame"));
 		//Cast<AGameplayHUD>(UGameplayStatics::GetGameMode(GetWorld())->HUDClass)->showScore();
