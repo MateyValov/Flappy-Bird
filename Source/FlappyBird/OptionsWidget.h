@@ -51,9 +51,12 @@ protected:
 	UFUNCTION()
 		void ResetDifficulty();
 
+	class UInputSettings* Settings = nullptr;
+	
+
 	FString difficulty = "";
-	FString jumpbind = "";
-	FString Oldjumpbind;
+	FInputActionKeyMapping jumpbind;
+	FInputActionKeyMapping Oldjumpbind;
 
 	virtual void NativeConstruct() override;
 	

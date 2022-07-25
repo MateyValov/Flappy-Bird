@@ -16,6 +16,4 @@ class FLAPPYBIRD_API UOptionsSave : public USaveGame
 public:
 	UPROPERTY()
 		FString Difficulty = "Easy";
-	UPROPERTY()
-		FString JumpBind = "Space Bar";
 };
