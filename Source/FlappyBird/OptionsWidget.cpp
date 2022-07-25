@@ -41,20 +41,13 @@ void UOptionsWidget::OnSaveClicked()
 {
 	UOptionsSave* SaveGameInstance = Cast<UOptionsSave>(UGameplayStatics::CreateSaveGameObject(UOptionsSave::StaticClass()));
 
-	
-	if(difficulty != "")SaveGameInstance->Difficulty = difficulty;
 
-	SaveGameInstance->JumpBind = Oldjumpbind;
+	if (difficulty != "")SaveGameInstance->Difficulty = difficulty;
 
-	if (jumpbind != "" ) {
-		UInputSettings* Settings = const_cast<UInputSettings*>(GetDefault<UInputSettings>());
-		Settings->AddActionMapping(FInputActionKeyMapping("Jump", FKey(FName(jumpbind))));
-		//Settings->AddActionMapping(FInputActionKeyMapping("Jump","Space Bar"));
-		Settings->RemoveActionMapping(FInputActionKeyMapping("Jump", FKey(FName(Oldjumpbind))));
+	if (!(jumpbind == Oldjumpbind)) {
+		Settings->AddActionMapping(jumpbind);
+		Settings->RemoveActionMapping(Oldjumpbind);
 		Settings->SaveKeyMappings();
-		SaveGameInstance->JumpBind = jumpbind;
-		Oldjumpbind = jumpbind;
-		jumpbind = "";
 	}
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, "Options", 0);
 
@@ -63,7 +56,8 @@ void UOptionsWidget::OnSaveClicked()
 
 void UOptionsWidget::OnBindSelected(FInputChord SelectedKey)
 {
-	jumpbind = SelectedKey.GetInputText().ToString();
+	
+	jumpbind = FInputActionKeyMapping("Jump", SelectedKey.Key);
 }
 
 void UOptionsWidget::ResetDifficulty()
@@ -87,19 +81,29 @@ void UOptionsWidget::ResetDifficulty()
 void UOptionsWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+
+
+	Settings = const_cast<UInputSettings*>(GetDefault<UInputSettings>());
+	TArray<FInputActionKeyMapping> JumpBindings;
 	//IsFocusable = false;
 	if (UGameplayStatics::DoesSaveGameExist("Options", 0)) {
 		UOptionsSave* LoadedGame = Cast<UOptionsSave>(UGameplayStatics::LoadGameFromSlot("Options", 0));
 		difficulty = LoadedGame->Difficulty;
-		Oldjumpbind = LoadedGame->JumpBind;
+		//Oldjumpbind = LoadedGame->JumpBind;
 	}
 	Easy->OnClicked.AddDynamic(this, &UOptionsWidget::OnEasyClicked);
 	Normal->OnClicked.AddDynamic(this, &UOptionsWidget::OnNormalClicked);
 	Hard->OnClicked.AddDynamic(this, &UOptionsWidget::OnHardClicked);
 	Exit->OnClicked.AddDynamic(this, &UOptionsWidget::OnExitClicked);
+
 	jumpBinding->OnKeySelected.AddDynamic(this, &UOptionsWidget::OnBindSelected);
 	jumpBinding->KeySelectionText = FText::FromString("Press any Button");
-	jumpBinding->SetNoKeySpecifiedText(FText::FromString(Oldjumpbind));
+	Settings->GetActionMappingByName("Jump", JumpBindings);
+	jumpBinding->SetSelectedKey(JumpBindings[0].Key);
+	Oldjumpbind = JumpBindings[0];
+
+	//jumpBinding->SetNoKeySpecifiedText(FText::FromString(Oldjumpbind));
+
 	Save->OnClicked.AddDynamic(this, &UOptionsWidget::OnSaveClicked);
 	ResetDifficulty();
 }
