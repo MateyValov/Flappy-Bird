@@ -68,7 +68,7 @@ void AGapObstacle::kill1(UPrimitiveComponent* OverlappedComponent, AActor* Other
 	ABird* bird = Cast<ABird>(OtherActor);
 	if (bird != nullptr) {
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("umrq"));
-		bird->die();
+		bird->EndGame(bird);
 	}
 }
 
@@ -81,7 +81,7 @@ void AGapObstacle::kill2(UPrimitiveComponent* OverlappedComponent, AActor* Other
 	if (bird != nullptr) {
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("umrq"));
 
-		bird->die();
+		bird->EndGame(bird);
 	}
 	
 }

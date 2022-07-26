@@ -8,46 +8,50 @@
 #include "GameFramework/FloatingPawnMovement.h"
 #include "GameplayModeBase.h"
 #include "GameplayHUD.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
 // Sets default values
 ABird::ABird()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-	root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
-	SetRootComponent(root);
+	/*root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	SetRootComponent(root);*/
 
-	movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComp"));
-	movement->ProjectileGravityScale = 0;
-	movement->Velocity = FVector(0, 0, 0);
+	MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement Component"));
+	MovementComponent->ProjectileGravityScale = 0;
+	MovementComponent->Velocity = FVector(0, 0, 0);
 
-	mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
-	mesh->SetupAttachment(root);
-	ConstructorHelpers::FObjectFinder<USkeletalMesh> MeshObj(TEXT("SkeletalMesh'/Game/BirdMesh/BirdModel.BirdModel'"));
-	mesh->SetSkeletalMesh(MeshObj.Object);
-	mesh->SetRelativeScale3D(FVector(0.4, 0.4, 0.4));
-	mesh->SetAnimationMode(EAnimationMode::AnimationSingleNode);
-	//mesh->SetGenerateOverlapEvents(true);
-	//mesh->SetCollisionProfileName(FName("OverlapAll"));
-	ConstructorHelpers::FObjectFinder<UAnimationAsset> anim(TEXT("AnimSequence'/Game/BirdMesh/BirdModel_Anim.BirdModel_Anim'"));
-	AnimObj = anim.Object;
+	MeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Static Mesh"));
+	//mesh->SetupAttachment(RootComponent);
+	//ConstructorHelpers::FObjectFinder<USkeletalMesh> MeshObj(TEXT("SkeletalMesh'/Game/BirdMesh/BirdModel.BirdModel'"));
+	//mesh->SetSkeletalMesh(MeshObj.Object);
+	//mesh->SetRelativeScale3D(FVector(0.4, 0.4, 0.4));
+	//mesh->SetAnimationMode(EAnimationMode::AnimationSingleNode);
+	////mesh->SetGenerateOverlapEvents(true);
+	////mesh->SetCollisionProfileName(FName("OverlapAll"));
+	//ConstructorHelpers::FObjectFinder<UAnimationAsset> anim(TEXT("AnimSequence'/Game/BirdMesh/BirdModel_Anim.BirdModel_Anim'"));
+	//AnimObj = anim.Object;
 	
 	
-	hitbox = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
-	hitbox->SetupAttachment(mesh);
-	hitbox->SetRelativeScale3D(FVector(2.5, 2.5, 2.5));
-	hitbox->SetRelativeLocation(FVector(0,-6,0));
+	Hitbox = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
+	Hitbox->SetupAttachment(MeshComponent);
+	/*hitbox->SetRelativeScale3D(FVector(2.5, 2.5, 2.5));
+	hitbox->SetRelativeLocation(FVector(0,-6,0));*/
 
 	SetActorRotation(FRotator(0, 180, 0));
 	//SetActorLocation(FVector(101.796166,738.922339,413.471660));
-	camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	camera->SetProjectionMode(ECameraProjectionMode::Orthographic);
-	camera->OrthoWidth = 1400;
-	camera->SetWorldLocation(FVector(-520,810,325));
+	/*SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
+	SpringArm->SetupAttachment(MeshComponent);*/
+	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	Camera->SetupAttachment(MeshComponent);
+	/*camera->SetProjectionMode(ECameraProjectionMode::Orthographic);
+	camera->OrthoWidth = 1400;*/
+	//Camera->SetRelativeLocation(FVector(-520,810,325));
 	
-	AutoPossessPlayer = EAutoReceiveInput::Player0;
+	//AutoPossessPlayer = EAutoReceiveInput::Player0;
 
-	
+	OnDestroyed.AddDynamic(this, &ABird::EndGame);
 }
 
 
@@ -57,7 +61,7 @@ void ABird::Jump()
 	if (!pressed) {
 		FString diff = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->dificulty;
 
-		if (diff == "Easy") {
+		/*if (diff == "Easy") {
 			gravity = Defaultgravity;
 		}
 		else if (diff == "Normal") {
@@ -66,11 +70,13 @@ void ABird::Jump()
 		else if (diff == "Hard") {
 			gravity = Defaultgravity + DefficultyAddition * 2;
 		}
-		jumpForce = (DefaultjumpForce*2) - (DefaultjumpForce/ gravity);
-		mesh->PlayAnimation(AnimObj,true);
-		movement->InitialSpeed = jumpForce;
-		movement->MaxSpeed = movement->InitialSpeed*2;
-		movement->ProjectileGravityScale = gravity;
+		jumpForce = (DefaultjumpForce*2) - (DefaultjumpForce/ gravity);*/
+		Camera->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
+
+		MeshComponent->PlayAnimation(AnimAsset,true);
+		MovementComponent->InitialSpeed = 0;//jumpForce;
+		MovementComponent->MaxSpeed = MovementComponent->InitialSpeed*2;
+		MovementComponent->ProjectileGravityScale = 1;// gravity;
 		Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.Broadcast();
 		//Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->BackgroundDelegate.ExecuteIfBound();
 		pressed = true;
@@ -79,7 +85,7 @@ void ABird::Jump()
 		Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->showScore();
 	}
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("skachame"));
-	movement->Velocity.Z = jumpForce;
+	MovementComponent->Velocity.Z = 500;// jumpForce;
 	
 }
 
@@ -91,8 +97,9 @@ void ABird::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 }
 
 
-void ABird::die()
-{
+void ABird::EndGame(AActor* DestoyedActor)
+{	
+	
 	UGameplayStatics::GetPlayerController(this, 0)->SetPause(true);
 	Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->showEnd();
 	//}
@@ -101,5 +108,4 @@ void ABird::die()
 	//	Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->SetScore(score);
 	//	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("tochka"));
 	//}
-
 }

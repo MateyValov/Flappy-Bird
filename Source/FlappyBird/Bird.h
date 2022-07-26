@@ -16,7 +16,7 @@ class FLAPPYBIRD_API ABird : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ABird();
-	UPROPERTY(EditAnywhere)
+	/*UPROPERTY(EditAnywhere)
 		float Defaultgravity = 1;
 	UPROPERTY(VisibleAnywhere)
 		float gravity;
@@ -25,22 +25,24 @@ public:
 	UPROPERTY(EditAnywhere)
 		float DefaultjumpForce = 500;
 	UPROPERTY(VisibleAnywhere)
-		float jumpForce;
+		float jumpForce;*/
 	bool pressed = false;
 
 protected:
-	UPROPERTY(EditAnywhere)
-		class USceneComponent* root = nullptr;
-	UPROPERTY(EditAnywhere)
-		class USkeletalMeshComponent* mesh = nullptr;
-	UPROPERTY(EditAnywhere)
-		class UBoxComponent* hitbox = nullptr;
-	UPROPERTY(EditAnywhere)
-		class UCameraComponent* camera = nullptr;
-	UPROPERTY(EditAnywhere)
-	class UProjectileMovementComponent* movement = nullptr;
-	UPROPERTY(EditAnywhere)
-		class UAnimationAsset* AnimObj = nullptr;
+	/*UPROPERTY(EditAnywhere)
+		class USceneComponent* root = nullptr;*/
+	UPROPERTY(EditDefaultsOnly)
+		class USkeletalMeshComponent* MeshComponent = nullptr;
+	UPROPERTY(EditDefaultsOnly)
+		class UBoxComponent* Hitbox = nullptr; 
+	/*UPROPERTY(EditDefaultsOnly)
+		class USpringArmComponent* SpringArm = nullptr;*/
+	UPROPERTY(EditDefaultsOnly)
+		class UCameraComponent* Camera = nullptr;
+	UPROPERTY(EditDefaultsOnly)
+	class UProjectileMovementComponent* MovementComponent = nullptr;
+	UPROPERTY(EditDefaultsOnly)
+		class UAnimationAsset* AnimAsset = nullptr;
 
 public:	
 
@@ -50,6 +52,6 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION()
-	void die();
+	void EndGame(AActor* DestoyedActor);
 
 };
