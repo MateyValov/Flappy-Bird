@@ -21,8 +21,8 @@ AGapObstacle::AGapObstacle()
 	movement->ProjectileGravityScale = 0;
 
 	//ConstructorHelpers::FObjectFinder<UStaticMesh> MeshObj(TEXT("StaticMesh'/Engine/BasicShapes/Cylinder.Cylinder'"));
-	ConstructorHelpers::FObjectFinder<UStaticMesh> MeshObj(TEXT("StaticMesh'/Game/BirdMesh/Pipe.Pipe'"));
-	ConstructorHelpers::FObjectFinder<UMaterial> MeshMat(TEXT("Material'/Game/BirdMesh/dark_green_Mat.dark_green_Mat'"));
+	ConstructorHelpers::FObjectFinder<UStaticMesh> MeshObj(TEXT("StaticMesh'/Game/Meshes/Enviroment/SM_Pipe.SM_Pipe'"));
+	ConstructorHelpers::FObjectFinder<UMaterial> MeshMat(TEXT("Material'/Game/Meshes/Enviroment/M_dark_green.M_dark_green'"));
 	FVector scale(0.45, 0.45, 0.25);
 	//bottom
 	meshbottom = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshBottom"));
