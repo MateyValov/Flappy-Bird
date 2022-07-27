@@ -24,7 +24,7 @@ public:
 
 protected:
 	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	//virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere)
 		class USceneComponent* root = nullptr;
 	UPROPERTY(EditAnywhere)
@@ -34,9 +34,9 @@ protected:
 	UPROPERTY(EditAnywhere)
 		float DefficultyAddition = 150;
 	UPROPERTY(VisibleAnywhere)
-		float speed;
+		float Speed;
 	UPROPERTY(VisibleAnywhere)
-		float spawnTime = 2;
+		float SpawnTime = 2;
 	UPROPERTY(EditAnywhere)
 		float TileSize = 80;
 	
@@ -48,8 +48,11 @@ protected:
 	FRotator Rotation;
 	FActorSpawnParameters SpawnInfo;
 	
+	//EObstacleGap direction = EDirectionType::Forward;
+
+public:	
+	void Init(float GivenSpeed, float GivenSpawnTime);
+
 	UFUNCTION()
 	void generate();
-public:	
-
 };

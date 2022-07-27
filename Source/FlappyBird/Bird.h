@@ -18,15 +18,17 @@ public:
 	ABird();
 	/*UPROPERTY(EditAnywhere)
 		float Defaultgravity = 1;
-	UPROPERTY(VisibleAnywhere)
-		float gravity;
+	
 	UPROPERTY(EditAnywhere)
 		float DefficultyAddition = 0.6;
 	UPROPERTY(EditAnywhere)
-		float DefaultjumpForce = 500;
+		float DefaultjumpForce = 500;*/
 	UPROPERTY(VisibleAnywhere)
-		float jumpForce;*/
-	bool pressed = false;
+		float Gravity;
+	UPROPERTY(VisibleAnywhere)
+		float JumpForce;
+
+	bool bPressed = false;
 
 protected:
 	/*UPROPERTY(EditAnywhere)
@@ -53,5 +55,8 @@ public:
 
 	UFUNCTION()
 	void EndGame(AActor* DestoyedActor);
+
+	UFUNCTION()
+		void Init(float GivenGravity, float GivenJumpForce);
 
 };

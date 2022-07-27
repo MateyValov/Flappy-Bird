@@ -18,27 +18,6 @@ AObstacleGenerator::AObstacleGenerator()
 	hitbox->SetupAttachment(root);
 }
 
-// Called when the game starts or when spawned
-void AObstacleGenerator::BeginPlay()
-{
-	Super::BeginPlay();
-	FString diff = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->dificulty;
-	
-	if (diff == "Easy") {
-		speed = DefaultSpeed;
-	}
-	else if (diff == "Normal") {
-		speed = DefaultSpeed + DefficultyAddition;
-	}
-	else if (diff == "Hard") {
-		speed = DefaultSpeed + DefficultyAddition*2;
-	}
-	spawnTime = 4 / (speed / 100);
-	
-	Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.AddDynamic(this, &AObstacleGenerator::generate);
-	
-	
-}
 
 void AObstacleGenerator::generate()
 {
@@ -53,4 +32,9 @@ void AObstacleGenerator::generate()
 
 		GetWorldTimerManager().SetTimer(spawnHandle, this, &AObstacleGenerator::generate, spawnTime, false);
 	}
+}
+void AObstacleGenerator::Init(float GivenSpeed, float GivenSpawnTime)
+{
+	Speed = GivenSpeed;
+	SpawnTime = GivenSpawnTime;
 }

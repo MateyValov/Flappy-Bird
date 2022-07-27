@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
+#include "ScoreWidget.h"
+#include "PregameWidget.h"
+#include "DeathScreenWidget.h"
 #include "GameplayHUD.generated.h"
 
 /**
@@ -15,17 +18,20 @@ class FLAPPYBIRD_API AGameplayHUD : public AHUD
 	GENERATED_BODY()
 protected:	
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<UUserWidget> EndWidgetClass;
+	TSubclassOf<UDeathScreenWidget> EndWidgetClass;
 	//class UUserWidget* EndWidget;
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<UUserWidget> ScoreWidgetClass;
+	TSubclassOf<UScoreWidget> ScoreWidgetClass;
 	//class UUserWidget* ScoreWidget;
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<UUserWidget> PregameWidgetClass;
+	TSubclassOf<UPregameWidget> PregameWidgetClass;
 	//class UUserWidget* PregameWidget;
-	class UUserWidget* CurrentWidget;
+	//class UUserWidget* CurrentWidget;
+	class UScoreWidget* ScoreWidget;
+	class UDeathScreenWidget* EndWidget;
+	class UPregameWidget* PregameWidget;
 
 	virtual void BeginPlay()override;
 public:
