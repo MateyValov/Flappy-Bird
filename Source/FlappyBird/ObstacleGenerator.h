@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Bird.h"
+#include "VerticalTile.h"
 #include "ObstacleGenerator.generated.h"
 
 UENUM()
@@ -38,18 +39,17 @@ protected:
 		float spawnTime = 2;
 	UPROPERTY(EditAnywhere)
 		float TileSize = 80;
-	//UPROPERTY(EditAnywhere)
-	//	class ABird* bird = nullptr;
-
+	
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class AVerticalTile> Spawnable;
+	
 	FTimerHandle spawnHandle;
 
-	
 	FRotator Rotation;
 	FActorSpawnParameters SpawnInfo;
 	
-	//EObstacleGap direction = EDirectionType::Forward;
 	UFUNCTION()
-		void generate();
+	void generate();
 public:	
 
 };

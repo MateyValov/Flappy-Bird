@@ -3,7 +3,6 @@
 
 #include "ObstacleGenerator.h"
 #include "Components/BoxComponent.h"
-#include "GapObstacle.h"
 #include "GameplayModeBase.h"
 #include "FlappyController.h"
 #include "Kismet/GameplayStatics.h"
@@ -35,22 +34,23 @@ void AObstacleGenerator::BeginPlay()
 		speed = DefaultSpeed + DefficultyAddition*2;
 	}
 	spawnTime = 4 / (speed / 100);
-	//if (bird != nullptr) {
+	
 	Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.AddDynamic(this, &AObstacleGenerator::generate);
-	//}
+	
 	
 }
 
 void AObstacleGenerator::generate()
 {
-	
-	float gapPosition = (FMath::RandRange(-100, 325));
-	//float gapPosition = (FMath::RandRange(150, 150));
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("spawn"));
-	AGapObstacle* obst = nullptr;
-	obst = (AGapObstacle*)GetWorld()->SpawnActor<AGapObstacle>(FVector(GetActorLocation().X, GetActorLocation().Y,gapPosition), Rotation, SpawnInfo);
-	
-	obst->Init(speed);
+	if (Spawnable) {
+		float gapPosition = (FMath::RandRange(-150, 150));
+		AVerticalTile* VertTile = nullptr;
+		VertTile = (AVerticalTile*)GetWorld()->SpawnActor<AVerticalTile>(Spawnable, FVector(GetActorLocation().X, GetActorLocation().Y, gapPosition), Rotation, SpawnInfo);
 
-	GetWorldTimerManager().SetTimer(spawnHandle, this, &AObstacleGenerator::generate, spawnTime, false);
+		//((APipeObstacle*)VertTile->Bottom->GetChildActor())->Init(speed);
+		//((APipeObstacle*)VertTile->Top->GetChildActor())->Init(speed);
+		//VertTile->Init(speed);
+
+		GetWorldTimerManager().SetTimer(spawnHandle, this, &AObstacleGenerator::generate, spawnTime, false);
+	}
 }
