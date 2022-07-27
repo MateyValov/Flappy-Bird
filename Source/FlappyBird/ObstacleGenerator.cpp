@@ -19,38 +19,23 @@ AObstacleGenerator::AObstacleGenerator()
 	hitbox->SetupAttachment(root);
 }
 
-// Called when the game starts or when spawned
-void AObstacleGenerator::BeginPlay()
-{
-	Super::BeginPlay();
-	FString diff = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->dificulty;
-	
-	if (diff == "Easy") {
-		speed = DefaultSpeed;
-	}
-	else if (diff == "Normal") {
-		speed = DefaultSpeed + DefficultyAddition;
-	}
-	else if (diff == "Hard") {
-		speed = DefaultSpeed + DefficultyAddition*2;
-	}
-	spawnTime = 4 / (speed / 100);
-	//if (bird != nullptr) {
-	Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.AddDynamic(this, &AObstacleGenerator::generate);
-	//}
-	
-}
 
 void AObstacleGenerator::generate()
 {
 	
 	float gapPosition = (FMath::RandRange(-100, 325));
 	//float gapPosition = (FMath::RandRange(150, 150));
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("spawn"));
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("spawn"));
 	AGapObstacle* obst = nullptr;
 	obst = (AGapObstacle*)GetWorld()->SpawnActor<AGapObstacle>(FVector(GetActorLocation().X, GetActorLocation().Y,gapPosition), Rotation, SpawnInfo);
 	
-	obst->Init(speed);
+	obst->Init(Speed);
 
-	GetWorldTimerManager().SetTimer(spawnHandle, this, &AObstacleGenerator::generate, spawnTime, false);
+	GetWorldTimerManager().SetTimer(spawnHandle, this, &AObstacleGenerator::generate, SpawnTime, false);
+}
+
+void AObstacleGenerator::Init(float GivenSpeed, float GivenSpawnTime)
+{
+	Speed = GivenSpeed;
+	SpawnTime = GivenSpawnTime;
 }
