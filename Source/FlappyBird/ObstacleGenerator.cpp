@@ -25,7 +25,7 @@ void AObstacleGenerator::generate()
 	
 	float gapPosition = (FMath::RandRange(-100, 325));
 	//float gapPosition = (FMath::RandRange(150, 150));
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("spawn"));
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TEXT("spawn"));
 	AGapObstacle* obst = nullptr;
 	obst = (AGapObstacle*)GetWorld()->SpawnActor<AGapObstacle>(FVector(GetActorLocation().X, GetActorLocation().Y,gapPosition), Rotation, SpawnInfo);
 	

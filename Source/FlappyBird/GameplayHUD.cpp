@@ -14,7 +14,13 @@
 void AGameplayHUD::BeginPlay()
 {
 	Super::BeginPlay();
-	//showMenu();
+	
+	PregameWidget = Cast<UPregameWidget>(CreateWidget<UUserWidget>(GetWorld(), PregameWidgetClass));
+	EndWidget = Cast<UDeathScreenWidget>(CreateWidget<UUserWidget>(GetWorld(), EndWidgetClass));
+	ScoreWidget = Cast<UScoreWidget>(CreateWidget<UUserWidget>(GetWorld(), ScoreWidgetClass));
+
+	Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->OnScoreUpdated.AddDynamic(ScoreWidget, &UScoreWidget::SetScore);
+	//Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->OnScoreUpdated.AddDynamic(this, &AGameplayHUD::showScore);
 	PregameStart();
 }
 
@@ -22,6 +28,8 @@ void AGameplayHUD::BeginPlay()
 void AGameplayHUD::showEnd()
 {
 	clear();
+
+	//----------ZA MESTENE V GAMEPLAYMODE----
 	AGameplayModeBase* gamemode = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	int HighScore = gamemode->HighScore;
 	int score = gamemode->GetScore();
@@ -33,10 +41,10 @@ void AGameplayHUD::showEnd()
 		UGameplayStatics::SaveGameToSlot(SaveGameInstance, gamemode->dificulty, 0);
 		gamemode->UpdateHighScore();
 	}
+	//---------------------------------------
 	
-	CurrentWidget = CreateWidget<UUserWidget>(UGameplayStatics::GetGameInstance(GetWorld()), EndWidgetClass);
-	if (PlayerOwner && CurrentWidget) {
-		CurrentWidget->AddToViewport();
+	if (PlayerOwner && EndWidget) {
+		EndWidget->AddToViewport();
 		PlayerOwner->bShowMouseCursor = true;
 		PlayerOwner->SetInputMode(FInputModeUIOnly());
 	}
@@ -46,9 +54,9 @@ void AGameplayHUD::showEnd()
 void AGameplayHUD::showScore()
 {
 	clear();
-	CurrentWidget = CreateWidget<UUserWidget>(UGameplayStatics::GetGameInstance(GetWorld()), ScoreWidgetClass);
-	if (PlayerOwner && CurrentWidget) {
-		CurrentWidget->AddToViewport();
+	
+	if (PlayerOwner && ScoreWidget) {
+		ScoreWidget->AddToViewport();
 		PlayerOwner->bShowMouseCursor = false;
 		PlayerOwner->SetInputMode(FInputModeGameOnly());
 	}
@@ -59,9 +67,9 @@ void AGameplayHUD::showScore()
 void AGameplayHUD::PregameStart()
 {
 	clear();
-	CurrentWidget = CreateWidget<UUserWidget>(UGameplayStatics::GetGameInstance(GetWorld()), PregameWidgetClass);
-	if (PlayerOwner && CurrentWidget) {
-		CurrentWidget->AddToViewport();
+	
+	if (PlayerOwner && PregameWidget) {
+		PregameWidget->AddToViewport();
 		PlayerOwner->bShowMouseCursor = false;
 		PlayerOwner->SetInputMode(FInputModeGameOnly());
 	}

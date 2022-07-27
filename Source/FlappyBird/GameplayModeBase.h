@@ -12,6 +12,7 @@
 /**
  * 
  */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FScoreUpdatedSignature, int, Score);
 
 USTRUCT()
 struct FDifficultyProperties
@@ -36,7 +37,7 @@ public:
 	AGameplayModeBase();
 
 	UPROPERTY(BlueprintReadOnly)
-		int score=0;
+		int Score=0;
 	UPROPERTY(BlueprintReadOnly)
 		int HighScore = 0;
 	/*UPROPERTY(BlueprintReadOnly)
@@ -44,11 +45,14 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 		FString dificulty = "";
 	UFUNCTION()
-		void SetScore(int points) { score = points; };
+		void SetScore(int points) ;
 	UFUNCTION()
-		int GetScore() { return score; };
+		int GetScore() { return Score; };
 	UFUNCTION()
 		void UpdateHighScore();
+
+	FScoreUpdatedSignature OnScoreUpdated;
+
 protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "GameStart")

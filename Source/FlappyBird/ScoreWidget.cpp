@@ -5,5 +5,10 @@
 
 void UScoreWidget::NativeConstruct()
 {
-	GameMode = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	
+}
+
+void UScoreWidget::SetScore(int Score)
+{
+	CurrentScore->SetText(FText::FromString(FString::FromInt(Score)));
 }

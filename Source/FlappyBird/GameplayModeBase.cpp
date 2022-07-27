@@ -31,6 +31,12 @@ void AGameplayModeBase::BeginPlay()
 	Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.AddDynamic(generator, &AObstacleGenerator::generate);
 }
 
+void AGameplayModeBase::SetScore(int Points)
+{
+	Score = Points;
+	OnScoreUpdated.Broadcast(Score);
+}
+
 void AGameplayModeBase::UpdateHighScore()
 {
 	if (UGameplayStatics::DoesSaveGameExist(dificulty, 0)) {
