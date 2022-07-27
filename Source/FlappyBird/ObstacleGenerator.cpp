@@ -30,7 +30,7 @@ void AObstacleGenerator::generate()
 		//((APipeObstacle*)VertTile->Top->GetChildActor())->Init(speed);
 		//VertTile->Init(speed);
 
-		GetWorldTimerManager().SetTimer(spawnHandle, this, &AObstacleGenerator::generate, spawnTime, false);
+		GetWorldTimerManager().SetTimer(spawnHandle, this, &AObstacleGenerator::generate, SpawnTime, false);
 	}
 }
 void AObstacleGenerator::Init(float GivenSpeed, float GivenSpawnTime)
