@@ -15,11 +15,12 @@ class FLAPPYBIRD_API AFlappyBirdGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
-	public:
+public:
 		AFlappyBirdGameModeBase();
-		
-protected:
+		TSet<FString> GetDifficulties();
 
+protected:
+	UOptionsSave* LoadedGame;
 	virtual void BeginPlay() override;
 
 };

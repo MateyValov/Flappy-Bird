@@ -7,41 +7,46 @@
 #include "GameFramework/PlayerController.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
-
+#include "FlappyBirdGameModeBase.h"
 #include "Engine/Engine.h"
-
-void AMenuHUD::showMenu()
-{
-	clear();
-	CurrentWidget = CreateWidget<UUserWidget>(UGameplayStatics::GetGameInstance(GetWorld()), MenuMenuWidgetClass);
-	if (PlayerOwner && CurrentWidget) {
-		CurrentWidget->AddToViewport();
-		PlayerOwner->bShowMouseCursor = true;
-		PlayerOwner->SetInputMode(FInputModeUIOnly());
-	}
-}
-
-void AMenuHUD::showOptions()
-{
-	clear();
-	CurrentWidget = CreateWidget<UUserWidget>(UGameplayStatics::GetGameInstance(GetWorld()), OptionsWidgetClass);
-	if (PlayerOwner && CurrentWidget) {
-		CurrentWidget->AddToViewport();
-		PlayerOwner->bShowMouseCursor = true;
-		PlayerOwner->SetInputMode(FInputModeUIOnly());
-	}
-}
-
-void AMenuHUD::clear()
-{
-	UWidgetLayoutLibrary::RemoveAllWidgets(this);
-}
 
 void AMenuHUD::BeginPlay()
 {
 	Super::BeginPlay();
-	showMenu();
+	MainMenuWidget = CreateWidget<UMainWidget>(UGameplayStatics::GetGameInstance(GetWorld()), MainMenuWidgetClass);
+	OptionsWidget = CreateWidget<UOptionsWidget>(UGameplayStatics::GetGameInstance(GetWorld()), OptionsWidgetClass);
+	OptionsWidget->UpdateDifficulties(Cast<AFlappyBirdGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GetDifficulties());
+	ShowMenu();
 }
+
+void AMenuHUD::ShowMenu()
+{
+	Clear();
+	
+	if (PlayerOwner && MainMenuWidget) {
+		MainMenuWidget->AddToViewport();
+		PlayerOwner->bShowMouseCursor = true;
+		PlayerOwner->SetInputMode(FInputModeUIOnly());
+	}
+}
+
+void AMenuHUD::ShowOptions()
+{
+	Clear();
+	
+	if (PlayerOwner && OptionsWidget) {
+		OptionsWidget->AddToViewport();
+		PlayerOwner->bShowMouseCursor = true;
+		PlayerOwner->SetInputMode(FInputModeUIOnly());
+	}
+}
+
+void AMenuHUD::Clear()
+{
+	UWidgetLayoutLibrary::RemoveAllWidgets(this);
+}
+
+
 
 
 

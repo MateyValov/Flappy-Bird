@@ -44,5 +44,5 @@ public:
 	UFUNCTION()
 	void PregameStart();
 
-	void clear();
+	void Clear();
 };

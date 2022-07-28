@@ -30,7 +30,7 @@ void AGameplayHUD::BeginPlay()
 
 void AGameplayHUD::ShowEnd(AActor* DestroyedActor)
 {
-	clear();
+	Clear();
 	
 	if (PlayerOwner && EndWidget) {
 		EndWidget->AddToViewport();
@@ -42,7 +42,7 @@ void AGameplayHUD::ShowEnd(AActor* DestroyedActor)
 
 void AGameplayHUD::ShowScore()
 {
-	clear();
+	Clear();
 	
 	if (PlayerOwner && ScoreWidget) {
 		ScoreWidget->AddToViewport();
@@ -55,7 +55,7 @@ void AGameplayHUD::ShowScore()
 
 void AGameplayHUD::PregameStart()
 {
-	clear();
+	Clear();
 	
 	if (PlayerOwner && PregameWidget) {
 		PregameWidget->AddToViewport();
@@ -65,7 +65,7 @@ void AGameplayHUD::PregameStart()
 }
 
 
-void AGameplayHUD::clear()
+void AGameplayHUD::Clear()
 {
 	UWidgetLayoutLibrary::RemoveAllWidgets(this);
 }

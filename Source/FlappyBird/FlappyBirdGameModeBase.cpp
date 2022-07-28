@@ -16,7 +16,7 @@ AFlappyBirdGameModeBase::AFlappyBirdGameModeBase()
 
 void AFlappyBirdGameModeBase::BeginPlay()
 {
-	UOptionsSave* LoadedGame;
+	
 	if (UGameplayStatics::DoesSaveGameExist("Options", 0)) {
 		LoadedGame = Cast<UOptionsSave>(UGameplayStatics::LoadGameFromSlot("Options", 0));
 	}
@@ -25,4 +25,8 @@ void AFlappyBirdGameModeBase::BeginPlay()
 	}
 
 	UGameplayStatics::SaveGameToSlot(LoadedGame, "Options", 0);
+}
+
+TSet<FString> AFlappyBirdGameModeBase::GetDifficulties() {
+	return LoadedGame->AvailableDifficulties;
 }

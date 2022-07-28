@@ -22,7 +22,7 @@ void UMainWidget::OnQuitClicked()
 void UMainWidget::OnOptionsClicked()
 {
 	if (APlayerController* pc = GetOwningPlayer()) {
-		Cast<AMenuHUD>(pc->GetHUD())->showOptions();
+		Cast<AMenuHUD>(pc->GetHUD())->ShowOptions();
 	}
 	
 }
