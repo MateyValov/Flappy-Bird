@@ -35,8 +35,13 @@ protected:
 
 	virtual void BeginPlay()override;
 public:
-	void showEnd();
+	UFUNCTION()
+	void showEnd(AActor* DestroyedActor);
+
+	UFUNCTION()
 	void showScore();
+
+	UFUNCTION()
 	void PregameStart();
 
 	void clear();

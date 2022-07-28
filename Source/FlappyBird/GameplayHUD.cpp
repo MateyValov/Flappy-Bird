@@ -19,29 +19,19 @@ void AGameplayHUD::BeginPlay()
 	EndWidget = Cast<UDeathScreenWidget>(CreateWidget<UUserWidget>(GetWorld(), EndWidgetClass));
 	ScoreWidget = Cast<UScoreWidget>(CreateWidget<UUserWidget>(GetWorld(), ScoreWidgetClass));
 
-	Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->OnScoreUpdated.AddDynamic(ScoreWidget, &UScoreWidget::SetScore);
-	//Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->OnScoreUpdated.AddDynamic(this, &AGameplayHUD::showScore);
+	AGameplayModeBase* GameMode = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	GameMode->OnScoreUpdated.AddDynamic(ScoreWidget, &UScoreWidget::SetScore);
+	GameMode->OnScoreUpdated.AddDynamic(EndWidget, &UDeathScreenWidget::SetScore);
+	GameMode->OnHighScoreUpdated.AddDynamic(EndWidget, &UDeathScreenWidget::SetHighScore);
+	EndWidget->SetDifficulty(GameMode->Difficulty);
+
 	PregameStart();
 }
 
 
-void AGameplayHUD::showEnd()
+void AGameplayHUD::showEnd(AActor* DestroyedActor)
 {
 	clear();
-
-	//----------ZA MESTENE V GAMEPLAYMODE----
-	AGameplayModeBase* gamemode = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	int HighScore = gamemode->HighScore;
-	int score = gamemode->GetScore();
-
-	if (HighScore < score) {
-		
-		UHighScore* SaveGameInstance = Cast<UHighScore>(UGameplayStatics::CreateSaveGameObject(UHighScore::StaticClass()));
-		SaveGameInstance->HighScore = score;
-		UGameplayStatics::SaveGameToSlot(SaveGameInstance, gamemode->dificulty, 0);
-		gamemode->UpdateHighScore();
-	}
-	//---------------------------------------
 	
 	if (PlayerOwner && EndWidget) {
 		EndWidget->AddToViewport();

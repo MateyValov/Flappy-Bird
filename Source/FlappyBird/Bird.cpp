@@ -42,7 +42,7 @@ void ABird::Init(float GivenGravity, float GivenJumpForce)
 void ABird::Jump()
 {
 	if (!bPressed) {
-		FString diff = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->dificulty;
+		//FString diff = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->dificulty;
 
 		/*if (diff == "Easy") {
 			gravity = Defaultgravity;
@@ -66,7 +66,7 @@ void ABird::Jump()
 		bPressed = true;
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("castvame"));
 		//Cast<AGameplayHUD>(UGameplayStatics::GetGameMode(GetWorld())->HUDClass)->showScore();
-		Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->showScore();
+		//Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->showScore();
 	}
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("skachame"));
 	MovementComponent->Velocity.Z = JumpForce;
@@ -81,11 +81,11 @@ void ABird::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 }
 
 
-void ABird::EndGame(AActor* DestoyedActor)
+void ABird::EndGame(AActor* DestroyedActor)
 {	
 	
 	UGameplayStatics::GetPlayerController(this, 0)->SetPause(true);
-	Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->showEnd();
+	//Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->showEnd();
 	
 }
 

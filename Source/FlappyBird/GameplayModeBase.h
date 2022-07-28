@@ -43,15 +43,16 @@ public:
 	/*UPROPERTY(BlueprintReadOnly)
 		float Speed = 0;*/
 	UPROPERTY(BlueprintReadOnly)
-		FString dificulty = "";
+		FString Difficulty = "";
 	UFUNCTION()
 		void SetScore(int points) ;
 	UFUNCTION()
 		int GetScore() { return Score; };
 	UFUNCTION()
-		void UpdateHighScore();
+		void UpdateHighScore(AActor* DestroyedActor);
 
 	FScoreUpdatedSignature OnScoreUpdated;
+	FScoreUpdatedSignature OnHighScoreUpdated;
 
 protected:
 
