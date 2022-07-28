@@ -16,10 +16,20 @@ AGameplayModeBase::AGameplayModeBase()
 void AGameplayModeBase::BeginPlay()
 {
 	if (UGameplayStatics::DoesSaveGameExist("Options", 0)) {
-		UOptionsSave* LoadedGame = Cast<UOptionsSave>(UGameplayStatics::LoadGameFromSlot("Options", 0));
-		Difficulty = LoadedGame->Difficulty;
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, dificulty);
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, LoadedGame->JumpBind);
+		LoadedGame = Cast<UOptionsSave>(UGameplayStatics::LoadGameFromSlot("Options", 0));
+		
+		Difficulty = LoadedGame->CurrentDifficulty;
+
+		if (LoadedGame->DifficultyScores.Contains(Difficulty)) {
+			HighScore = LoadedGame->DifficultyScores[Difficulty];
+		}
+		else {
+			LoadedGame->DifficultyScores.Add(Difficulty, 0);
+		}
+	}
+	else {
+		Difficulty = "Easy";
+		HighScore = 0;
 	}
 	//UpdateHighScore(nullptr);
 	ABird* bird = GetWorld()->SpawnActor<ABird>(PawnClass, BirdSpawnLocation, FRotator());
@@ -30,9 +40,9 @@ void AGameplayModeBase::BeginPlay()
 
 	AFlappyController* PlayerController = Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0));
 	PlayerController->StartDelegate.AddDynamic(generator, &AObstacleGenerator::generate);
-	PlayerController->StartDelegate.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::showScore);
+	PlayerController->StartDelegate.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::ShowScore);
 
-	bird->OnDestroyed.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), & AGameplayHUD::showEnd);
+	bird->OnDestroyed.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), & AGameplayHUD::ShowEnd);
 	bird->OnDestroyed.AddDynamic(this, &AGameplayModeBase::UpdateHighScore);
 
 }
@@ -45,16 +55,13 @@ void AGameplayModeBase::SetScore(int Points)
 
 void AGameplayModeBase::UpdateHighScore(AActor* DestroyedActor)
 {
-	if (UGameplayStatics::DoesSaveGameExist(Difficulty, 0)) {
-		UHighScore* LoadedGame = Cast<UHighScore>(UGameplayStatics::LoadGameFromSlot(Difficulty, 0));
-		HighScore = LoadedGame->HighScore;
-	}
 
 	if (HighScore < Score) {
 		HighScore = Score;
-		UHighScore* SaveGameInstance = Cast<UHighScore>(UGameplayStatics::CreateSaveGameObject(UHighScore::StaticClass()));
-		SaveGameInstance->HighScore = HighScore;
-		UGameplayStatics::SaveGameToSlot(SaveGameInstance, Difficulty, 0);
+		
+		LoadedGame->DifficultyScores.Add(Difficulty, HighScore);
+		
+		UGameplayStatics::SaveGameToSlot(LoadedGame, "Options", 0);
 	
 	}
 	OnHighScoreUpdated.Broadcast(HighScore);

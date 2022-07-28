@@ -36,10 +36,10 @@ protected:
 	virtual void BeginPlay()override;
 public:
 	UFUNCTION()
-	void showEnd(AActor* DestroyedActor);
+	void ShowEnd(AActor* DestroyedActor);
 
 	UFUNCTION()
-	void showScore();
+	void ShowScore();
 
 	UFUNCTION()
 	void PregameStart();

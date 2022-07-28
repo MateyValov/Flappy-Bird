@@ -13,3 +13,16 @@ AFlappyBirdGameModeBase::AFlappyBirdGameModeBase()
 	HUDClass = AMenuHUD::StaticClass();
 	
 }
+
+void AFlappyBirdGameModeBase::BeginPlay()
+{
+	UOptionsSave* LoadedGame;
+	if (UGameplayStatics::DoesSaveGameExist("Options", 0)) {
+		LoadedGame = Cast<UOptionsSave>(UGameplayStatics::LoadGameFromSlot("Options", 0));
+	}
+	else {
+		LoadedGame = Cast<UOptionsSave>(UGameplayStatics::CreateSaveGameObject(UOptionsSave::StaticClass()));
+	}
+
+	UGameplayStatics::SaveGameToSlot(LoadedGame, "Options", 0);
+}

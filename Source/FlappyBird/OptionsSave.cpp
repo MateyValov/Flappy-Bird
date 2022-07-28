@@ -3,3 +3,9 @@
 
 #include "OptionsSave.h"
 
+
+UOptionsSave::UOptionsSave() {
+	AvailableDifficulties.Add("Easy");
+	AvailableDifficulties.Add("Normal");
+	AvailableDifficulties.Add("Hard");
+}

@@ -60,4 +60,7 @@ protected:
 
 	virtual void NativeConstruct() override;
 	
+public:
+	UFUNCTION()
+		void UpdateDifficulties(TArray<FString> Difficulties);
 };

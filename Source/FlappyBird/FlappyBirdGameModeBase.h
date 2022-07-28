@@ -18,4 +18,8 @@ class FLAPPYBIRD_API AFlappyBirdGameModeBase : public AGameModeBase
 	public:
 		AFlappyBirdGameModeBase();
 		
+protected:
+
+	virtual void BeginPlay() override;
+
 };

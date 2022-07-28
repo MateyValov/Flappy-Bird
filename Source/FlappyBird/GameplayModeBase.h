@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "HighScore.h"
 #include "ObstacleGenerator.h"
 #include "Bird.h"
 #include "GameplayModeBase.generated.h"
@@ -39,7 +38,7 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 		int Score=0;
 	UPROPERTY(BlueprintReadOnly)
-		int HighScore = 0;
+		int32 HighScore = 0;
 	/*UPROPERTY(BlueprintReadOnly)
 		float Speed = 0;*/
 	UPROPERTY(BlueprintReadOnly)
@@ -55,6 +54,8 @@ public:
 	FScoreUpdatedSignature OnHighScoreUpdated;
 
 protected:
+
+	class UOptionsSave* LoadedGame;
 
 	UPROPERTY(EditDefaultsOnly, Category = "GameStart")
 	FVector BirdSpawnLocation;

@@ -4,7 +4,6 @@
 #include "GameplayHUD.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/Engine.h"
-#include "HighScore.h"
 #include "GameplayModeBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "Blueprint/UserWidget.h"
@@ -29,7 +28,7 @@ void AGameplayHUD::BeginPlay()
 }
 
 
-void AGameplayHUD::showEnd(AActor* DestroyedActor)
+void AGameplayHUD::ShowEnd(AActor* DestroyedActor)
 {
 	clear();
 	
@@ -41,7 +40,7 @@ void AGameplayHUD::showEnd(AActor* DestroyedActor)
 }
 
 
-void AGameplayHUD::showScore()
+void AGameplayHUD::ShowScore()
 {
 	clear();
 	

@@ -39,10 +39,14 @@ void UOptionsWidget::OnExitClicked()
 
 void UOptionsWidget::OnSaveClicked()
 {
-	UOptionsSave* SaveGameInstance = Cast<UOptionsSave>(UGameplayStatics::CreateSaveGameObject(UOptionsSave::StaticClass()));
-
-
-	if (difficulty != "")SaveGameInstance->Difficulty = difficulty;
+	UOptionsSave* LoadedGame = nullptr;
+	if (UGameplayStatics::DoesSaveGameExist("Options", 0)) {
+		LoadedGame = Cast<UOptionsSave>(UGameplayStatics::LoadGameFromSlot("Options", 0));
+	}
+	/*if (LoadedGame == nullptr) {
+		LoadedGame = Cast<UOptionsSave>(UGameplayStatics::CreateSaveGameObject(UOptionsSave::StaticClass()));
+	}*/
+	if (difficulty != "")LoadedGame->CurrentDifficulty = difficulty;
 
 	if (!(jumpbind == Oldjumpbind)) {
 		Settings->AddActionMapping(jumpbind);
@@ -51,7 +55,7 @@ void UOptionsWidget::OnSaveClicked()
 
 		Oldjumpbind = jumpbind;
 	}
-	UGameplayStatics::SaveGameToSlot(SaveGameInstance, "Options", 0);
+	UGameplayStatics::SaveGameToSlot(LoadedGame, "Options", 0);
 
 	
 }
@@ -90,7 +94,7 @@ void UOptionsWidget::NativeConstruct()
 	//IsFocusable = false;
 	if (UGameplayStatics::DoesSaveGameExist("Options", 0)) {
 		UOptionsSave* LoadedGame = Cast<UOptionsSave>(UGameplayStatics::LoadGameFromSlot("Options", 0));
-		difficulty = LoadedGame->Difficulty;
+		difficulty = LoadedGame->CurrentDifficulty;
 		//Oldjumpbind = LoadedGame->JumpBind;
 	}
 	Easy->OnClicked.AddDynamic(this, &UOptionsWidget::OnEasyClicked);
@@ -108,4 +112,8 @@ void UOptionsWidget::NativeConstruct()
 
 	Save->OnClicked.AddDynamic(this, &UOptionsWidget::OnSaveClicked);
 	ResetDifficulty();
+}
+
+void UOptionsWidget::UpdateDifficulties(TArray<FString> Difficulties)
+{
 }
