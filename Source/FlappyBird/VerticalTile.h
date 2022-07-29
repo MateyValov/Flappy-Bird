@@ -20,6 +20,8 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere)
+	class USceneComponent* Root = nullptr;
+	UPROPERTY(EditAnywhere)
 	class UChildActorComponent* Bottom = nullptr;
 	UPROPERTY(EditAnywhere)
 	class UChildActorComponent* Top = nullptr;

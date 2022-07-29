@@ -13,26 +13,29 @@ AVerticalTile::AVerticalTile()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	
+	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	SetRootComponent(Root);
+
 	Bottom = CreateDefaultSubobject<UChildActorComponent>(TEXT("Bottom Pipe"));
 	Bottom->SetChildActorClass(Pipe);
+	Bottom->SetupAttachment(Root);
+
 	Top = CreateDefaultSubobject<UChildActorComponent>(TEXT("Top Pipe"));
-	Top->SetupAttachment(Bottom);
 	Top->SetChildActorClass(Pipe);
+	Top->SetupAttachment(Root);
 
 	score = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
-	score->SetupAttachment(Top);
+	score->SetupAttachment(Root);
 	score->OnComponentBeginOverlap.AddDynamic(this, &AVerticalTile::Action);
 	
 }
 
 void AVerticalTile::Init(float givenSpeed)
 {
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("init"));
 	movement->Velocity = FVector(0, -givenSpeed, 0);
 	movement->InitialSpeed = givenSpeed;
 	movement->MaxSpeed = movement->InitialSpeed;
-
-	((APipeObstacle*)Bottom->GetChildActor())->Init(givenSpeed);
-	((APipeObstacle*)Top->GetChildActor())->Init(givenSpeed);
 }
 
 void AVerticalTile::Action(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -57,7 +60,7 @@ void AVerticalTile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	FVector Loc = GetActorLocation();
-	Loc.Y -= 20;
+	Loc.Y -= 15;
 	SetActorLocation(Loc);
 }
 

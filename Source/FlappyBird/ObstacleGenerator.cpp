@@ -26,9 +26,7 @@ void AObstacleGenerator::generate()
 		AVerticalTile* VertTile = nullptr;
 		VertTile = (AVerticalTile*)GetWorld()->SpawnActor<AVerticalTile>(Spawnable, FVector(GetActorLocation().X, GetActorLocation().Y, gapPosition), Rotation, SpawnInfo);
 
-		//((APipeObstacle*)VertTile->Bottom->GetChildActor())->Init(speed);
-		//((APipeObstacle*)VertTile->Top->GetChildActor())->Init(speed);
-		//VertTile->Init(speed);
+		//VertTile->Init(Speed);
 
 		GetWorldTimerManager().SetTimer(spawnHandle, this, &AObstacleGenerator::generate, SpawnTime, false);
 	}
