@@ -25,14 +25,15 @@ AVerticalTile::AVerticalTile()
 	Top->SetupAttachment(Root);
 
 	score = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
-	score->SetupAttachment(Root);
 	score->OnComponentBeginOverlap.AddDynamic(this, &AVerticalTile::Action);
+	score->SetupAttachment(Root);
 	
+	movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement"));
+	movement->ProjectileGravityScale = 0;
 }
 
 void AVerticalTile::Init(float givenSpeed)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("init"));
 	movement->Velocity = FVector(0, -givenSpeed, 0);
 	movement->InitialSpeed = givenSpeed;
 	movement->MaxSpeed = movement->InitialSpeed;
@@ -59,8 +60,8 @@ void AVerticalTile::Action(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 void AVerticalTile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	FVector Loc = GetActorLocation();
-	Loc.Y -= 15;
-	SetActorLocation(Loc);
+	//FVector Loc = GetActorLocation();
+	//Loc.Y -= 15;
+	//SetActorLocation(Loc);
 }
 
