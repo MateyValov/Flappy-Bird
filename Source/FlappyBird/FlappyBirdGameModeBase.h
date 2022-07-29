@@ -20,7 +20,12 @@ public:
 		TSet<FString> GetDifficulties();
 
 protected:
-	UOptionsSave* LoadedGame;
+	//UOptionsSave* LoadedGame;
 	virtual void BeginPlay() override;
 
+	TSet<FString> AvailableDifficulties;
+
+
+	UPROPERTY(EditDefaultsOnly, Category = "Starting Difficulties")
+	TSet<FString> StartingDifficulties;
 };

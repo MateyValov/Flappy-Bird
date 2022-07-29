@@ -15,8 +15,6 @@ class FLAPPYBIRD_API UOptionsSave : public USaveGame
 	GENERATED_BODY()
 public:
 
-	UOptionsSave();
-
 	UPROPERTY(EditDefaultsOnly)
 	FString CurrentDifficulty = "Easy";
 
