@@ -4,7 +4,6 @@
 #include "GameplayHUD.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/Engine.h"
-#include "HighScore.h"
 #include "GameplayModeBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "Blueprint/UserWidget.h"
@@ -14,34 +13,25 @@
 void AGameplayHUD::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	//UE_LOG(LogTemp, Warning, TEXT("PUSNA SE GAMEPLAY HUDA"));
+
 	PregameWidget = Cast<UPregameWidget>(CreateWidget<UUserWidget>(GetWorld(), PregameWidgetClass));
 	EndWidget = Cast<UDeathScreenWidget>(CreateWidget<UUserWidget>(GetWorld(), EndWidgetClass));
 	ScoreWidget = Cast<UScoreWidget>(CreateWidget<UUserWidget>(GetWorld(), ScoreWidgetClass));
 
-	Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->OnScoreUpdated.AddDynamic(ScoreWidget, &UScoreWidget::SetScore);
-	//Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->OnScoreUpdated.AddDynamic(this, &AGameplayHUD::showScore);
+	AGameplayModeBase* GameMode = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	GameMode->OnScoreUpdated.AddDynamic(ScoreWidget, &UScoreWidget::SetScore);
+	GameMode->OnScoreUpdated.AddDynamic(EndWidget, &UDeathScreenWidget::SetScore);
+	GameMode->OnHighScoreUpdated.AddDynamic(EndWidget, &UDeathScreenWidget::SetHighScore);
+	GameMode->OnDifficultyLoaded.BindDynamic(EndWidget, &UDeathScreenWidget::SetDifficulty);
+	
 	PregameStart();
 }
 
 
-void AGameplayHUD::showEnd()
+void AGameplayHUD::ShowEnd(AActor* DestroyedActor)
 {
-	clear();
-
-	//----------ZA MESTENE V GAMEPLAYMODE----
-	AGameplayModeBase* gamemode = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	int HighScore = gamemode->HighScore;
-	int score = gamemode->GetScore();
-
-	if (HighScore < score) {
-		
-		UHighScore* SaveGameInstance = Cast<UHighScore>(UGameplayStatics::CreateSaveGameObject(UHighScore::StaticClass()));
-		SaveGameInstance->HighScore = score;
-		UGameplayStatics::SaveGameToSlot(SaveGameInstance, gamemode->dificulty, 0);
-		gamemode->UpdateHighScore();
-	}
-	//---------------------------------------
+	Clear();
 	
 	if (PlayerOwner && EndWidget) {
 		EndWidget->AddToViewport();
@@ -51,9 +41,9 @@ void AGameplayHUD::showEnd()
 }
 
 
-void AGameplayHUD::showScore()
+void AGameplayHUD::ShowScore()
 {
-	clear();
+	Clear();
 	
 	if (PlayerOwner && ScoreWidget) {
 		ScoreWidget->AddToViewport();
@@ -66,7 +56,7 @@ void AGameplayHUD::showScore()
 
 void AGameplayHUD::PregameStart()
 {
-	clear();
+	Clear();
 	
 	if (PlayerOwner && PregameWidget) {
 		PregameWidget->AddToViewport();
@@ -76,7 +66,7 @@ void AGameplayHUD::PregameStart()
 }
 
 
-void AGameplayHUD::clear()
+void AGameplayHUD::Clear()
 {
 	UWidgetLayoutLibrary::RemoveAllWidgets(this);
 }

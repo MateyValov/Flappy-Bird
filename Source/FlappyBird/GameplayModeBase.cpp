@@ -16,19 +16,35 @@ AGameplayModeBase::AGameplayModeBase()
 void AGameplayModeBase::BeginPlay()
 {
 	if (UGameplayStatics::DoesSaveGameExist("Options", 0)) {
-		UOptionsSave* LoadedGame = Cast<UOptionsSave>(UGameplayStatics::LoadGameFromSlot("Options", 0));
-		dificulty = LoadedGame->Difficulty;
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, dificulty);
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, LoadedGame->JumpBind);
+		LoadedGame = Cast<UOptionsSave>(UGameplayStatics::LoadGameFromSlot("Options", 0));
+		
+		Difficulty = LoadedGame->CurrentDifficulty;
+
+		if (LoadedGame->DifficultyScores.Contains(Difficulty)) {
+			HighScore = LoadedGame->DifficultyScores[Difficulty];
+		}
+		else {
+			LoadedGame->DifficultyScores.Add(Difficulty, 0);
+		}
 	}
-	UpdateHighScore();
+	else {
+		Difficulty = "Easy";
+		HighScore = 0;
+	}
+	//UpdateHighScore(nullptr);
 	ABird* bird = GetWorld()->SpawnActor<ABird>(PawnClass, BirdSpawnLocation, FRotator());
-	bird->Init(DifficultySettings.Find(dificulty)->WorldGravity, DifficultySettings.Find(dificulty)->BirdJumpForce);
+	bird->Init(DifficultySettings.Find(Difficulty)->WorldGravity, DifficultySettings.Find(Difficulty)->BirdJumpForce);
 	
 	AObstacleGenerator* generator = GetWorld()->SpawnActor<AObstacleGenerator>(GeneratorClass, GeneratorPosition, FRotator());
-	generator->Init(DifficultySettings.Find(dificulty)->ObstacleSpeed, 400/ DifficultySettings.Find(dificulty)->ObstacleSpeed);
+	generator->Init(DifficultySettings.Find(Difficulty)->ObstacleSpeed, 400 / DifficultySettings.Find(Difficulty)->ObstacleSpeed);
 
-	Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.AddDynamic(generator, &AObstacleGenerator::generate);
+	AFlappyController* PlayerController = Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0));
+	PlayerController->StartDelegate.AddDynamic(generator, &AObstacleGenerator::generate);
+	PlayerController->StartDelegate.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::ShowScore);
+
+	bird->OnDestroyed.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), & AGameplayHUD::ShowEnd);
+	bird->OnDestroyed.AddDynamic(this, &AGameplayModeBase::UpdateHighScore);
+	bird->OnDestroyed.AddDynamic(this, &AGameplayModeBase::UpdateDifficulty);
 }
 
 void AGameplayModeBase::SetScore(int Points)
@@ -37,13 +53,26 @@ void AGameplayModeBase::SetScore(int Points)
 	OnScoreUpdated.Broadcast(Score);
 }
 
-void AGameplayModeBase::UpdateHighScore()
+void AGameplayModeBase::UpdateHighScore(AActor* DestroyedActor)
 {
-	if (UGameplayStatics::DoesSaveGameExist(dificulty, 0)) {
-		UHighScore* LoadedGame = Cast<UHighScore>(UGameplayStatics::LoadGameFromSlot(dificulty, 0));
-		HighScore = LoadedGame->HighScore;
-	}
+
+	if (HighScore < Score) {
+		HighScore = Score;
+		
+		LoadedGame->DifficultyScores.Add(Difficulty, HighScore);
+		
+		UGameplayStatics::SaveGameToSlot(LoadedGame, "Options", 0);
 	
+	}
+	OnHighScoreUpdated.Broadcast(HighScore);
+	
+}
+
+void AGameplayModeBase::UpdateDifficulty(AActor* DestroyedActor)
+{
+
+	OnDifficultyLoaded.ExecuteIfBound(Difficulty);
+
 }
 
 

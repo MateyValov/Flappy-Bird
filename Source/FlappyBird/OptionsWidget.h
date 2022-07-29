@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
+#include "Components/ComboBoxString.h"
 #include "Components/InputKeySelector.h"
 #include "OptionsWidget.generated.h"
 
@@ -21,26 +22,29 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 		class UTextBlock* ChoseDificulty;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
+	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 		class UButton* Easy;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 		class UButton* Normal;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UButton* Hard;
+		class UButton* Hard;*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 		class UButton* Exit;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 		class UButton* Save;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
+		class UComboBoxString* ChooseDifficulty;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 		class UInputKeySelector* jumpBinding;
 	
-	UFUNCTION()
+	/*UFUNCTION()
 		void OnEasyClicked();
 	UFUNCTION()
 		void OnNormalClicked();
 	UFUNCTION()
-		void OnHardClicked();
+		void OnHardClicked();*/
 	UFUNCTION()
 		void OnExitClicked();
 	UFUNCTION()
@@ -49,7 +53,7 @@ protected:
 		void OnBindSelected(FInputChord SelectedKey);
 
 	UFUNCTION()
-		void ResetDifficulty();
+		void SelectDifficulty(FString SelectedItem, ESelectInfo::Type SelectionType);
 
 	class UInputSettings* Settings = nullptr;
 	
@@ -60,4 +64,7 @@ protected:
 
 	virtual void NativeConstruct() override;
 	
+public:
+	UFUNCTION()
+		void UpdateDifficulties(TSet<FString> Difficulties);
 };

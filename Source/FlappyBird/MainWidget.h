@@ -10,6 +10,9 @@
 /**
  * 
  */
+
+DECLARE_DYNAMIC_DELEGATE(FOptionsClicked);
+
 UCLASS()
 class FLAPPYBIRD_API UMainWidget : public UUserWidget
 {
@@ -31,4 +34,5 @@ class FLAPPYBIRD_API UMainWidget : public UUserWidget
 
 		virtual void NativeConstruct() override;
 	public:
+		FOptionsClicked OptionsClicked;
 };

@@ -31,5 +31,20 @@ void UDeathScreenWidget::NativeConstruct()
 	Play->OnClicked.AddDynamic(this, &UDeathScreenWidget::OnPlayClicked);
 	Quit->OnClicked.AddDynamic(this, &UDeathScreenWidget::OnQuitClicked);
 	Main->OnClicked.AddDynamic(this, &UDeathScreenWidget::OnMainClicked);
-	GameMode = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	
+}
+
+void UDeathScreenWidget::SetScore(int Score)
+{
+	CurrentScore->SetText(FText::FromString(FString::FromInt(Score)));
+}
+
+void UDeathScreenWidget::SetHighScore(int Score)
+{
+	HighScore->SetText(FText::FromString(FString::FromInt(Score)));
+}
+
+void UDeathScreenWidget::SetDifficulty(FString Diff)
+{
+	Difficulty->SetText(FText::FromString(Diff));
 }

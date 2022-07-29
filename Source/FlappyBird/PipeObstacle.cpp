@@ -29,7 +29,7 @@ void APipeObstacle::kill(UPrimitiveComponent* OverlappedComponent, AActor* Other
 	ABird* bird = Cast<ABird>(OtherActor);
 	if (bird != nullptr) {
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("umrq"));
-		bird->EndGame(bird);
+		bird->Destroy(true);
 	}
 }
 

@@ -7,41 +7,49 @@
 #include "GameFramework/PlayerController.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
-
+#include "FlappyBirdGameModeBase.h"
 #include "Engine/Engine.h"
-
-void AMenuHUD::showMenu()
-{
-	clear();
-	CurrentWidget = CreateWidget<UUserWidget>(UGameplayStatics::GetGameInstance(GetWorld()), MenuMenuWidgetClass);
-	if (PlayerOwner && CurrentWidget) {
-		CurrentWidget->AddToViewport();
-		PlayerOwner->bShowMouseCursor = true;
-		PlayerOwner->SetInputMode(FInputModeUIOnly());
-	}
-}
-
-void AMenuHUD::showOptions()
-{
-	clear();
-	CurrentWidget = CreateWidget<UUserWidget>(UGameplayStatics::GetGameInstance(GetWorld()), OptionsWidgetClass);
-	if (PlayerOwner && CurrentWidget) {
-		CurrentWidget->AddToViewport();
-		PlayerOwner->bShowMouseCursor = true;
-		PlayerOwner->SetInputMode(FInputModeUIOnly());
-	}
-}
-
-void AMenuHUD::clear()
-{
-	UWidgetLayoutLibrary::RemoveAllWidgets(this);
-}
 
 void AMenuHUD::BeginPlay()
 {
 	Super::BeginPlay();
-	showMenu();
+	//UE_LOG(LogTemp, Warning, TEXT("PUSNA SE MENU HUDA"));
+	AFlappyBirdGameModeBase* GameMode = Cast<AFlappyBirdGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	MainMenuWidget = CreateWidget<UMainWidget>(UGameplayStatics::GetGameInstance(GetWorld()), MainMenuWidgetClass);
+	OptionsWidget = CreateWidget<UOptionsWidget>(UGameplayStatics::GetGameInstance(GetWorld()), OptionsWidgetClass);
+	MainMenuWidget->OptionsClicked.BindDynamic(GameMode, &AFlappyBirdGameModeBase::UpdateDifficultiesSignal);
+	GameMode->OnDifficultyUpdateRequested.BindDynamic(OptionsWidget, &UOptionsWidget::UpdateDifficulties);
+	ShowMenu();
 }
+
+void AMenuHUD::ShowMenu()
+{
+	Clear();
+	
+	if (PlayerOwner && MainMenuWidget) {
+		MainMenuWidget->AddToViewport();
+		PlayerOwner->bShowMouseCursor = true;
+		PlayerOwner->SetInputMode(FInputModeUIOnly());
+	}
+}
+
+void AMenuHUD::ShowOptions()
+{
+	Clear();
+	
+	if (PlayerOwner && OptionsWidget) {
+		OptionsWidget->AddToViewport();
+		PlayerOwner->bShowMouseCursor = true;
+		PlayerOwner->SetInputMode(FInputModeUIOnly());
+	}
+}
+
+void AMenuHUD::Clear()
+{
+	UWidgetLayoutLibrary::RemoveAllWidgets(this);
+}
+
+
 
 
 

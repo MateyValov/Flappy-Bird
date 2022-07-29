@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "HighScore.h"
 #include "ObstacleGenerator.h"
 #include "Bird.h"
 #include "GameplayModeBase.generated.h"
@@ -13,6 +12,7 @@
  * 
  */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FScoreUpdatedSignature, int, Score);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FDifficultySetuped, FString, Difficulty);
 
 USTRUCT()
 struct FDifficultyProperties
@@ -39,21 +39,27 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 		int Score=0;
 	UPROPERTY(BlueprintReadOnly)
-		int HighScore = 0;
+		int32 HighScore = 0;
 	/*UPROPERTY(BlueprintReadOnly)
 		float Speed = 0;*/
 	UPROPERTY(BlueprintReadOnly)
-		FString dificulty = "";
+		FString Difficulty = "";
 	UFUNCTION()
 		void SetScore(int points) ;
 	UFUNCTION()
 		int GetScore() { return Score; };
 	UFUNCTION()
-		void UpdateHighScore();
+		void UpdateHighScore(AActor* DestroyedActor);
+	UFUNCTION()
+		void UpdateDifficulty(AActor* DestroyedActor);
 
 	FScoreUpdatedSignature OnScoreUpdated;
+	FScoreUpdatedSignature OnHighScoreUpdated;
+	FDifficultySetuped OnDifficultyLoaded;
 
 protected:
+
+	class UOptionsSave* LoadedGame;
 
 	UPROPERTY(EditDefaultsOnly, Category = "GameStart")
 	FVector BirdSpawnLocation;

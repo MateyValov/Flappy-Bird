@@ -54,7 +54,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION()
-	void EndGame(AActor* DestoyedActor);
+	void EndGame(AActor* DestroyedActor);
 
 	UFUNCTION()
 		void Init(float GivenGravity, float GivenJumpForce);

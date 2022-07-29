@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
+#include "MainWidget.h"
+#include "OptionsWidget.h"
 #include "MenuHUD.generated.h"
 
 /**
@@ -15,16 +17,17 @@ class FLAPPYBIRD_API AMenuHUD : public AHUD
 	GENERATED_BODY() 
 protected:
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<UUserWidget> MenuMenuWidgetClass;
+	TSubclassOf<UMainWidget> MainMenuWidgetClass;
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<UUserWidget> OptionsWidgetClass;
-	class UUserWidget* CurrentWidget;
+	TSubclassOf<UOptionsWidget> OptionsWidgetClass;
+	class UMainWidget* MainMenuWidget;
+	class UOptionsWidget* OptionsWidget;
 
-	void clear();
+	void Clear();
 
 	virtual void BeginPlay()override;
 
 public:
-	void showMenu();
-	void showOptions();
+	void ShowMenu();
+	void ShowOptions();
 };

@@ -23,15 +23,27 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 		class UButton* Main;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UTextBlock* difficulty;
+		class UTextBlock* Difficulty;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
+		class UTextBlock* CurrentScore;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
+		class UTextBlock* HighScore;
 	UFUNCTION()
 		void OnPlayClicked();
 	UFUNCTION()
 		void OnQuitClicked();
 	UFUNCTION()
 		void OnMainClicked();
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		class AGameplayModeBase* GameMode = nullptr;
 
 	virtual void NativeConstruct() override;
+
+public:
+	UFUNCTION()
+		void SetScore(int32 Score);
+
+	UFUNCTION()
+		void SetHighScore(int32 Score);
+
+	UFUNCTION()
+		void SetDifficulty(FString Diff);
 };
