@@ -1,12 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "BGBlock.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Engine.h"
 #include "BackgroundSpawner.h"
 #include "GameplayModeBase.h"
 #include "FlappyController.h"
 #include "Kismet/GameplayStatics.h"
-#include "BGBlock.h"
 
 // Sets default values
 ABGBlock::ABGBlock()

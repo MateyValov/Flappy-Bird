@@ -22,7 +22,7 @@ AObstacleGenerator::AObstacleGenerator()
 void AObstacleGenerator::generate()
 {
 	if (Spawnable) {
-		float gapPosition = (FMath::RandRange(-150, 150));
+		float gapPosition = (FMath::RandRange(-250, 150));
 		AVerticalTile* VertTile = nullptr;
 		VertTile = (AVerticalTile*)GetWorld()->SpawnActor<AVerticalTile>(Spawnable, FVector(GetActorLocation().X, GetActorLocation().Y, gapPosition), Rotation, SpawnInfo);
 

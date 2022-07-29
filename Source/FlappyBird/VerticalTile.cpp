@@ -1,11 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "VerticalTile.h"
 #include "Bird.h"
 #include "ObstacleGenerator.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameplayModeBase.h"
 #include "Components/BoxComponent.h"
-#include "VerticalTile.h"
 
 // Sets default values
 AVerticalTile::AVerticalTile()
