@@ -10,6 +10,8 @@
 /**
  * 
  */
+DECLARE_DYNAMIC_DELEGATE_OneParam(FDifficultyUpdateRequest, TSet<FString>, Difficulties);
+
 UCLASS()
 class FLAPPYBIRD_API AFlappyBirdGameModeBase : public AGameModeBase
 {
@@ -17,7 +19,11 @@ class FLAPPYBIRD_API AFlappyBirdGameModeBase : public AGameModeBase
 	
 public:
 		AFlappyBirdGameModeBase();
-		TSet<FString> GetDifficulties();
+
+		UFUNCTION()
+		void UpdateDifficultiesSignal();
+
+		FDifficultyUpdateRequest OnDifficultyUpdateRequested;
 
 protected:
 	//UOptionsSave* LoadedGame;

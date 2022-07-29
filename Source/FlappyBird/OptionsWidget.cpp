@@ -86,6 +86,5 @@ void UOptionsWidget::UpdateDifficulties(TSet<FString> Difficulties)
 {
 	for (FString diff : Difficulties) {
 		ChooseDifficulty->AddOption(diff);
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, diff);
 	}
 }

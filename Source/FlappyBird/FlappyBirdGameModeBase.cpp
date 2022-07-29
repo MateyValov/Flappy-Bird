@@ -26,16 +26,16 @@ void AFlappyBirdGameModeBase::BeginPlay()
 
 	for (FString diff : StartingDifficulties) {
 		LoadedGame->AvailableDifficulties.Add(diff);
+		//UE_LOG(LogTemp, Warning, TEXT("DOBAVI SE DIFICULTY :  %s"), *diff);
 	}
 
 	AvailableDifficulties = LoadedGame->AvailableDifficulties;
 
+
 	UGameplayStatics::SaveGameToSlot(LoadedGame, "Options", 0);
 }
 
-TSet<FString> AFlappyBirdGameModeBase::GetDifficulties() {
-
-	//TSet<FString> neshto = LoadedGame->AvailableDifficulties;
-
-	return AvailableDifficulties;
+void AFlappyBirdGameModeBase::UpdateDifficultiesSignal() {
+	//UE_LOG(LogTemp, Warning, TEXT("Game moda prati"));
+	OnDifficultyUpdateRequested.ExecuteIfBound(AvailableDifficulties);
 }

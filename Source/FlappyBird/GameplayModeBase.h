@@ -12,6 +12,7 @@
  * 
  */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FScoreUpdatedSignature, int, Score);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FDifficultySetuped, FString, Difficulty);
 
 USTRUCT()
 struct FDifficultyProperties
@@ -49,9 +50,12 @@ public:
 		int GetScore() { return Score; };
 	UFUNCTION()
 		void UpdateHighScore(AActor* DestroyedActor);
+	UFUNCTION()
+		void UpdateDifficulty(AActor* DestroyedActor);
 
 	FScoreUpdatedSignature OnScoreUpdated;
 	FScoreUpdatedSignature OnHighScoreUpdated;
+	FDifficultySetuped OnDifficultyLoaded;
 
 protected:
 

@@ -44,7 +44,7 @@ void AGameplayModeBase::BeginPlay()
 
 	bird->OnDestroyed.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), & AGameplayHUD::ShowEnd);
 	bird->OnDestroyed.AddDynamic(this, &AGameplayModeBase::UpdateHighScore);
-
+	bird->OnDestroyed.AddDynamic(this, &AGameplayModeBase::UpdateDifficulty);
 }
 
 void AGameplayModeBase::SetScore(int Points)
@@ -66,6 +66,13 @@ void AGameplayModeBase::UpdateHighScore(AActor* DestroyedActor)
 	}
 	OnHighScoreUpdated.Broadcast(HighScore);
 	
+}
+
+void AGameplayModeBase::UpdateDifficulty(AActor* DestroyedActor)
+{
+
+	OnDifficultyLoaded.ExecuteIfBound(Difficulty);
+
 }
 
 

@@ -13,7 +13,7 @@
 void AGameplayHUD::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("PUSNA SE GAMEPLAY HUDA"));
+	//UE_LOG(LogTemp, Warning, TEXT("PUSNA SE GAMEPLAY HUDA"));
 
 	PregameWidget = Cast<UPregameWidget>(CreateWidget<UUserWidget>(GetWorld(), PregameWidgetClass));
 	EndWidget = Cast<UDeathScreenWidget>(CreateWidget<UUserWidget>(GetWorld(), EndWidgetClass));
@@ -23,8 +23,8 @@ void AGameplayHUD::BeginPlay()
 	GameMode->OnScoreUpdated.AddDynamic(ScoreWidget, &UScoreWidget::SetScore);
 	GameMode->OnScoreUpdated.AddDynamic(EndWidget, &UDeathScreenWidget::SetScore);
 	GameMode->OnHighScoreUpdated.AddDynamic(EndWidget, &UDeathScreenWidget::SetHighScore);
-	EndWidget->SetDifficulty(GameMode->Difficulty);
-
+	GameMode->OnDifficultyLoaded.BindDynamic(EndWidget, &UDeathScreenWidget::SetDifficulty);
+	
 	PregameStart();
 }
 

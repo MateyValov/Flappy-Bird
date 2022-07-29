@@ -21,6 +21,8 @@ void UMainWidget::OnQuitClicked()
 
 void UMainWidget::OnOptionsClicked()
 {
+	OptionsClicked.ExecuteIfBound();
+	UE_LOG(LogTemp, Warning, TEXT("Cukna Se Butona"));
 	if (APlayerController* pc = GetOwningPlayer()) {
 		Cast<AMenuHUD>(pc->GetHUD())->ShowOptions();
 	}
