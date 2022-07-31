@@ -1,28 +1,35 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "VerticalTile.h"
 #include "Bird.h"
 #include "ObstacleGenerator.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameplayModeBase.h"
 #include "Components/BoxComponent.h"
-#include "VerticalTile.h"
 
 // Sets default values
 AVerticalTile::AVerticalTile()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	
+
+	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	SetRootComponent(Root);
+
 	Bottom = CreateDefaultSubobject<UChildActorComponent>(TEXT("Bottom Pipe"));
 	Bottom->SetChildActorClass(Pipe);
+	Bottom->SetupAttachment(Root);
+
 	Top = CreateDefaultSubobject<UChildActorComponent>(TEXT("Top Pipe"));
-	Top->SetupAttachment(Bottom);
 	Top->SetChildActorClass(Pipe);
+	Top->SetupAttachment(Root);
 
 	score = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
-	score->SetupAttachment(Top);
 	score->OnComponentBeginOverlap.AddDynamic(this, &AVerticalTile::Action);
-	
+	score->SetupAttachment(Root);
+
+	movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement"));
+	movement->ProjectileGravityScale = 0;
 }
 
 void AVerticalTile::Init(float givenSpeed)
@@ -30,9 +37,6 @@ void AVerticalTile::Init(float givenSpeed)
 	movement->Velocity = FVector(0, -givenSpeed, 0);
 	movement->InitialSpeed = givenSpeed;
 	movement->MaxSpeed = movement->InitialSpeed;
-
-	((APipeObstacle*)Bottom->GetChildActor())->Init(givenSpeed);
-	((APipeObstacle*)Top->GetChildActor())->Init(givenSpeed);
 }
 
 void AVerticalTile::Action(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -56,8 +60,5 @@ void AVerticalTile::Action(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 void AVerticalTile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	FVector Loc = GetActorLocation();
-	Loc.Y -= 20;
-	SetActorLocation(Loc);
 }
 
