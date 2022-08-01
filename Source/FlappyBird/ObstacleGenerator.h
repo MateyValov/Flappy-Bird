@@ -29,18 +29,13 @@ protected:
 		class USceneComponent* root = nullptr;
 	UPROPERTY(EditAnywhere)
 		class UBoxComponent* hitbox = nullptr;
-	UPROPERTY(EditAnywhere)
-		float DefaultSpeed = 200;
-	UPROPERTY(EditAnywhere)
-		float DefficultyAddition = 150;
+
 	UPROPERTY(VisibleAnywhere)
 		float Speed;
 	UPROPERTY(VisibleAnywhere)
-		float SpawnTime = 2;
-	UPROPERTY(EditAnywhere)
-		float TileSize = 80;
+		float SpawnTime;
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class AVerticalTile> Spawnable;
 	
 	FTimerHandle spawnHandle;

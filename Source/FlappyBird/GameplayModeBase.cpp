@@ -42,9 +42,9 @@ void AGameplayModeBase::BeginPlay()
 	PlayerController->StartDelegate.AddDynamic(generator, &AObstacleGenerator::generate);
 	PlayerController->StartDelegate.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::ShowScore);
 
-	bird->OnDestroyed.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), & AGameplayHUD::ShowEnd);
-	bird->OnDestroyed.AddDynamic(this, &AGameplayModeBase::UpdateHighScore);
-	bird->OnDestroyed.AddDynamic(this, &AGameplayModeBase::UpdateDifficulty);
+	bird->OnGameEnd.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), & AGameplayHUD::ShowEnd);
+	bird->OnGameEnd.AddDynamic(this, &AGameplayModeBase::UpdateHighScore);
+	bird->OnGameEnd.AddDynamic(this, &AGameplayModeBase::UpdateDifficulty);
 }
 
 void AGameplayModeBase::SetScore(int Points)
@@ -53,7 +53,7 @@ void AGameplayModeBase::SetScore(int Points)
 	OnScoreUpdated.Broadcast(Score);
 }
 
-void AGameplayModeBase::UpdateHighScore(AActor* DestroyedActor)
+void AGameplayModeBase::UpdateHighScore()
 {
 
 	if (HighScore < Score) {
@@ -68,7 +68,7 @@ void AGameplayModeBase::UpdateHighScore(AActor* DestroyedActor)
 	
 }
 
-void AGameplayModeBase::UpdateDifficulty(AActor* DestroyedActor)
+void AGameplayModeBase::UpdateDifficulty()
 {
 
 	OnDifficultyLoaded.ExecuteIfBound(Difficulty);

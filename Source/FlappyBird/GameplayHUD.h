@@ -36,7 +36,7 @@ protected:
 	virtual void BeginPlay()override;
 public:
 	UFUNCTION()
-	void ShowEnd(AActor* DestroyedActor);
+	void ShowEnd();
 
 	UFUNCTION()
 	void ShowScore();
