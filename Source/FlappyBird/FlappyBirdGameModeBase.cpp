@@ -38,3 +38,13 @@ void AFlappyBirdGameModeBase::UpdateDifficultiesSignal() {
 
 	OnDifficultyUpdateRequested.ExecuteIfBound(AvailableDifficulties);
 }
+
+void AFlappyBirdGameModeBase::UnlockImpossible()
+{
+	if (UGameplayStatics::DoesSaveGameExist("Options", 0)) {
+		UOptionsSave* LoadedGame = Cast<UOptionsSave>(UGameplayStatics::LoadGameFromSlot("Options", 0));
+		LoadedGame->UnlockDifficulty("Impossible");
+		AvailableDifficulties = LoadedGame->AvailableDifficulties;
+		//UpdateDifficultiesSignal();
+	}
+}

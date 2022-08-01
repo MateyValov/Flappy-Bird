@@ -11,28 +11,42 @@
  * 
  */
 
-DECLARE_DYNAMIC_DELEGATE(FOptionsClicked);
+DECLARE_DYNAMIC_DELEGATE(FButtonClicked);
 
 UCLASS()
 class FLAPPYBIRD_API UMainWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	private:
+
+		bool bImpossibleUnlocked = false;
+
+		UFUNCTION()
+			void OnPlayClicked();
+		UFUNCTION()
+			void OnQuitClicked();
+		UFUNCTION()
+			void OnOptionsClicked();
+		UFUNCTION()
+			void OnTitleClicked();
 	protected:
+
+		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
+			class UButton* ImpossibleDifficultyUnlock;
+		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
+			class UTextBlock* NewDifficulty;
+
 		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 			class UButton* Play;
 		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 			class UButton* Quit;
-		UFUNCTION()
-		void OnPlayClicked();
-		UFUNCTION()
-		void OnQuitClicked();
+		
 		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 			class UButton* Options;
-		UFUNCTION()
-			void OnOptionsClicked();
+		
 
 		virtual void NativeConstruct() override;
 	public:
-		FOptionsClicked OptionsClicked;
+		FButtonClicked OptionsClicked;
+		FButtonClicked TitleClicked;
 };

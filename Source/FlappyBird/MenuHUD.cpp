@@ -19,6 +19,7 @@ void AMenuHUD::BeginPlay()
 	OptionsWidget = CreateWidget<UOptionsWidget>(UGameplayStatics::GetGameInstance(GetWorld()), OptionsWidgetClass);
 	MainMenuWidget->OptionsClicked.BindDynamic(GameMode, &AFlappyBirdGameModeBase::UpdateDifficultiesSignal);
 	GameMode->OnDifficultyUpdateRequested.BindDynamic(OptionsWidget, &UOptionsWidget::UpdateDifficulties);
+	MainMenuWidget->TitleClicked.BindDynamic(GameMode, &AFlappyBirdGameModeBase::UnlockImpossible);
 	ShowMenu();
 }
 

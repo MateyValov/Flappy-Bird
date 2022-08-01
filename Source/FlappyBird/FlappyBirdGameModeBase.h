@@ -22,7 +22,8 @@ public:
 
 		UFUNCTION()
 		void UpdateDifficultiesSignal();
-
+		UFUNCTION()
+			void UnlockImpossible();
 		FDifficultyUpdateRequest OnDifficultyUpdateRequested;
 
 protected:

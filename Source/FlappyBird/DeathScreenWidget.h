@@ -28,6 +28,11 @@ protected:
 		class UTextBlock* CurrentScore;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 		class UTextBlock* HighScore;
+	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
+		class UTextBlock* NewHighScore;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
+		class UTextBlock* NewDifficulty;*/
+
 	UFUNCTION()
 		void OnPlayClicked();
 	UFUNCTION()
@@ -44,6 +49,12 @@ public:
 	UFUNCTION()
 		void SetHighScore(int32 Score);
 
+	/*UFUNCTION()
+		void SetNewHighScore(int32 Score);*/
+
 	UFUNCTION()
 		void SetDifficulty(FString Diff);
+
+	//UFUNCTION()
+	//	void SetDifficultyUnlocked(FString Diff);
 };
