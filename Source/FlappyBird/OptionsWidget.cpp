@@ -84,7 +84,10 @@ void UOptionsWidget::NativeConstruct()
 
 void UOptionsWidget::UpdateDifficulties(TSet<FString> Difficulties)
 {
+	ChooseDifficulty->ClearOptions();
 	for (FString diff : Difficulties) {
+		//UE_LOG(LogTemp, Warning, TEXT(diff));
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, diff);
 		ChooseDifficulty->AddOption(diff);
 	}
 }

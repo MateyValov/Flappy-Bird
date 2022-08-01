@@ -45,6 +45,6 @@ void AFlappyBirdGameModeBase::UnlockImpossible()
 		UOptionsSave* LoadedGame = Cast<UOptionsSave>(UGameplayStatics::LoadGameFromSlot("Options", 0));
 		LoadedGame->UnlockDifficulty("Impossible");
 		AvailableDifficulties = LoadedGame->AvailableDifficulties;
-		//UpdateDifficultiesSignal();
+		UGameplayStatics::SaveGameToSlot(LoadedGame, "Options", 0);
 	}
 }
