@@ -11,20 +11,16 @@ UCLASS()
 class FLAPPYBIRD_API APipeObstacle : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	APipeObstacle();
-	UFUNCTION()
-	void Init(float givenSpeed);
 
 protected:
 	UPROPERTY(EditAnywhere)
-	class UStaticMeshComponent* mesh = nullptr;
-	UPROPERTY(EditAnywhere)
-	class UProjectileMovementComponent* movement = nullptr;
+		class UStaticMeshComponent* mesh = nullptr;
 
 	UFUNCTION()
-	void kill(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+		void kill(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 };

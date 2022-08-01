@@ -11,30 +11,32 @@ UCLASS()
 class FLAPPYBIRD_API AVerticalTile : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AVerticalTile();
 	UFUNCTION()
-	void Init(float givenSpeed);
+		void Init(float givenSpeed);
 
 protected:
 	UPROPERTY(EditAnywhere)
-	class UChildActorComponent* Bottom = nullptr;
+		class USceneComponent* Root = nullptr;
 	UPROPERTY(EditAnywhere)
-	class UChildActorComponent* Top = nullptr;
+		class UChildActorComponent* Bottom = nullptr;
 	UPROPERTY(EditAnywhere)
-	class UBoxComponent* score = nullptr;
+		class UChildActorComponent* Top = nullptr;
 	UPROPERTY(EditAnywhere)
-	class UProjectileMovementComponent* movement = nullptr;
+		class UBoxComponent* score = nullptr;
+	UPROPERTY(EditAnywhere)
+		class UProjectileMovementComponent* movement = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
-	TSubclassOf<class APipeObstacle> Pipe;
+		TSubclassOf<class APipeObstacle> Pipe;
 
 	UFUNCTION()
-	void Action(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+		void Action(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
