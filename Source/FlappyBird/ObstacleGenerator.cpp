@@ -14,6 +14,7 @@ AObstacleGenerator::AObstacleGenerator()
 	PrimaryActorTick.bCanEverTick = true;
 	root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	SetRootComponent(root);
+	
 	hitbox = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
 	hitbox->SetupAttachment(root);
 }
@@ -21,16 +22,18 @@ AObstacleGenerator::AObstacleGenerator()
 
 void AObstacleGenerator::generate()
 {
-	if (Spawnable) {
-		float gapPosition = (FMath::RandRange(-150, 150));
-		AVerticalTile* VertTile = nullptr;
-		VertTile = (AVerticalTile*)GetWorld()->SpawnActor<AVerticalTile>(Spawnable, FVector(GetActorLocation().X, GetActorLocation().Y, gapPosition), Rotation, SpawnInfo);
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Spawned an obstacle"));
+	float gapPosition = (FMath::RandRange(-150, 150));
+	AVerticalTile* VertTile = nullptr;
+	VertTile = (AVerticalTile*)GetWorld()->SpawnActor<AVerticalTile>(Spawnable, FVector(GetActorLocation().X, GetActorLocation().Y, gapPosition), Rotation, SpawnInfo);
 		
-		VertTile->Init(Speed);
-
-		GetWorldTimerManager().SetTimer(spawnHandle, this, &AObstacleGenerator::generate, SpawnTime, false);
+	if (VertTile != nullptr) {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Spawned an obstacle"));
 	}
+
+	VertTile->Init(Speed);
+
+	GetWorldTimerManager().SetTimer(spawnHandle, this, &AObstacleGenerator::generate, SpawnTime, false);
+	
 }
 void AObstacleGenerator::Init(float GivenSpeed, float GivenSpawnTime)
 {

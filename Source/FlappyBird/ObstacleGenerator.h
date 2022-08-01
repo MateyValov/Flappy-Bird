@@ -8,11 +8,6 @@
 #include "VerticalTile.h"
 #include "ObstacleGenerator.generated.h"
 
-UENUM()
-enum class EObstacleGap {
-	Bottom, Mid, Top
-};
-
 UCLASS()
 class FLAPPYBIRD_API AObstacleGenerator : public AActor
 {
@@ -36,7 +31,7 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 		float Speed;
 	UPROPERTY(VisibleAnywhere)
-		float SpawnTime = 2;
+		float SpawnTime;
 	UPROPERTY(EditAnywhere)
 		float TileSize = 80;
 	
@@ -47,8 +42,6 @@ protected:
 
 	FRotator Rotation;
 	FActorSpawnParameters SpawnInfo;
-	
-	//EObstacleGap direction = EDirectionType::Forward;
 
 public:	
 	void Init(float GivenSpeed, float GivenSpawnTime);
