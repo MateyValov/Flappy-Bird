@@ -49,9 +49,9 @@ public:
 	UFUNCTION()
 		int GetScore() { return Score; };
 	UFUNCTION()
-		void UpdateHighScore(AActor* DestroyedActor);
+		void UpdateHighScore();
 	UFUNCTION()
-		void UpdateDifficulty(AActor* DestroyedActor);
+		void UpdateDifficulty();
 
 	FScoreUpdatedSignature OnScoreUpdated;
 	FScoreUpdatedSignature OnHighScoreUpdated;

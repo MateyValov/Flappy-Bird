@@ -7,6 +7,7 @@
 #include "GameFramework/Pawn.h"
 #include "Bird.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameEndDelegate);
 
 UCLASS()
 class FLAPPYBIRD_API ABird : public APawn
@@ -29,6 +30,8 @@ public:
 		float JumpForce;
 
 	bool bPressed = false;
+
+	FGameEndDelegate OnGameEnd;
 
 protected:
 	/*UPROPERTY(EditAnywhere)
@@ -54,7 +57,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION()
-	void EndGame(AActor* DestroyedActor);
+	void EndGame();
 
 	UFUNCTION()
 		void Init(float GivenGravity, float GivenJumpForce);

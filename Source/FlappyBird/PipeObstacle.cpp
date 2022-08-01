@@ -19,7 +19,7 @@ void APipeObstacle::kill(UPrimitiveComponent* OverlappedComponent, AActor* Other
 	if (bird != nullptr) {
 		//DON'T TOUCH THE GENGINE
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("umrq"));
-		bird->EndGame(bird);
+		bird->EndGame();
 	}
 }
 

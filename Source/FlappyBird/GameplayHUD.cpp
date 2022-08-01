@@ -29,7 +29,7 @@ void AGameplayHUD::BeginPlay()
 }
 
 
-void AGameplayHUD::ShowEnd(AActor* DestroyedActor)
+void AGameplayHUD::ShowEnd()
 {
 	Clear();
 	

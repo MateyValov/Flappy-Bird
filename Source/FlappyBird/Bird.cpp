@@ -30,7 +30,7 @@ ABird::ABird()
 	
 	//AutoPossessPlayer = EAutoReceiveInput::Player0;
 
-	OnDestroyed.AddDynamic(this, &ABird::EndGame);
+	//OnDestroyed.AddDynamic(this, &ABird::EndGame);
 }
 
 void ABird::Init(float GivenGravity, float GivenJumpForce)
@@ -81,12 +81,11 @@ void ABird::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 }
 
 
-void ABird::EndGame(AActor* DestroyedActor)
+void ABird::EndGame()
 {	
-	
 	UGameplayStatics::GetPlayerController(this, 0)->SetPause(true);
+	OnGameEnd.Broadcast();
 	//Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->showEnd();
-	
 }
 
 
