@@ -25,11 +25,11 @@ void AObstacleGenerator::generate()
 		float gapPosition = (FMath::RandRange(-150, 150));
 		AVerticalTile* VertTile = nullptr;
 		VertTile = (AVerticalTile*)GetWorld()->SpawnActor<AVerticalTile>(Spawnable, FVector(GetActorLocation().X, GetActorLocation().Y, gapPosition), Rotation, SpawnInfo);
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Spawned an obstacle"));
 		
-		VertTile->Init(Speed);
+		VertTile->Init(Speed, true);
 
 		GetWorldTimerManager().SetTimer(spawnHandle, this, &AObstacleGenerator::generate, SpawnTime, false);
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Spawned an obstacle"));
 	}
 }
 void AObstacleGenerator::Init(float GivenSpeed, float GivenSpawnTime)
