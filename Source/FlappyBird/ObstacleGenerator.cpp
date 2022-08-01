@@ -14,6 +14,7 @@ AObstacleGenerator::AObstacleGenerator()
 	PrimaryActorTick.bCanEverTick = true;
 	root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	SetRootComponent(root);
+	
 	hitbox = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
 	hitbox->SetupAttachment(root);
 }
