@@ -3,4 +3,7 @@
 
 #include "OptionsSave.h"
 
-
+void UOptionsSave::UnlockDifficulty(FString DifficultyToUnlock)
+{
+	AvailableDifficulties.Add(DifficultyToUnlock);
+}

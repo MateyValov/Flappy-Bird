@@ -26,7 +26,6 @@ void AFlappyBirdGameModeBase::BeginPlay()
 
 	for (FString diff : StartingDifficulties) {
 		LoadedGame->AvailableDifficulties.Add(diff);
-		//UE_LOG(LogTemp, Warning, TEXT("DOBAVI SE DIFICULTY :  %s"), *diff);
 	}
 
 	AvailableDifficulties = LoadedGame->AvailableDifficulties;
@@ -36,6 +35,6 @@ void AFlappyBirdGameModeBase::BeginPlay()
 }
 
 void AFlappyBirdGameModeBase::UpdateDifficultiesSignal() {
-	//UE_LOG(LogTemp, Warning, TEXT("Game moda prati"));
+
 	OnDifficultyUpdateRequested.ExecuteIfBound(AvailableDifficulties);
 }

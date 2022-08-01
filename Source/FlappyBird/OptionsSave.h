@@ -23,4 +23,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	TMap<FString, int32> DifficultyScores;
+
+	UFUNCTION()
+	void UnlockDifficulty(FString DifficultyToUnlock);
 };
