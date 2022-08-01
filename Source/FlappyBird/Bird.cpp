@@ -42,33 +42,15 @@ void ABird::Init(float GivenGravity, float GivenJumpForce)
 void ABird::Jump()
 {
 	if (!bPressed) {
-		//FString diff = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->dificulty;
-
-		/*if (diff == "Easy") {
-			gravity = Defaultgravity;
-		}
-		else if (diff == "Normal") {
-			gravity = Defaultgravity + DefficultyAddition;
-		}
-		else if (diff == "Hard") {
-			gravity = Defaultgravity + DefficultyAddition * 2;
-		}
-		jumpForce = (DefaultjumpForce*2) - (DefaultjumpForce/ gravity);*/
 		Camera->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
-		//Camera->SetWorldLocation(FVector(-90.552462,805.948150,397.890182));
 
-		MeshComponent->PlayAnimation(AnimAsset,true);
+		//MeshComponent->PlayAnimation(AnimAsset,true);
 		MovementComponent->InitialSpeed = JumpForce;
 		MovementComponent->MaxSpeed = MovementComponent->InitialSpeed*2;
 		MovementComponent->ProjectileGravityScale = Gravity;
 		Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.Broadcast();
-		//Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->BackgroundDelegate.ExecuteIfBound();
 		bPressed = true;
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("castvame"));
-		//Cast<AGameplayHUD>(UGameplayStatics::GetGameMode(GetWorld())->HUDClass)->showScore();
-		//Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->showScore();
 	}
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("skachame"));
 	MovementComponent->Velocity.Z = JumpForce;
 	
 }

@@ -6,13 +6,14 @@
 #include "GameFramework/GameModeBase.h"
 #include "ObstacleGenerator.h"
 #include "Bird.h"
+#include "VerticalTile.h"
 #include "GameplayModeBase.generated.h"
 
 /**
  * 
  */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FScoreUpdatedSignature, int, Score);
-DECLARE_DYNAMIC_DELEGATE_OneParam(FDifficultySetuped, FString, Difficulty);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FDifficultyPassing, FString, Difficulty);
 
 USTRUCT()
 struct FDifficultyProperties
@@ -27,6 +28,12 @@ struct FDifficultyProperties
 
 	UPROPERTY(EditDefaultsOnly)
 	float BirdJumpForce;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AVerticalTile> TileToSpawn;
+
+	UPROPERTY(EditDefaultsOnly)
+	int ScoreToAdvance;
 };
 
 UCLASS()
@@ -36,30 +43,22 @@ class FLAPPYBIRD_API AGameplayModeBase : public AGameModeBase
 public:
 	AGameplayModeBase();
 
-	UPROPERTY(BlueprintReadOnly)
-		int Score=0;
-	UPROPERTY(BlueprintReadOnly)
-		int32 HighScore = 0;
-	/*UPROPERTY(BlueprintReadOnly)
-		float Speed = 0;*/
-	UPROPERTY(BlueprintReadOnly)
-		FString Difficulty = "";
+
 	UFUNCTION()
 		void SetScore(int points) ;
 	UFUNCTION()
 		int GetScore() { return Score; };
 	UFUNCTION()
-		void UpdateHighScore();
+		void OnGameEnd();
 	UFUNCTION()
-		void UpdateDifficulty();
+		void UnlockDifficulty(FString DifficultyToUnlock);
 
 	FScoreUpdatedSignature OnScoreUpdated;
 	FScoreUpdatedSignature OnHighScoreUpdated;
-	FDifficultySetuped OnDifficultyLoaded;
+	FDifficultyPassing OnDifficultyLoaded;
+	FDifficultyPassing OnDifficultyUlocked;
 
 protected:
-
-	class UOptionsSave* LoadedGame;
 
 	UPROPERTY(EditDefaultsOnly, Category = "GameStart")
 	FVector BirdSpawnLocation;
@@ -79,4 +78,16 @@ protected:
 	//UPROPERTY(EditDefaultsOnly, Category = "GameStart")
 
 	virtual void BeginPlay() override;
+
+private:
+
+	class UOptionsSave* LoadedGame;
+
+	int Score = 0;
+
+	int32 HighScore = 0;
+
+	FString Difficulty = "";
+
+	FDifficultyProperties CurrentSettings;
 };

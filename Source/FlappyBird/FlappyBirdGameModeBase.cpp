@@ -26,7 +26,6 @@ void AFlappyBirdGameModeBase::BeginPlay()
 
 	for (FString diff : StartingDifficulties) {
 		LoadedGame->AvailableDifficulties.Add(diff);
-		//UE_LOG(LogTemp, Warning, TEXT("DOBAVI SE DIFICULTY :  %s"), *diff);
 	}
 
 	AvailableDifficulties = LoadedGame->AvailableDifficulties;
@@ -36,6 +35,16 @@ void AFlappyBirdGameModeBase::BeginPlay()
 }
 
 void AFlappyBirdGameModeBase::UpdateDifficultiesSignal() {
-	//UE_LOG(LogTemp, Warning, TEXT("Game moda prati"));
+
 	OnDifficultyUpdateRequested.ExecuteIfBound(AvailableDifficulties);
+}
+
+void AFlappyBirdGameModeBase::UnlockImpossible()
+{
+	if (UGameplayStatics::DoesSaveGameExist("Options", 0)) {
+		UOptionsSave* LoadedGame = Cast<UOptionsSave>(UGameplayStatics::LoadGameFromSlot("Options", 0));
+		LoadedGame->UnlockDifficulty("Impossible");
+		AvailableDifficulties = LoadedGame->AvailableDifficulties;
+		UGameplayStatics::SaveGameToSlot(LoadedGame, "Options", 0);
+	}
 }

@@ -22,7 +22,7 @@ void UMainWidget::OnQuitClicked()
 void UMainWidget::OnOptionsClicked()
 {
 	OptionsClicked.ExecuteIfBound();
-	UE_LOG(LogTemp, Warning, TEXT("Cukna Se Butona"));
+	//UE_LOG(LogTemp, Warning, TEXT("Cukna Se Butona"));
 	if (APlayerController* pc = GetOwningPlayer()) {
 		Cast<AMenuHUD>(pc->GetHUD())->ShowOptions();
 	}
@@ -35,4 +35,14 @@ void UMainWidget::NativeConstruct()
 	Play->OnClicked.AddDynamic(this, &UMainWidget::OnPlayClicked);
 	Quit->OnClicked.AddDynamic(this, &UMainWidget::OnQuitClicked);
 	Options->OnClicked.AddDynamic(this, &UMainWidget::OnOptionsClicked);
+	ImpossibleDifficultyUnlock->OnClicked.AddDynamic(this, &UMainWidget::OnTitleClicked);
+	NewDifficulty->SetText(FText::FromString(""));
+}
+
+void UMainWidget::OnTitleClicked()
+{
+	if (bImpossibleUnlocked) return;
+	bImpossibleUnlocked = true;
+	TitleClicked.ExecuteIfBound();
+	NewDifficulty->SetText(FText::FromString("New Difficulty Unlocked"));
 }

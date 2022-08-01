@@ -31,20 +31,22 @@ void AGameplayModeBase::BeginPlay()
 		Difficulty = "Easy";
 		HighScore = 0;
 	}
+
+	CurrentSettings = *DifficultySettings.Find(Difficulty);
+		 
 	//UpdateHighScore(nullptr);
 	ABird* bird = GetWorld()->SpawnActor<ABird>(PawnClass, BirdSpawnLocation, FRotator());
-	bird->Init(DifficultySettings.Find(Difficulty)->WorldGravity, DifficultySettings.Find(Difficulty)->BirdJumpForce);
+	bird->Init(CurrentSettings.WorldGravity, CurrentSettings.BirdJumpForce);
 	
 	AObstacleGenerator* generator = GetWorld()->SpawnActor<AObstacleGenerator>(GeneratorClass, GeneratorPosition, FRotator());
-	generator->Init(DifficultySettings.Find(Difficulty)->ObstacleSpeed, 400 / DifficultySettings.Find(Difficulty)->ObstacleSpeed);
+	generator->Init(CurrentSettings.ObstacleSpeed, 400 / CurrentSettings.ObstacleSpeed, CurrentSettings.TileToSpawn);
 
 	AFlappyController* PlayerController = Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0));
 	PlayerController->StartDelegate.AddDynamic(generator, &AObstacleGenerator::generate);
 	PlayerController->StartDelegate.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::ShowScore);
 
 	bird->OnGameEnd.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), & AGameplayHUD::ShowEnd);
-	bird->OnGameEnd.AddDynamic(this, &AGameplayModeBase::UpdateHighScore);
-	bird->OnGameEnd.AddDynamic(this, &AGameplayModeBase::UpdateDifficulty);
+	bird->OnGameEnd.AddDynamic(this, &AGameplayModeBase::OnGameEnd);
 }
 
 void AGameplayModeBase::SetScore(int Points)
@@ -53,7 +55,13 @@ void AGameplayModeBase::SetScore(int Points)
 	OnScoreUpdated.Broadcast(Score);
 }
 
-void AGameplayModeBase::UpdateHighScore()
+void AGameplayModeBase::UnlockDifficulty(FString DifficultyToUnlock)
+{
+	LoadedGame->UnlockDifficulty(DifficultyToUnlock);
+	OnDifficultyUlocked.ExecuteIfBound(DifficultyToUnlock);
+}
+
+void AGameplayModeBase::OnGameEnd()
 {
 
 	if (HighScore < Score) {
@@ -61,18 +69,26 @@ void AGameplayModeBase::UpdateHighScore()
 		
 		LoadedGame->DifficultyScores.Add(Difficulty, HighScore);
 		
-		UGameplayStatics::SaveGameToSlot(LoadedGame, "Options", 0);
-	
 	}
-	OnHighScoreUpdated.Broadcast(HighScore);
-	
-}
+	TArray<FString> AllDifficulties;
+	DifficultySettings.GenerateKeyArray(AllDifficulties);
 
-void AGameplayModeBase::UpdateDifficulty()
-{
+	if (CurrentSettings.ScoreToAdvance!= -1 && HighScore >= CurrentSettings.ScoreToAdvance) {
+
+		int IndexToCheck = AllDifficulties.IndexOfByKey(Difficulty) + 1;
+		if (AllDifficulties.IsValidIndex(IndexToCheck)) {
+			UnlockDifficulty(AllDifficulties[IndexToCheck]);
+		}
+	}
+
+	UGameplayStatics::SaveGameToSlot(LoadedGame, "Options", 0);
+
+	OnHighScoreUpdated.Broadcast(HighScore);
 
 	OnDifficultyLoaded.ExecuteIfBound(Difficulty);
-
 }
+
+
+
 
 

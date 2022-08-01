@@ -39,7 +39,7 @@ protected:
 	FActorSpawnParameters SpawnInfo;
 
 public:	
-	void Init(float GivenSpeed, float GivenSpawnTime);
+	void Init(float GivenSpeed, float GivenSpawnTime, TSubclassOf<class AVerticalTile> ObjectToSpawn);
 
 	UFUNCTION()
 	void generate();
