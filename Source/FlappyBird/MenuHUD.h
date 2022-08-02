@@ -22,7 +22,9 @@ protected:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UOptionsWidget> OptionsWidgetClass;
 
+	UPROPERTY()
 	class UMainWidget* MainMenuWidget;
+	UPROPERTY()
 	class UOptionsWidget* OptionsWidget;
 
 	void Clear();
@@ -30,6 +32,8 @@ protected:
 	virtual void BeginPlay()override;
 
 public:
+	UFUNCTION()
 	void ShowMenu();
+	UFUNCTION()
 	void ShowOptions();
 };

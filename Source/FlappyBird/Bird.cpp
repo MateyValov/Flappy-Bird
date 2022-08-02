@@ -2,7 +2,7 @@
 
 
 #include "Bird.h"
-#include "FlappyController.h"
+#include "FlappyBirdController.h"
 #include "Components/BoxComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
@@ -45,7 +45,7 @@ void ABird::Jump()
 		MovementComponent->InitialSpeed = JumpForce;
 		MovementComponent->MaxSpeed = MovementComponent->InitialSpeed*2;
 		MovementComponent->ProjectileGravityScale = Gravity;
-		Cast<AFlappyController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.Broadcast();
+		Cast<AFlappyBirdController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.Broadcast();
 		bPressed = true;
 	}
 	MovementComponent->Velocity.Z = JumpForce;

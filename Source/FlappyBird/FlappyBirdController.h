@@ -4,17 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "FlappyController.generated.h"
+#include "FlappyBirdController.generated.h"
 
 /**
- * 
+ *
  */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FStartSignature);
 
 UCLASS()
-class FLAPPYBIRD_API AFlappyController : public APlayerController
+class FLAPPYBIRD_API AFlappyBirdController : public APlayerController
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 public:
-		FStartSignature StartDelegate;
+    FStartSignature StartDelegate;
 };
