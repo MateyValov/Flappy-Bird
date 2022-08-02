@@ -4,7 +4,6 @@
 #include "ObstacleGenerator.h"
 #include "Components/BoxComponent.h"
 #include "GameplayModeBase.h"
-#include "FlappyController.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values

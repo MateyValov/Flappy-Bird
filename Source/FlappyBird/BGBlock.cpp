@@ -5,7 +5,6 @@
 #include "Engine.h"
 #include "BackgroundSpawner.h"
 #include "GameplayModeBase.h"
-#include "FlappyController.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
