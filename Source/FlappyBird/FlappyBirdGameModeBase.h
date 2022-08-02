@@ -18,7 +18,7 @@ class FLAPPYBIRD_API AFlappyBirdGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 	
 public:
-	AFlappyBirdGameModeBase();
+	//AFlappyBirdGameModeBase();
 
 	UFUNCTION()
 	void UpdateDifficultiesSignal();
