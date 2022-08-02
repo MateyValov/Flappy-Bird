@@ -7,11 +7,6 @@
 #include "FlappyController.h"
 #include "OptionsSave.h"
 
-AGameplayModeBase::AGameplayModeBase()
-{
-	HUDClass = AGameplayHUD::StaticClass();
-	//DefaultPawnClass = ABird::StaticClass();
-}
 
 void AGameplayModeBase::BeginPlay()
 {

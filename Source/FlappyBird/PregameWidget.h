@@ -16,7 +16,7 @@ class FLAPPYBIRD_API UPregameWidget : public UUserWidget
 	GENERATED_BODY()
 protected:
 		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UTextBlock* jumptostart;
+		class UTextBlock* JumpToStart;
 
 		virtual void NativeConstruct() override;
 };

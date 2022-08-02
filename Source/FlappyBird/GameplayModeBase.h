@@ -45,7 +45,7 @@ public:
 
 
 	UFUNCTION()
-		void SetScore(int points) ;
+		void SetScore(int Points) ;
 	UFUNCTION()
 		int GetScore() { return Score; };
 	UFUNCTION()

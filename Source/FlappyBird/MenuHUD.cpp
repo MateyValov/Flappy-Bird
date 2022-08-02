@@ -15,11 +15,14 @@ void AMenuHUD::BeginPlay()
 	Super::BeginPlay();
 	//UE_LOG(LogTemp, Warning, TEXT("PUSNA SE MENU HUDA"));
 	AFlappyBirdGameModeBase* GameMode = Cast<AFlappyBirdGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+
 	MainMenuWidget = CreateWidget<UMainWidget>(UGameplayStatics::GetGameInstance(GetWorld()), MainMenuWidgetClass);
 	OptionsWidget = CreateWidget<UOptionsWidget>(UGameplayStatics::GetGameInstance(GetWorld()), OptionsWidgetClass);
+
 	MainMenuWidget->OptionsClicked.BindDynamic(GameMode, &AFlappyBirdGameModeBase::UpdateDifficultiesSignal);
 	GameMode->OnDifficultyUpdateRequested.BindDynamic(OptionsWidget, &UOptionsWidget::UpdateDifficulties);
 	MainMenuWidget->TitleClicked.BindDynamic(GameMode, &AFlappyBirdGameModeBase::UnlockImpossible);
+
 	ShowMenu();
 }
 

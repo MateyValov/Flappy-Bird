@@ -6,5 +6,5 @@
 void UPregameWidget::NativeConstruct()
 {
 	Super::NativeDestruct();
-	jumptostart->SetText(FText::FromString("Press Jump to Start"));
+	JumpToStart->SetText(FText::FromString("Press Jump to Start"));
 }

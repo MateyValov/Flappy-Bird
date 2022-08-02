@@ -17,16 +17,16 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere)
-		class UStaticMeshComponent* mesh = nullptr;
+		class UStaticMeshComponent* MeshComponent = nullptr;
 	UPROPERTY(EditAnywhere)
-		class UDecalComponent* decal = nullptr;
+		class UDecalComponent* Decal = nullptr;
 	UPROPERTY(EditAnywhere)
-		class UProjectileMovementComponent* movement = nullptr;
+		class UProjectileMovementComponent* MovementComponent = nullptr;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditAnywhere)
 		float Speed = 20;
 
 	UFUNCTION()
-		void teleport(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+		void Teleport(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 };

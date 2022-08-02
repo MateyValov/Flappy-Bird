@@ -18,13 +18,15 @@ class FLAPPYBIRD_API AFlappyBirdGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 	
 public:
-		AFlappyBirdGameModeBase();
+	AFlappyBirdGameModeBase();
 
-		UFUNCTION()
-		void UpdateDifficultiesSignal();
-		UFUNCTION()
-			void UnlockImpossible();
-		FDifficultyUpdateRequest OnDifficultyUpdateRequested;
+	UFUNCTION()
+	void UpdateDifficultiesSignal();
+
+	UFUNCTION()
+	void UnlockImpossible();
+
+	FDifficultyUpdateRequest OnDifficultyUpdateRequested;
 
 protected:
 	//UOptionsSave* LoadedGame;

@@ -17,15 +17,7 @@ class FLAPPYBIRD_API ABird : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ABird();
-	UPROPERTY(VisibleAnywhere)
-		float Gravity;
-	UPROPERTY(VisibleAnywhere)
-		float JumpForce;
 
-
-	void Jump();
-
-	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION()
@@ -37,6 +29,12 @@ public:
 	FGameEndDelegate OnGameEnd;
 
 protected:
+
+	UPROPERTY(VisibleAnywhere)
+		float Gravity;
+	UPROPERTY(VisibleAnywhere)
+		float JumpForce;
+
 	UPROPERTY(EditDefaultsOnly)
 		class USkeletalMeshComponent* MeshComponent = nullptr;
 	UPROPERTY(EditDefaultsOnly)
@@ -45,8 +43,8 @@ protected:
 		class UCameraComponent* Camera = nullptr;
 	UPROPERTY(EditDefaultsOnly)
 	class UProjectileMovementComponent* MovementComponent = nullptr;
-	/*UPROPERTY(EditDefaultsOnly)
-		class UAnimationAsset* AnimAsset = nullptr;*/
+	
+	void Jump();
 
 private:
 

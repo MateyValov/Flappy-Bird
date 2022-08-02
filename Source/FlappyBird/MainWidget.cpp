@@ -36,7 +36,6 @@ void UMainWidget::NativeConstruct()
 	Quit->OnClicked.AddDynamic(this, &UMainWidget::OnQuitClicked);
 	Options->OnClicked.AddDynamic(this, &UMainWidget::OnOptionsClicked);
 	ImpossibleDifficultyUnlock->OnClicked.AddDynamic(this, &UMainWidget::OnTitleClicked);
-	NewDifficulty->SetText(FText::FromString(""));
 }
 
 void UMainWidget::OnTitleClicked()
@@ -44,5 +43,4 @@ void UMainWidget::OnTitleClicked()
 	if (bImpossibleUnlocked) return;
 	bImpossibleUnlocked = true;
 	TitleClicked.ExecuteIfBound();
-	NewDifficulty->SetText(FText::FromString("New Difficulty Unlocked"));
 }

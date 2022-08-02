@@ -33,11 +33,10 @@ class FLAPPYBIRD_API UMainWidget : public UUserWidget
 
 		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 			class UButton* ImpossibleDifficultyUnlock;
-		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-			class UTextBlock* NewDifficulty;
 
 		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 			class UButton* Play;
+
 		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 			class UButton* Quit;
 		

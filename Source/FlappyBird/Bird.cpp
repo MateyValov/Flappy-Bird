@@ -28,9 +28,6 @@ ABird::ABird()
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(MeshComponent);
 	
-	//AutoPossessPlayer = EAutoReceiveInput::Player0;
-
-	//OnDestroyed.AddDynamic(this, &ABird::EndGame);
 }
 
 void ABird::Init(float GivenGravity, float GivenJumpForce)
