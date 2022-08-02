@@ -12,22 +12,22 @@
 ABGBlock::ABGBlock()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
-	movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComp"));
-	movement->ProjectileGravityScale = 0;
-	movement->Velocity = FVector(0, -Speed, 0);
-	movement->InitialSpeed = Speed;
-	movement->MaxSpeed = movement->InitialSpeed;
+	MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComp"));
+	MovementComponent->ProjectileGravityScale = 0;
+	MovementComponent->Velocity = FVector(0, -Speed, 0);
+	MovementComponent->InitialSpeed = Speed;
+	MovementComponent->MaxSpeed = MovementComponent->InitialSpeed;
 
-	mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshBottom"));
-	mesh->OnComponentBeginOverlap.AddDynamic(this, &ABGBlock::teleport);
+	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshBottom"));
+	MeshComponent->OnComponentBeginOverlap.AddDynamic(this, &ABGBlock::Teleport);
 
-	decal = CreateDefaultSubobject<UDecalComponent>(TEXT("Decal"));
-	decal->SetupAttachment(mesh);
+	Decal = CreateDefaultSubobject<UDecalComponent>(TEXT("Decal"));
+	Decal->SetupAttachment(MeshComponent);
 }
 
-void ABGBlock::teleport(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void ABGBlock::Teleport(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	ABackgroundSpawner* spawner = Cast<ABackgroundSpawner>(OtherActor);
 	if (spawner != nullptr) {

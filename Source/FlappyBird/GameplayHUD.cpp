@@ -23,11 +23,7 @@ void AGameplayHUD::BeginPlay()
 	GameMode->OnScoreUpdated.AddDynamic(ScoreWidget, &UScoreWidget::SetScore);
 	GameMode->OnScoreUpdated.AddDynamic(EndWidget, &UDeathScreenWidget::SetScore);
 	GameMode->OnHighScoreUpdated.AddDynamic(EndWidget, &UDeathScreenWidget::SetHighScore);
-	//GameMode->OnHighScoreUpdated.AddDynamic(EndWidget, &UDeathScreenWidget::SetNewHighScore);
-
 	GameMode->OnDifficultyLoaded.BindDynamic(EndWidget, &UDeathScreenWidget::SetDifficulty);
-	//GameMode->OnDifficultyUlocked.BindDynamic(EndWidget, &UDeathScreenWidget::SetDifficultyUnlocked);
-
 	
 	PregameStart();
 }

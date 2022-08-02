@@ -18,8 +18,10 @@ class FLAPPYBIRD_API AMenuHUD : public AHUD
 protected:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UMainWidget> MainMenuWidgetClass;
+
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UOptionsWidget> OptionsWidgetClass;
+
 	class UMainWidget* MainMenuWidget;
 	class UOptionsWidget* OptionsWidget;
 

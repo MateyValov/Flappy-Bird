@@ -44,17 +44,8 @@ void UDeathScreenWidget::SetHighScore(int Score)
 	HighScore->SetText(FText::FromString(FString::FromInt(Score)));
 }
 
-//void UDeathScreenWidget::SetNewHighScore(int Score)
-//{
-//	NewHighScore->SetText(FText::FromString("NEW HIGH SCORE"));
-//}
-
 void UDeathScreenWidget::SetDifficulty(FString Diff)
 {
 	Difficulty->SetText(FText::FromString(Diff));
 }
 
-//void UDeathScreenWidget::SetDifficultyUnlocked(FString Diff)
-//{
-//	NewDifficulty->SetText(FText::FromString("New Difficulty Unlocked"));
-//}

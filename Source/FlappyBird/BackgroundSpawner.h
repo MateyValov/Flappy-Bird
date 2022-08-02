@@ -20,12 +20,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere)
-	class USceneComponent* root = nullptr;
-	UPROPERTY(EditAnywhere)
-	class UBoxComponent* hitbox = nullptr;
+	class UBoxComponent* Hitbox = nullptr;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 };

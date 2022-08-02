@@ -20,31 +20,20 @@ class FLAPPYBIRD_API UOptionsWidget : public UUserWidget
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UTextBlock* ChoseDificulty;
+		class UTextBlock* Dificulty;
 
-	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UButton* Easy;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UButton* Normal;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UButton* Hard;*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 		class UButton* Exit;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 		class UButton* Save;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UComboBoxString* ChooseDifficulty;
+		class UComboBoxString* SelectDifficulty;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 		class UInputKeySelector* jumpBinding;
-	
-	/*UFUNCTION()
-		void OnEasyClicked();
-	UFUNCTION()
-		void OnNormalClicked();
-	UFUNCTION()
-		void OnHardClicked();*/
+
 	UFUNCTION()
 		void OnExitClicked();
 	UFUNCTION()
@@ -53,7 +42,7 @@ protected:
 		void OnBindSelected(FInputChord SelectedKey);
 
 	UFUNCTION()
-		void SelectDifficulty(FString SelectedItem, ESelectInfo::Type SelectionType);
+		void OnDifficultySelected(FString SelectedItem, ESelectInfo::Type SelectionType);
 
 	class UInputSettings* Settings = nullptr;
 	

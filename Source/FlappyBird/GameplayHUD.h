@@ -19,21 +19,21 @@ class FLAPPYBIRD_API AGameplayHUD : public AHUD
 protected:	
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UDeathScreenWidget> EndWidgetClass;
-	//class UUserWidget* EndWidget;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UScoreWidget> ScoreWidgetClass;
-	//class UUserWidget* ScoreWidget;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UPregameWidget> PregameWidgetClass;
-	//class UUserWidget* PregameWidget;
-	//class UUserWidget* CurrentWidget;
+
 	class UScoreWidget* ScoreWidget;
 	class UDeathScreenWidget* EndWidget;
 	class UPregameWidget* PregameWidget;
 
 	virtual void BeginPlay()override;
+
+	void Clear();
+
 public:
 	UFUNCTION()
 	void ShowEnd();
@@ -44,5 +44,5 @@ public:
 	UFUNCTION()
 	void PregameStart();
 
-	void Clear();
+	
 };

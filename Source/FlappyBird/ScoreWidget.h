@@ -22,8 +22,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 	class UTextBlock* CurrentScore;
 
-	virtual void NativeConstruct() override;
-
 public:
 	UFUNCTION()
 	void SetScore(int32 Score);
