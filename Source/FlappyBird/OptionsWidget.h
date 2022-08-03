@@ -32,7 +32,7 @@ protected:
 		class UComboBoxString* SelectDifficulty;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UInputKeySelector* jumpBinding;
+		class UInputKeySelector* JumpBindingSelector;
 
 	UFUNCTION()
 		void OnExitClicked();
@@ -44,12 +44,12 @@ protected:
 	UFUNCTION()
 		void OnDifficultySelected(FString SelectedItem, ESelectInfo::Type SelectionType);
 
-	class UInputSettings* Settings = nullptr;
+	class UInputSettings* InputSettings = nullptr;
 	
 
-	FString difficulty = "";
-	FInputActionKeyMapping jumpbind;
-	FInputActionKeyMapping Oldjumpbind;
+	FString Difficulty = "";
+	FInputActionKeyMapping JumpBind;
+	FInputActionKeyMapping OldJumpBind;
 
 	virtual void NativeConstruct() override;
 	
