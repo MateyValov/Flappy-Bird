@@ -30,7 +30,8 @@ void ABGBlock::Teleport(UPrimitiveComponent* OverlappedComponent, AActor* OtherA
 {
 	ABackgroundSpawner* spawner = Cast<ABackgroundSpawner>(OtherActor);
 	if (spawner != nullptr) {
-		SetActorLocation(FVector(2600, 2466, 0));
+
+		SetActorLocation(SpawnLocation);
 	}
 	return;
 }
