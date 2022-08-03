@@ -34,7 +34,12 @@ void AGameplayModeBase::BeginPlay()
 	bird->Init(CurrentSettings.WorldGravity, CurrentSettings.BirdJumpForce);
 	
 	AObstacleGenerator* generator = GetWorld()->SpawnActor<AObstacleGenerator>(GeneratorClass, GeneratorPosition, FRotator());
-	generator->Init(CurrentSettings.ObstacleSpeed, 400 / CurrentSettings.ObstacleSpeed, CurrentSettings.TileToSpawn);
+	if (Difficulty == "Extreme") {
+		generator->Init(CurrentSettings.ObstacleSpeed, 400 / CurrentSettings.ObstacleSpeed, CurrentSettings.TileToSpawn, true);
+	}
+	else {
+		generator->Init(CurrentSettings.ObstacleSpeed, 400 / CurrentSettings.ObstacleSpeed, CurrentSettings.TileToSpawn, false);
+	}
 
 	AFlappyBirdController* PlayerController = Cast<AFlappyBirdController>(UGameplayStatics::GetPlayerController(this, 0));
 	PlayerController->StartDelegate.AddDynamic(generator, &AObstacleGenerator::generate);

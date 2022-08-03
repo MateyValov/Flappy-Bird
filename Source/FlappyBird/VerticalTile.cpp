@@ -31,21 +31,12 @@ AVerticalTile::AVerticalTile()
 	movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement"));
 	movement->ProjectileGravityScale = 0;
 
-	int RandBool = (FMath::RandRange(0, 1));
-	if (RandBool == 0) {
-		MovesUp = false;
-	}
-	else {
-		MovesUp = true;
-	}
 }
 
-void AVerticalTile::Init(float givenSpeed, bool MasterMode)
+void AVerticalTile::Init(float givenSpeed)
 {
-	Speed = givenSpeed;
-
-	movement->Velocity = FVector(0, -Speed, 0);
-	movement->InitialSpeed = Speed;
+	movement->Velocity = FVector(0, -givenSpeed, 0);
+	movement->InitialSpeed = givenSpeed;
 	movement->MaxSpeed = movement->InitialSpeed;
 
 	if (MasterMode){
@@ -70,26 +61,4 @@ void AVerticalTile::Action(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 	}
 }
 
-void AVerticalTile::SwitchDirection()
-{
-	switch (MovesUp) {
-		case true: 
-			movement->Velocity = FVector(0, -Speed, 50);
-			MovesUp = false;
-			break;
-
-		case false: 
-			movement->Velocity = FVector(0, -Speed, -50);
-			MovesUp = true;
-			break;
-	}
-
-	GetWorldTimerManager().SetTimer(DirectionHandle, this, &AVerticalTile::SwitchDirection, 2, false);
-}
-
-// Called every frame
-void AVerticalTile::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
 

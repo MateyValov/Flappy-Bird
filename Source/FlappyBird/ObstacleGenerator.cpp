@@ -27,15 +27,15 @@ void AObstacleGenerator::generate()
 		VertTile = (AVerticalTile*)GetWorld()->SpawnActor<AVerticalTile>(Spawnable, FVector(GetActorLocation().X, GetActorLocation().Y, gapPosition), Rotation, SpawnInfo);
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Spawned an obstacle"));
 		
-		VertTile->Init(Speed, true);
+		VertTile->Init(Speed);
 
 		GetWorldTimerManager().SetTimer(spawnHandle, this, &AObstacleGenerator::generate, SpawnTime, false);
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Spawned an obstacle"));
 	}
 }
-void AObstacleGenerator::Init(float GivenSpeed, float GivenSpawnTime, TSubclassOf<class AVerticalTile> ObjectToSpawn)
+void AObstacleGenerator::Init(float GivenSpeed, float GivenSpawnTime, TSubclassOf<class AVerticalTile> ObjectToSpawn, bool IsExtremeMode)
 {
 	Speed = GivenSpeed;
 	SpawnTime = GivenSpawnTime;
 	Spawnable = ObjectToSpawn;
+	ExtremeModeEnabled = IsExtremeMode;
 }
