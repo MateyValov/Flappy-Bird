@@ -16,7 +16,7 @@ public:
 	// Sets default values for this actor's properties
 	AVerticalTile();
 	UFUNCTION()
-		void Init(float givenSpeed, bool MasterMode);
+		void Init(float givenSpeed, bool ExtremeMode);
 
 protected:
 	UPROPERTY(EditAnywhere)

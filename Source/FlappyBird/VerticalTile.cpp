@@ -40,7 +40,7 @@ AVerticalTile::AVerticalTile()
 	}
 }
 
-void AVerticalTile::Init(float givenSpeed, bool MasterMode)
+void AVerticalTile::Init(float givenSpeed, bool ExtremeMode)
 {
 	Speed = givenSpeed;
 
@@ -48,7 +48,7 @@ void AVerticalTile::Init(float givenSpeed, bool MasterMode)
 	movement->InitialSpeed = Speed;
 	movement->MaxSpeed = movement->InitialSpeed;
 
-	if (MasterMode){
+	if (ExtremeMode){
 		SwitchDirection();
 	}
 }
