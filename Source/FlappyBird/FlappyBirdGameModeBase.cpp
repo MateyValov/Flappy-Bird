@@ -14,14 +14,14 @@ void AFlappyBirdGameModeBase::BeginPlay()
 	}
 	else {
 		LoadedGame = Cast<UOptionsSave>(UGameplayStatics::CreateSaveGameObject(UOptionsSave::StaticClass()));
-		LoadedGame->DifficultySettings = DifficultySettings;
-		LoadedGame->CurrentDifficultySettings = *LoadedGame->DifficultySettings.Find("Easy");
+		LoadedGame->CurrentDifficultySettings = *DifficultySettings.Find("Easy");
 
 		for (FString diff : StartingDifficulties) {
 			LoadedGame->AvailableDifficulties.Add(diff);
 		}
 	}
 
+	LoadedGame->DifficultySettings = DifficultySettings;
 	LoadedGame->SortDifficulties();
 	AvailableDifficulties = LoadedGame->AvailableDifficulties;
 
