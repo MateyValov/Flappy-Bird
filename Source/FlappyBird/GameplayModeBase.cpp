@@ -27,7 +27,7 @@ void AGameplayModeBase::BeginPlay()
 		HighScore = 0;
 	}
 
-	CurrentSettings = *DifficultySettings.Find(Difficulty);
+	CurrentSettings = LoadedGame->CurrentDifficultySettings;
 		 
 	//UpdateHighScore(nullptr);
 	ABird* bird = GetWorld()->SpawnActor<ABird>(PawnClass, BirdSpawnLocation, FRotator());
@@ -66,14 +66,11 @@ void AGameplayModeBase::OnGameEnd()
 		
 	}
 	TArray<FString> AllDifficulties;
-	DifficultySettings.GenerateKeyArray(AllDifficulties);
+	//DifficultySettings.GenerateKeyArray(AllDifficulties);
 
 	if (CurrentSettings.ScoreToAdvance!= -1 && HighScore >= CurrentSettings.ScoreToAdvance) {
 
-		int IndexToCheck = AllDifficulties.IndexOfByKey(Difficulty) + 1;
-		if (AllDifficulties.IsValidIndex(IndexToCheck)) {
-			UnlockDifficulty(AllDifficulties[IndexToCheck]);
-		}
+			UnlockDifficulty(LoadedGame->CurrentDifficultySettings.DifficultyToUnlock);	
 	}
 
 	UGameplayStatics::SaveGameToSlot(LoadedGame, "Options", 0);

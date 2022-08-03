@@ -12,6 +12,8 @@
  */
 DECLARE_DYNAMIC_DELEGATE_OneParam(FDifficultyUpdateRequest, TSet<FString>, Difficulties);
 
+
+
 UCLASS()
 class FLAPPYBIRD_API AFlappyBirdGameModeBase : public AGameModeBase
 {
@@ -35,6 +37,9 @@ protected:
 	TSet<FString> AvailableDifficulties;
 
 
-	UPROPERTY(EditDefaultsOnly, Category = "Starting Difficulties")
+	UPROPERTY(EditDefaultsOnly, Category = "Difficulty Settings")
+	TMap<FString, FDifficultyProperties> DifficultySettings;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Difficulty Settings")
 	TSet<FString> StartingDifficulties;
 };

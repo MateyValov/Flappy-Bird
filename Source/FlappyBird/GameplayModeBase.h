@@ -6,7 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "ObstacleGenerator.h"
 #include "Bird.h"
-#include "VerticalTile.h"
+#include "OptionsSave.h"
 #include "GameplayModeBase.generated.h"
 
 /**
@@ -15,26 +15,7 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FScoreUpdatedSignature, int, Score);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FDifficultyPassing, FString, Difficulty);
 
-USTRUCT()
-struct FDifficultyProperties
-{
-	GENERATED_BODY()
 
-	UPROPERTY(EditDefaultsOnly)
-	float WorldGravity;
-
-	UPROPERTY(EditDefaultsOnly)
-	float ObstacleSpeed;
-
-	UPROPERTY(EditDefaultsOnly)
-	float BirdJumpForce;
-
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AVerticalTile> TileToSpawn;
-
-	UPROPERTY(EditDefaultsOnly)
-	int ScoreToAdvance;
-};
 
 UCLASS()
 class FLAPPYBIRD_API AGameplayModeBase : public AGameModeBase
@@ -71,9 +52,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "GameStart")
 		FVector GeneratorPosition;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Difficulty Settings")
-	TMap<FString, FDifficultyProperties> DifficultySettings;
 
 	//UPROPERTY(EditDefaultsOnly, Category = "GameStart")
 

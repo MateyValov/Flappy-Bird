@@ -26,11 +26,11 @@ protected:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UPregameWidget> PregameWidgetClass;
 
-	//UPROPERTY()
+	UPROPERTY()
 	class UScoreWidget* ScoreWidget;
-	//UPROPERTY()
+	UPROPERTY()
 	class UDeathScreenWidget* EndWidget;
-	//UPROPERTY()
+	UPROPERTY()
 	class UPregameWidget* PregameWidget;
 
 	virtual void BeginPlay()override;

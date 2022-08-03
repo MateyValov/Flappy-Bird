@@ -4,16 +4,47 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/SaveGame.h"
+#include "VerticalTile.h"
 #include "OptionsSave.generated.h"
 
 /**
  * 
  */
+
+USTRUCT()
+struct FDifficultyProperties
+{
+	GENERATED_BODY()
+
+		UPROPERTY(EditDefaultsOnly)
+		float WorldGravity;
+
+	UPROPERTY(EditDefaultsOnly)
+		float ObstacleSpeed;
+
+	UPROPERTY(EditDefaultsOnly)
+		float BirdJumpForce;
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<AVerticalTile> TileToSpawn;
+
+	UPROPERTY(EditDefaultsOnly)
+		int ScoreToAdvance;
+
+	UPROPERTY(EditDefaultsOnly)
+		FString DifficultyToUnlock;
+};
+
 UCLASS()
 class FLAPPYBIRD_API UOptionsSave : public USaveGame
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditDefaultsOnly)
+	TMap<FString, FDifficultyProperties> DifficultySettings;
+
+	UPROPERTY(EditDefaultsOnly)
+	FDifficultyProperties CurrentDifficultySettings;
 
 	UPROPERTY(EditDefaultsOnly)
 	FString CurrentDifficulty = "Easy";
@@ -26,4 +57,7 @@ public:
 
 	UFUNCTION()
 	void UnlockDifficulty(FString DifficultyToUnlock);
+
+	UFUNCTION()
+		void SortDifficulties();
 };
