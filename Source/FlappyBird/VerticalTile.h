@@ -16,7 +16,7 @@ public:
 	// Sets default values for this actor's properties
 	AVerticalTile();
 	UFUNCTION()
-		void Init(float givenSpeed, bool MasterMode);
+		virtual void Init(float givenSpeed);
 
 protected:
 	UPROPERTY(EditAnywhere)
@@ -31,22 +31,9 @@ protected:
 		class UProjectileMovementComponent* movement = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
-		float Speed;
-	UPROPERTY(VisibleAnywhere)
-		bool MovesUp;
-
-	FTimerHandle DirectionHandle;
-
-	UPROPERTY(VisibleAnywhere)
 		TSubclassOf<class APipeObstacle> Pipe;
 
 	UFUNCTION()
 		void Action(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	UFUNCTION()
-		void SwitchDirection();
-
-public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
+	
 };
