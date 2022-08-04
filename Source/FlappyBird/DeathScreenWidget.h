@@ -6,11 +6,13 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
+#include "GameFramework/PlayerController.h"
 #include "DeathScreenWidget.generated.h"
 
 /**
  * 
  */
+
 UCLASS()
 class FLAPPYBIRD_API UDeathScreenWidget : public UUserWidget
 {

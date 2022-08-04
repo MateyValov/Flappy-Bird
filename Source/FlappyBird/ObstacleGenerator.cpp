@@ -32,10 +32,9 @@ void AObstacleGenerator::generate()
 		GetWorldTimerManager().SetTimer(spawnHandle, this, &AObstacleGenerator::generate, SpawnTime, false);
 	}
 }
-void AObstacleGenerator::Init(float GivenSpeed, float GivenSpawnTime, TSubclassOf<class AVerticalTile> ObjectToSpawn, bool IsExtremeMode)
+void AObstacleGenerator::Init(float GivenSpeed, float GivenSpawnTime, TSubclassOf<class AVerticalTile> ObjectToSpawn)
 {
 	Speed = GivenSpeed;
 	SpawnTime = GivenSpawnTime;
 	Spawnable = ObjectToSpawn;
-	ExtremeModeEnabled = IsExtremeMode;
 }

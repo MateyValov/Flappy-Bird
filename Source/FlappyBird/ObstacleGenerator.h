@@ -29,8 +29,6 @@ protected:
 		float Speed;
 	UPROPERTY(VisibleAnywhere)
 		float SpawnTime;
-	UPROPERTY(VisibleAnywhere)
-		bool ExtremeModeEnabled;
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class AVerticalTile> Spawnable;
@@ -41,7 +39,7 @@ protected:
 	FActorSpawnParameters SpawnInfo;
 
 public:	
-	void Init(float GivenSpeed, float GivenSpawnTime, TSubclassOf<class AVerticalTile> ObjectToSpawn, bool IsExtremeMode);
+	void Init(float GivenSpeed, float GivenSpawnTime, TSubclassOf<class AVerticalTile> ObjectToSpawn);
 
 	UFUNCTION()
 	void generate();

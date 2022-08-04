@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameplayHUD.h"
 #include "FlappyBirdController.h"
+#include "Blueprint/UserWidget.h"
 #include "OptionsSave.h"
 
 
@@ -34,12 +35,7 @@ void AGameplayModeBase::BeginPlay()
 	bird->Init(CurrentSettings.WorldGravity, CurrentSettings.BirdJumpForce);
 	
 	AObstacleGenerator* generator = GetWorld()->SpawnActor<AObstacleGenerator>(GeneratorClass, GeneratorPosition, FRotator());
-	if (Difficulty == "Extreme") {
-		generator->Init(CurrentSettings.ObstacleSpeed, 400 / CurrentSettings.ObstacleSpeed, CurrentSettings.TileToSpawn, true);
-	}
-	else {
-		generator->Init(CurrentSettings.ObstacleSpeed, 400 / CurrentSettings.ObstacleSpeed, CurrentSettings.TileToSpawn, false);
-	}
+	generator->Init(CurrentSettings.ObstacleSpeed, 400 / CurrentSettings.ObstacleSpeed, CurrentSettings.TileToSpawn);
 
 	AFlappyBirdController* PlayerController = Cast<AFlappyBirdController>(UGameplayStatics::GetPlayerController(this, 0));
 	PlayerController->StartDelegate.AddDynamic(generator, &AObstacleGenerator::generate);
@@ -59,6 +55,27 @@ void AGameplayModeBase::UnlockDifficulty(FString DifficultyToUnlock)
 {
 	LoadedGame->UnlockDifficulty(DifficultyToUnlock);
 	OnDifficultyUlocked.ExecuteIfBound(DifficultyToUnlock);
+}
+
+//DeathScreenWidget functions
+
+void AGameplayModeBase::OnPlayClicked()
+{
+	FLatentActionInfo LatentInfo;
+	UGameplayStatics::OpenLevel(GetWorld(), "Game");
+}
+
+void AGameplayModeBase::OnQuitClicked()
+{
+	if (APlayerController* pc = Cast<UUserWidget>(this)->UUserWidget::GetOwningPlayer()) {
+		pc->ConsoleCommand("quit");
+	}
+}
+
+void AGameplayModeBase::OnMainClicked()
+{
+	FLatentActionInfo LatentInfo;
+	UGameplayStatics::OpenLevel(GetWorld(), "MainMenu");
 }
 
 void AGameplayModeBase::OnGameEnd()

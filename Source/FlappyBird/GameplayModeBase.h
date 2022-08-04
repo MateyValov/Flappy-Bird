@@ -22,9 +22,6 @@ class FLAPPYBIRD_API AGameplayModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 public:
-	//AGameplayModeBase();
-
-
 	UFUNCTION()
 		void SetScore(int Points) ;
 	UFUNCTION()
@@ -33,6 +30,13 @@ public:
 		void OnGameEnd();
 	UFUNCTION()
 		void UnlockDifficulty(FString DifficultyToUnlock);
+
+	UFUNCTION()
+		void OnPlayClicked();
+	UFUNCTION()
+		void OnQuitClicked();
+	UFUNCTION()
+		void OnMainClicked();
 
 	FScoreUpdatedSignature OnScoreUpdated;
 	FScoreUpdatedSignature OnHighScoreUpdated;
