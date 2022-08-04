@@ -8,11 +8,16 @@
 #include "Components/Button.h"
 #include "Components/ComboBoxString.h"
 #include "Components/InputKeySelector.h"
+#include "ButtonClicked.h"
 #include "OptionsWidget.generated.h"
 
 /**
  * 
  */
+
+DECLARE_DYNAMIC_DELEGATE_OneParam(FSelectorChanged, FInputActionKeyMapping, Selection);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FConboBoxChanged, FString, Selection);
+
 UCLASS()
 class FLAPPYBIRD_API UOptionsWidget : public UUserWidget
 {
@@ -44,16 +49,14 @@ protected:
 	UFUNCTION()
 		void OnDifficultySelected(FString SelectedItem, ESelectInfo::Type SelectionType);
 
-	class UInputSettings* InputSettings = nullptr;
-	
-
-	FString Difficulty = "";
-	FInputActionKeyMapping JumpBind;
-	FInputActionKeyMapping OldJumpBind;
-
 	virtual void NativeConstruct() override;
 	
 public:
 	UFUNCTION()
-		void UpdateDifficulties(TSet<FString> Difficulties);
+	void UpdateOptions(FString CurrentDifficulty, TSet<FString> Difficulties, FInputActionKeyMapping OldJumpBind);
+
+	FButtonClicked ExitClicked;
+	FButtonClicked SaveClicked;
+	FSelectorChanged BindingChanged;
+	FConboBoxChanged DifficultySelected;
 };

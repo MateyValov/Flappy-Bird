@@ -19,12 +19,22 @@ void AMenuHUD::BeginPlay()
 	MainMenuWidget = CreateWidget<UMainWidget>(UGameplayStatics::GetGameInstance(GetWorld()), MainMenuWidgetClass);
 	OptionsWidget = CreateWidget<UOptionsWidget>(UGameplayStatics::GetGameInstance(GetWorld()), OptionsWidgetClass);
 
-	MainMenuWidget->OptionsClicked.BindDynamic(GameMode, &AFlappyBirdGameModeBase::UpdateDifficultiesSignal);
-	GameMode->OnDifficultyUpdateRequested.BindDynamic(OptionsWidget, &UOptionsWidget::UpdateDifficulties);
-	MainMenuWidget->TitleClicked.BindDynamic(GameMode, &AFlappyBirdGameModeBase::UnlockImpossible);
+	MainMenuWidget->OptionsClicked.AddDynamic(this, &AMenuHUD::ShowOptions);
+	MainMenuWidget->OptionsClicked.AddDynamic(GameMode, &AFlappyBirdGameModeBase::UpdateOptionsSignal);
+	MainMenuWidget->TitleClicked.AddDynamic(GameMode, &AFlappyBirdGameModeBase::UnlockImpossible);
+	MainMenuWidget->PlayClicked.AddDynamic(GameMode, &AFlappyBirdGameModeBase::StartGame);
+	MainMenuWidget->QuitClicked.AddDynamic(GameMode, &AFlappyBirdGameModeBase::QuitGame);
+
+	GameMode->OnOptionsUpdateRequested.BindDynamic(OptionsWidget, &UOptionsWidget::UpdateOptions);
+
+	OptionsWidget->ExitClicked.AddDynamic(this, &AMenuHUD::ShowMenu);
+	OptionsWidget->SaveClicked.AddDynamic(GameMode, &AFlappyBirdGameModeBase::SaveOptions);
+	OptionsWidget->BindingChanged.BindDynamic(GameMode, &AFlappyBirdGameModeBase::UpdateCurrentJumpBind);
+	OptionsWidget->DifficultySelected.BindDynamic(GameMode, &AFlappyBirdGameModeBase::UpdateCurrentDifficulty);
 
 	ShowMenu();
 }
+
 
 void AMenuHUD::ShowMenu()
 {
@@ -37,6 +47,7 @@ void AMenuHUD::ShowMenu()
 	}
 }
 
+
 void AMenuHUD::ShowOptions()
 {
 	Clear();
@@ -47,6 +58,7 @@ void AMenuHUD::ShowOptions()
 		PlayerOwner->SetInputMode(FInputModeUIOnly());
 	}
 }
+
 
 void AMenuHUD::Clear()
 {
