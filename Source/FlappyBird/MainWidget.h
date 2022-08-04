@@ -5,13 +5,13 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
+#include "ButtonClicked.h"
 #include "MainWidget.generated.h"
 
 /**
  * 
  */
 
-DECLARE_DYNAMIC_DELEGATE(FButtonClicked);
 
 UCLASS()
 class FLAPPYBIRD_API UMainWidget : public UUserWidget
@@ -48,4 +48,6 @@ class FLAPPYBIRD_API UMainWidget : public UUserWidget
 	public:
 		FButtonClicked OptionsClicked;
 		FButtonClicked TitleClicked;
+		FButtonClicked PlayClicked;
+		FButtonClicked QuitClicked;
 };

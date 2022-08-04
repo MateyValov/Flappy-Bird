@@ -5,12 +5,13 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "OptionsSave.h"
+#include "GameFramework/InputSettings.h"
 #include "FlappyBirdGameModeBase.generated.h"
 
 /**
  * 
  */
-DECLARE_DYNAMIC_DELEGATE_OneParam(FDifficultyUpdateRequest, TSet<FString>, Difficulties);
+DECLARE_DYNAMIC_DELEGATE_ThreeParams(FOptionsUpdateRequest, FString, CurrentDifficulty, TSet<FString>, Difficulties, FInputActionKeyMapping, OldJumpBind);
 
 
 
@@ -23,12 +24,27 @@ public:
 	//AFlappyBirdGameModeBase();
 
 	UFUNCTION()
-	void UpdateDifficultiesSignal();
+	void UpdateOptionsSignal();
+
+	UFUNCTION()
+	void UpdateCurrentDifficulty(FString Selection);
+
+	UFUNCTION()
+	void UpdateCurrentJumpBind(FInputActionKeyMapping Selection);
 
 	UFUNCTION()
 	void UnlockImpossible();
 
-	FDifficultyUpdateRequest OnDifficultyUpdateRequested;
+	UFUNCTION()
+	void StartGame();
+
+	UFUNCTION()
+	void QuitGame();
+
+	UFUNCTION()
+	void SaveOptions();
+
+	FOptionsUpdateRequest OnOptionsUpdateRequested;
 
 protected:
 	//UOptionsSave* LoadedGame;
@@ -36,6 +52,13 @@ protected:
 
 	TSet<FString> AvailableDifficulties;
 
+	UInputSettings* InputSettings = nullptr;
+
+	FString CurrentDifficulty;
+
+	FInputActionKeyMapping CurrentJumpBind;
+
+	FInputActionKeyMapping OldJumpBind;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Difficulty Settings")
 	TMap<FString, FDifficultyProperties> DifficultySettings;

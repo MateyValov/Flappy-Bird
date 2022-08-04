@@ -8,6 +8,12 @@
 
 void AFlappyBirdGameModeBase::BeginPlay()
 {
+	InputSettings = const_cast<UInputSettings*>(GetDefault<UInputSettings>());
+	TArray<FInputActionKeyMapping> JumpBindings;
+	InputSettings->GetActionMappingByName("Jump", JumpBindings);
+	OldJumpBind = JumpBindings[0];
+	CurrentJumpBind = OldJumpBind;
+
 	UOptionsSave* LoadedGame;
 	if (UGameplayStatics::DoesSaveGameExist("Options", 0)) {
 		LoadedGame = Cast<UOptionsSave>(UGameplayStatics::LoadGameFromSlot("Options", 0));
@@ -19,27 +25,79 @@ void AFlappyBirdGameModeBase::BeginPlay()
 		for (FString diff : StartingDifficulties) {
 			LoadedGame->AvailableDifficulties.Add(diff);
 		}
+		LoadedGame->DifficultySettings = DifficultySettings;
 	}
 
-	LoadedGame->DifficultySettings = DifficultySettings;
+	CurrentDifficulty = LoadedGame->CurrentDifficulty;
 	LoadedGame->SortDifficulties();
 	AvailableDifficulties = LoadedGame->AvailableDifficulties;
-
 
 	UGameplayStatics::SaveGameToSlot(LoadedGame, "Options", 0);
 }
 
-void AFlappyBirdGameModeBase::UpdateDifficultiesSignal() {
 
-	OnDifficultyUpdateRequested.ExecuteIfBound(AvailableDifficulties);
+void AFlappyBirdGameModeBase::UpdateOptionsSignal() {
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, CurrentDifficulty);
+	OnOptionsUpdateRequested.ExecuteIfBound(CurrentDifficulty, AvailableDifficulties, OldJumpBind);
 }
+
+
+void AFlappyBirdGameModeBase::UpdateCurrentDifficulty(FString Selection)
+{
+	CurrentDifficulty = Selection;
+}
+
+
+void AFlappyBirdGameModeBase::UpdateCurrentJumpBind(FInputActionKeyMapping Selection)
+{
+	CurrentJumpBind = Selection;
+}
+
 
 void AFlappyBirdGameModeBase::UnlockImpossible()
 {
 	if (UGameplayStatics::DoesSaveGameExist("Options", 0)) {
 		UOptionsSave* LoadedGame = Cast<UOptionsSave>(UGameplayStatics::LoadGameFromSlot("Options", 0));
+		if (LoadedGame->AvailableDifficulties.Contains("Impossible")) {
+			return;
+		}
 		LoadedGame->UnlockDifficulty("Impossible");
 		AvailableDifficulties = LoadedGame->AvailableDifficulties;
 		UGameplayStatics::SaveGameToSlot(LoadedGame, "Options", 0);
 	}
+}
+
+
+void AFlappyBirdGameModeBase::StartGame()
+{
+	UGameplayStatics::OpenLevel(GetWorld(), "Game");
+}
+
+
+void AFlappyBirdGameModeBase::QuitGame()
+{
+	if (APlayerController* pc = UGameplayStatics::GetPlayerController(GetWorld(), 0)) {
+		pc->ConsoleCommand("quit");
+	}
+}
+
+
+void AFlappyBirdGameModeBase::SaveOptions()
+{
+	UOptionsSave* LoadedGame = nullptr;
+	if (UGameplayStatics::DoesSaveGameExist("Options", 0)) {
+		LoadedGame = Cast<UOptionsSave>(UGameplayStatics::LoadGameFromSlot("Options", 0));
+	}
+
+	LoadedGame->CurrentDifficulty = CurrentDifficulty;
+	LoadedGame->CurrentDifficultySettings = *LoadedGame->DifficultySettings.Find(CurrentDifficulty);
+	
+	if (!(CurrentJumpBind == OldJumpBind)) {
+		InputSettings->AddActionMapping(CurrentJumpBind);
+		InputSettings->RemoveActionMapping(OldJumpBind);
+		InputSettings->SaveKeyMappings();
+
+		OldJumpBind = CurrentJumpBind;
+	}
+	UGameplayStatics::SaveGameToSlot(LoadedGame, "Options", 0);
 }

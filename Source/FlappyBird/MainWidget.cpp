@@ -2,31 +2,21 @@
 
 
 #include "MainWidget.h"
-#include "MenuHUD.h"
 #include "Kismet/GameplayStatics.h"
 
 void UMainWidget::OnPlayClicked()
 {
-	FLatentActionInfo LatentInfo;
-	UGameplayStatics::OpenLevel(GetWorld(), "Game");
+	PlayClicked.Broadcast();
 }
 
 void UMainWidget::OnQuitClicked()
 {
-	if (APlayerController* pc = GetOwningPlayer()) {
-		pc->ConsoleCommand("quit");
-	}
-
+	QuitClicked.Broadcast();
 }
 
 void UMainWidget::OnOptionsClicked()
 {
-	OptionsClicked.ExecuteIfBound();
-	//UE_LOG(LogTemp, Warning, TEXT("Cukna Se Butona"));
-	if (APlayerController* pc = GetOwningPlayer()) {
-		Cast<AMenuHUD>(pc->GetHUD())->ShowOptions();
-	}
-	
+	OptionsClicked.Broadcast();
 }
 
 void UMainWidget::NativeConstruct()
@@ -42,5 +32,5 @@ void UMainWidget::OnTitleClicked()
 {
 	if (bImpossibleUnlocked) return;
 	bImpossibleUnlocked = true;
-	TitleClicked.ExecuteIfBound();
+	TitleClicked.Broadcast();
 }
