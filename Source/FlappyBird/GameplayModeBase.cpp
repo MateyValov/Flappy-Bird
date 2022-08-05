@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameplayHUD.h"
 #include "FlappyBirdController.h"
+#include "Blueprint/UserWidget.h"
 #include "OptionsSave.h"
 
 
