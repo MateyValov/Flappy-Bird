@@ -34,6 +34,15 @@ public:
 	UFUNCTION()
 		void UnlockDifficulty(FString DifficultyToUnlock);
 
+	UFUNCTION()
+		void PlayAgain();
+
+	UFUNCTION()
+		void MainMenu();
+
+	UFUNCTION()
+		void Quit();
+
 	FScoreUpdatedSignature OnScoreUpdated;
 	FScoreUpdatedSignature OnHighScoreUpdated;
 	FDifficultyPassing OnDifficultyLoaded;

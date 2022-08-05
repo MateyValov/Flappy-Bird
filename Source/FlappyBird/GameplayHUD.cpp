@@ -13,13 +13,20 @@
 void AGameplayHUD::BeginPlay()
 {
 	Super::BeginPlay();
+	AGameplayModeBase* GameMode = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	//UE_LOG(LogTemp, Warning, TEXT("PUSNA SE GAMEPLAY HUDA"));
 
 	PregameWidget = Cast<UPregameWidget>(CreateWidget<UUserWidget>(GetWorld(), PregameWidgetClass));
 	EndWidget = Cast<UDeathScreenWidget>(CreateWidget<UUserWidget>(GetWorld(), EndWidgetClass));
 	ScoreWidget = Cast<UScoreWidget>(CreateWidget<UUserWidget>(GetWorld(), ScoreWidgetClass));
+	PauseWidget = Cast<UPauseWidget>(CreateWidget<UUserWidget>(GetWorld(), PauseWidgetClass));
 
-	AGameplayModeBase* GameMode = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	PauseWidget->MenuClicked.AddDynamic(GameMode, &AGameplayModeBase::MainMenu);
+
+	EndWidget->PlayClicked.AddDynamic(GameMode, &AGameplayModeBase::PlayAgain);
+	EndWidget->MainClicked.AddDynamic(GameMode, &AGameplayModeBase::MainMenu);
+	EndWidget->QuitClicked.AddDynamic(GameMode, &AGameplayModeBase::Quit);
+
 	GameMode->OnScoreUpdated.AddDynamic(ScoreWidget, &UScoreWidget::SetScore);
 	GameMode->OnScoreUpdated.AddDynamic(EndWidget, &UDeathScreenWidget::SetScore);
 	GameMode->OnHighScoreUpdated.AddDynamic(EndWidget, &UDeathScreenWidget::SetHighScore);
@@ -53,6 +60,25 @@ void AGameplayHUD::ShowScore()
 
 }
 
+void AGameplayHUD::TogglePause(bool IsPaused)
+{
+	if (IsPaused) {
+		UGameplayStatics::GetPlayerController(this, 0)->SetPause(true);
+		
+		Clear();
+
+		if (PlayerOwner && PauseWidget) {
+			PauseWidget->AddToViewport();
+			PlayerOwner->bShowMouseCursor = true;
+			PlayerOwner->SetInputMode(FInputModeGameOnly());
+		}
+	}
+
+	else {
+		ShowScore();
+		UGameplayStatics::GetPlayerController(this, 0)->SetPause(false);
+	}	
+}
 
 void AGameplayHUD::PregameStart()
 {

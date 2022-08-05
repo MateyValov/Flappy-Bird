@@ -3,8 +3,3 @@
 
 #include "PregameWidget.h"
 
-void UPregameWidget::NativeConstruct()
-{
-	Super::NativeDestruct();
-	JumpToStart->SetText(FText::FromString("Press Jump to Start"));
-}

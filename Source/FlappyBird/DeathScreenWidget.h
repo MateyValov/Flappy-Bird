@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
+#include "ButtonClicked.h"
 #include "DeathScreenWidget.generated.h"
 
 /**
@@ -39,6 +40,10 @@ protected:
 	virtual void NativeConstruct() override;
 
 public:
+	FButtonClicked PlayClicked;
+	FButtonClicked QuitClicked;
+	FButtonClicked MainClicked;
+
 	UFUNCTION()
 		void SetScore(int32 Score);
 

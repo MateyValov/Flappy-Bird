@@ -34,16 +34,12 @@ void AGameplayModeBase::BeginPlay()
 	bird->Init(CurrentSettings.WorldGravity, CurrentSettings.BirdJumpForce);
 	
 	AObstacleGenerator* generator = GetWorld()->SpawnActor<AObstacleGenerator>(GeneratorClass, GeneratorPosition, FRotator());
-	if (Difficulty == "Extreme") {
-		generator->Init(CurrentSettings.ObstacleSpeed, 400 / CurrentSettings.ObstacleSpeed, CurrentSettings.TileToSpawn, true);
-	}
-	else {
-		generator->Init(CurrentSettings.ObstacleSpeed, 400 / CurrentSettings.ObstacleSpeed, CurrentSettings.TileToSpawn, false);
-	}
+	generator->Init(CurrentSettings.ObstacleSpeed, 400 / CurrentSettings.ObstacleSpeed, CurrentSettings.TileToSpawn);
 
 	AFlappyBirdController* PlayerController = Cast<AFlappyBirdController>(UGameplayStatics::GetPlayerController(this, 0));
 	PlayerController->StartDelegate.AddDynamic(generator, &AObstacleGenerator::generate);
 	PlayerController->StartDelegate.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::ShowScore);
+	PlayerController->PauseDelegate.BindDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::TogglePause);
 
 	bird->OnGameEnd.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), & AGameplayHUD::ShowEnd);
 	bird->OnGameEnd.AddDynamic(this, &AGameplayModeBase::OnGameEnd);
@@ -59,6 +55,23 @@ void AGameplayModeBase::UnlockDifficulty(FString DifficultyToUnlock)
 {
 	LoadedGame->UnlockDifficulty(DifficultyToUnlock);
 	OnDifficultyUlocked.ExecuteIfBound(DifficultyToUnlock);
+}
+
+void AGameplayModeBase::PlayAgain()
+{
+	UGameplayStatics::OpenLevel(GetWorld(), "Game");
+}
+
+void AGameplayModeBase::MainMenu()
+{
+	UGameplayStatics::OpenLevel(GetWorld(), "MainMenu");
+}
+
+void AGameplayModeBase::Quit()
+{
+	if (APlayerController* pc = UGameplayStatics::GetPlayerController(GetWorld(), 0)) {
+		pc->ConsoleCommand("quit");
+	}
 }
 
 void AGameplayModeBase::OnGameEnd()

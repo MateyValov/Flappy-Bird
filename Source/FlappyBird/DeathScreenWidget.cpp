@@ -7,22 +7,17 @@
 
 void UDeathScreenWidget::OnPlayClicked()
 {
-	FLatentActionInfo LatentInfo;
-	UGameplayStatics::OpenLevel(GetWorld(), "Game");
+	PlayClicked.Broadcast();
 }
 
 void UDeathScreenWidget::OnQuitClicked()
 {
-	if (APlayerController* pc = GetOwningPlayer()) {
-		pc->ConsoleCommand("quit");
-	}
-
+	QuitClicked.Broadcast();
 }
 
 void UDeathScreenWidget::OnMainClicked()
 {
-	FLatentActionInfo LatentInfo;
-	UGameplayStatics::OpenLevel(GetWorld(), "MainMenu");
+	MainClicked.Broadcast();
 }
 
 void UDeathScreenWidget::NativeConstruct()
