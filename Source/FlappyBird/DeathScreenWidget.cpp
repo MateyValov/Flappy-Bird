@@ -23,9 +23,9 @@ void UDeathScreenWidget::OnMainClicked()
 void UDeathScreenWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	Play->OnClicked.AddDynamic(this, &AGameplayModeBase::OnPlayClicked);
-	Quit->OnClicked.AddDynamic(this, &AGameplayModeBase::OnQuitClicked);
-	Main->OnClicked.AddDynamic(this, &AGameplayModeBase::OnMainClicked);
+	Play->OnClicked.AddDynamic(this, &UDeathScreenWidget::OnPlayClicked);
+	Quit->OnClicked.AddDynamic(this, &UDeathScreenWidget::OnQuitClicked);
+	Main->OnClicked.AddDynamic(this, &UDeathScreenWidget::OnMainClicked);
 	
 }
 
