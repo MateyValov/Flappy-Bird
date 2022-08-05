@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/TextBlock.h"
-#include "GameplayModeBase.h"
 #include "Kismet/GameplayStatics.h"
 
 #include "ScoreWidget.generated.h"

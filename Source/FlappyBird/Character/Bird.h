@@ -8,6 +8,7 @@
 #include "Bird.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameEndDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FScoreUpdateDelegate);
 
 UCLASS()
 class FLAPPYBIRD_API ABird : public APawn
@@ -30,6 +31,7 @@ public:
 		void ScoreUp();
 
 	FGameEndDelegate OnGameEnd;
+	FScoreUpdateDelegate OnScoreUpdated;
 
 protected:
 

@@ -4,7 +4,7 @@
 #include "GameplayHUD.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/Engine.h"
-#include "GameplayModeBase.h"
+#include "../GameModes/GameplayModeBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "Blueprint/UserWidget.h"
 #include "Blueprint/WidgetLayoutLibrary.h"

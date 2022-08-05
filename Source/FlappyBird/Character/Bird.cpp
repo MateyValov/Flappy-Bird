@@ -2,12 +2,10 @@
 
 
 #include "Bird.h"
-#include "FlappyBirdController.h"
+#include "../Controller/FlappyBirdController.h"
 #include "Components/BoxComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
-#include "GameplayModeBase.h"
-#include "GameplayHUD.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
 // Sets default values
@@ -39,8 +37,9 @@ void ABird::Init(float GivenGravity, float GivenJumpForce)
 
 void ABird::ScoreUp()
 {
-	Score += 1;
-	Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->SetScore(Score);
+	//Score += 1;
+	//Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->SetScore(Score);
+	OnScoreUpdated.Broadcast();
 }
 
 void ABird::Jump()

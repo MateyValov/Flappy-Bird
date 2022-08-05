@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "PipeObstacle.h"
-#include "Bird.h"
+#include "../Character/Bird.h"
 
 // Sets default values
 APipeObstacle::APipeObstacle()

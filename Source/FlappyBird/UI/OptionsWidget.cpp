@@ -2,10 +2,6 @@
 
 
 #include "OptionsWidget.h"
-#include "FlappyBirdGameModeBase.h"
-#include "MenuHUD.h"
-#include "Kismet/GameplayStatics.h"
-#include "OptionsSave.h"
 
 
 void UOptionsWidget::OnExitClicked()
@@ -42,14 +38,12 @@ void UOptionsWidget::NativeConstruct()
 	JumpBindingSelector->OnKeySelected.AddDynamic(this, &UOptionsWidget::OnBindSelected);
 	JumpBindingSelector->KeySelectionText = FText::FromString("Press any Button");
 	Save->OnClicked.AddDynamic(this, &UOptionsWidget::OnSaveClicked);
+	//SelectDifficulty->SetSelectedOption("Easy");
 }
 
 
 void UOptionsWidget::UpdateOptions(FString CurrentDifficulty, TSet<FString> Difficulties, FInputActionKeyMapping OldJumpBind)
 {
-
-	SelectDifficulty->SetSelectedOption(CurrentDifficulty);
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, CurrentDifficulty);
 
 	JumpBindingSelector->SetSelectedKey(OldJumpBind.Key);
 
@@ -57,4 +51,6 @@ void UOptionsWidget::UpdateOptions(FString CurrentDifficulty, TSet<FString> Diff
 	for (FString diff : Difficulties) {
 		SelectDifficulty->AddOption(diff);
 	}
+
+	SelectDifficulty->SetSelectedOption(CurrentDifficulty);
 }
