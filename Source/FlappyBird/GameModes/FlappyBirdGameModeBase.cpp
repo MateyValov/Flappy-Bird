@@ -25,9 +25,9 @@ void AFlappyBirdGameModeBase::BeginPlay()
 		for (FString diff : StartingDifficulties) {
 			LoadedGame->AvailableDifficulties.Add(diff);
 		}
-		LoadedGame->DifficultySettings = DifficultySettings;
 	}
 
+	LoadedGame->DifficultySettings = DifficultySettings;
 	CurrentDifficulty = LoadedGame->CurrentDifficulty;
 	LoadedGame->SortDifficulties();
 	AvailableDifficulties = LoadedGame->AvailableDifficulties;
