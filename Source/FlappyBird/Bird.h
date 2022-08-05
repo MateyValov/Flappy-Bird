@@ -26,6 +26,9 @@ public:
 	UFUNCTION()
 		void Init(float GivenGravity, float GivenJumpForce);
 
+	UFUNCTION()
+		void ScoreUp();
+
 	FGameEndDelegate OnGameEnd;
 
 protected:
@@ -34,6 +37,8 @@ protected:
 		float Gravity;
 	UPROPERTY(VisibleAnywhere)
 		float JumpForce;
+	UPROPERTY(VisibleAnywhere)
+		int Score;
 
 	UPROPERTY(EditDefaultsOnly)
 		class USkeletalMeshComponent* MeshComponent = nullptr;

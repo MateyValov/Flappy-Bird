@@ -45,8 +45,7 @@ void AVerticalTile::Action(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 {
 	ABird* bird = Cast<ABird>(OtherActor);
 	if (bird != nullptr) {
-		int points = Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GetScore() + 1;
-		Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->SetScore(points);
+		bird->ScoreUp();
 		return;
 	}
 

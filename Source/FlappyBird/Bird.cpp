@@ -28,12 +28,19 @@ ABird::ABird()
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(MeshComponent);
 	
+	Score = 0;
 }
 
 void ABird::Init(float GivenGravity, float GivenJumpForce)
 {
 	Gravity = GivenGravity;
 	JumpForce = GivenJumpForce;
+}
+
+void ABird::ScoreUp()
+{
+	Score += 1;
+	Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->SetScore(Score);
 }
 
 void ABird::Jump()
