@@ -10,9 +10,6 @@
 
 #include "ScoreWidget.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class FLAPPYBIRD_API UScoreWidget : public UUserWidget
 {

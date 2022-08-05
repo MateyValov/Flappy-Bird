@@ -45,11 +45,12 @@ protected:
 	class UProjectileMovementComponent* MovementComponent = nullptr;
 	
 	void Jump();
+	void TogglePause();
 
 private:
 
 	bool bPressed = false;
-
+	bool IsPaused = false;
 
 
 };

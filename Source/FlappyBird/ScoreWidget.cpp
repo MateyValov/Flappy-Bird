@@ -3,7 +3,7 @@
 
 #include "ScoreWidget.h"
 
-void UScoreWidget::SetScore(int Score)
+void UScoreWidget::SetScore(int32 Score)
 {
 	CurrentScore->SetText(FText::FromString(FString::FromInt(Score)));
 }

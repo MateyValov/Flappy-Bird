@@ -52,11 +52,26 @@ void ABird::Jump()
 	
 }
 
+void ABird::TogglePause()
+{
+	switch (IsPaused) {
+		case true:
+			IsPaused = false;
+			break;
+		case false:
+			IsPaused = true;
+			break;
+	}
+
+	Cast<AFlappyBirdController>(UGameplayStatics::GetPlayerController(this, 0))->PauseDelegate.ExecuteIfBound(IsPaused);
+}
+
 // Called to bind functionality to input
 void ABird::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ABird::Jump);
+	PlayerInputComponent->BindAction("Pause", IE_Pressed, this, &ABird::TogglePause).bExecuteWhenPaused = true;;
 }
 
 

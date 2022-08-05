@@ -7,6 +7,7 @@
 #include "ScoreWidget.h"
 #include "PregameWidget.h"
 #include "DeathScreenWidget.h"
+#include "PauseWidget.h"
 #include "GameplayHUD.generated.h"
 
 /**
@@ -19,12 +20,12 @@ class FLAPPYBIRD_API AGameplayHUD : public AHUD
 protected:	
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UDeathScreenWidget> EndWidgetClass;
-
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UScoreWidget> ScoreWidgetClass;
-
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UPregameWidget> PregameWidgetClass;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UPauseWidget> PauseWidgetClass;
 
 	UPROPERTY()
 	class UScoreWidget* ScoreWidget;
@@ -32,6 +33,8 @@ protected:
 	class UDeathScreenWidget* EndWidget;
 	UPROPERTY()
 	class UPregameWidget* PregameWidget;
+	UPROPERTY()
+	class UPauseWidget* PauseWidget;
 
 	virtual void BeginPlay()override;
 
@@ -43,6 +46,9 @@ public:
 
 	UFUNCTION()
 	void ShowScore();
+
+	UFUNCTION()
+	void TogglePause(bool IsPaused);
 
 	UFUNCTION()
 	void PregameStart();
