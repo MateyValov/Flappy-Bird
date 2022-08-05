@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Bird.h"
 #include "VerticalTile.h"
 #include "ObstacleGenerator.generated.h"
 
@@ -42,5 +41,5 @@ public:
 	void Init(float GivenSpeed, float GivenSpawnTime, TSubclassOf<class AVerticalTile> ObjectToSpawn);
 
 	UFUNCTION()
-	void generate();
+	void Generate();
 };

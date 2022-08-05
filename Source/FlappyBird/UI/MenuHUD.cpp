@@ -7,7 +7,7 @@
 #include "GameFramework/PlayerController.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
-#include "FlappyBirdGameModeBase.h"
+#include "../GameModes/FlappyBirdGameModeBase.h"
 #include "Engine/Engine.h"
 
 void AMenuHUD::BeginPlay()
@@ -19,8 +19,8 @@ void AMenuHUD::BeginPlay()
 	MainMenuWidget = CreateWidget<UMainWidget>(UGameplayStatics::GetGameInstance(GetWorld()), MainMenuWidgetClass);
 	OptionsWidget = CreateWidget<UOptionsWidget>(UGameplayStatics::GetGameInstance(GetWorld()), OptionsWidgetClass);
 
-	MainMenuWidget->OptionsClicked.AddDynamic(this, &AMenuHUD::ShowOptions);
 	MainMenuWidget->OptionsClicked.AddDynamic(GameMode, &AFlappyBirdGameModeBase::UpdateOptionsSignal);
+	MainMenuWidget->OptionsClicked.AddDynamic(this, &AMenuHUD::ShowOptions);
 	MainMenuWidget->TitleClicked.AddDynamic(GameMode, &AFlappyBirdGameModeBase::UnlockImpossible);
 	MainMenuWidget->PlayClicked.AddDynamic(GameMode, &AFlappyBirdGameModeBase::StartGame);
 	MainMenuWidget->QuitClicked.AddDynamic(GameMode, &AFlappyBirdGameModeBase::QuitGame);

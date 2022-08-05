@@ -3,10 +3,9 @@
 
 #include "GameplayModeBase.h"
 #include "Kismet/GameplayStatics.h"
-#include "GameplayHUD.h"
-#include "FlappyBirdController.h"
+#include "../UI/GameplayHUD.h"
+#include "../Controller/FlappyBirdController.h"
 #include "Blueprint/UserWidget.h"
-#include "OptionsSave.h"
 
 
 void AGameplayModeBase::BeginPlay()
@@ -38,7 +37,7 @@ void AGameplayModeBase::BeginPlay()
 	generator->Init(CurrentSettings.ObstacleSpeed, 400 / CurrentSettings.ObstacleSpeed, CurrentSettings.TileToSpawn);
 
 	AFlappyBirdController* PlayerController = Cast<AFlappyBirdController>(UGameplayStatics::GetPlayerController(this, 0));
-	PlayerController->StartDelegate.AddDynamic(generator, &AObstacleGenerator::generate);
+	PlayerController->StartDelegate.AddDynamic(generator, &AObstacleGenerator::Generate);
 	PlayerController->StartDelegate.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::ShowScore);
 	PlayerController->PauseDelegate.BindDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::TogglePause);
 

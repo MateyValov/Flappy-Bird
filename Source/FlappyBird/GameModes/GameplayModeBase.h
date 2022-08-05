@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "ObstacleGenerator.h"
-#include "Bird.h"
-#include "OptionsSave.h"
+#include "../Obstacles/ObstacleGenerator.h"
+#include "../Character/Bird.h"
+#include "../SaveSystem/OptionsSave.h"
 #include "GameplayModeBase.generated.h"
 
 /**

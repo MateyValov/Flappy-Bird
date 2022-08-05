@@ -2,7 +2,6 @@
 
 
 #include "DeathScreenWidget.h"
-#include "GameplayModeBase.h"
 #include "Kismet/GameplayStatics.h"
 
 void UDeathScreenWidget::OnPlayClicked()

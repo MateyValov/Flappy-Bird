@@ -21,7 +21,7 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 		float Speed;
 	UPROPERTY(VisibleAnywhere)
-		bool MovesUp;
+		bool bMovesUp;
 
 	FTimerHandle DirectionHandle;
 
