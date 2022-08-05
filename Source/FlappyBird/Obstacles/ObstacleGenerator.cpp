@@ -3,7 +3,6 @@
 
 #include "ObstacleGenerator.h"
 #include "Components/BoxComponent.h"
-#include "GameplayModeBase.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -19,7 +18,7 @@ AObstacleGenerator::AObstacleGenerator()
 }
 
 
-void AObstacleGenerator::generate()
+void AObstacleGenerator::Generate()
 {
 	if (Spawnable) {
 		float gapPosition = (FMath::RandRange(-150, 150));
@@ -29,7 +28,7 @@ void AObstacleGenerator::generate()
 		
 		VertTile->Init(Speed);
 
-		GetWorldTimerManager().SetTimer(spawnHandle, this, &AObstacleGenerator::generate, SpawnTime, false);
+		GetWorldTimerManager().SetTimer(spawnHandle, this, &AObstacleGenerator::Generate, SpawnTime, false);
 	}
 }
 void AObstacleGenerator::Init(float GivenSpeed, float GivenSpawnTime, TSubclassOf<class AVerticalTile> ObjectToSpawn)

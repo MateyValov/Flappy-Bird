@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "VerticalTile.h"
-#include "Bird.h"
+#include "../Character/Bird.h"
 #include "ObstacleGenerator.h"
 #include "Kismet/GameplayStatics.h"
-#include "GameplayModeBase.h"
+#include "../GameModes/GameplayModeBase.h"
 #include "Components/BoxComponent.h"
 
 // Sets default values
@@ -24,9 +24,9 @@ AVerticalTile::AVerticalTile()
 	Top->SetChildActorClass(Pipe);
 	Top->SetupAttachment(Root);
 
-	score = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
-	score->OnComponentBeginOverlap.AddDynamic(this, &AVerticalTile::Action);
-	score->SetupAttachment(Root);
+	ScoreBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
+	ScoreBox->OnComponentBeginOverlap.AddDynamic(this, &AVerticalTile::Action);
+	ScoreBox->SetupAttachment(Root);
 
 	movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement"));
 	movement->ProjectileGravityScale = 0;

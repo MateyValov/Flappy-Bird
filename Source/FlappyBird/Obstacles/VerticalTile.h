@@ -26,7 +26,7 @@ protected:
 	UPROPERTY(EditAnywhere)
 		class UChildActorComponent* Top = nullptr;
 	UPROPERTY(EditAnywhere)
-		class UBoxComponent* score = nullptr;
+		class UBoxComponent* ScoreBox = nullptr;
 	UPROPERTY(EditAnywhere)
 		class UProjectileMovementComponent* movement = nullptr;
 

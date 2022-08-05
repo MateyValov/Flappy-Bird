@@ -8,10 +8,10 @@ void AVerticalTileMoving::Init(float givenSpeed)
 {
 	int RandBool = (FMath::RandRange(0, 1));
 	if (RandBool == 0) {
-		MovesUp = false;
+		bMovesUp = false;
 	}
 	else {
-		MovesUp = true;
+		bMovesUp = true;
 	}
 
 	Speed = givenSpeed;
@@ -25,15 +25,15 @@ void AVerticalTileMoving::Init(float givenSpeed)
 
 void AVerticalTileMoving::SwitchDirection()
 {
-	switch (MovesUp) {
+	switch (bMovesUp) {
 	case true:
 		movement->Velocity = FVector(0, -Speed, 50);
-		MovesUp = false;
+		bMovesUp = false;
 		break;
 
 	case false:
 		movement->Velocity = FVector(0, -Speed, -50);
-		MovesUp = true;
+		bMovesUp = true;
 		break;
 	}
 

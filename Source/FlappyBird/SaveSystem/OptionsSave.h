@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/SaveGame.h"
-#include "VerticalTile.h"
+#include "../Obstacles/VerticalTile.h"
 #include "OptionsSave.generated.h"
 
 /**
