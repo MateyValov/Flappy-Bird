@@ -37,7 +37,6 @@ void AFlappyBirdGameModeBase::BeginPlay()
 
 
 void AFlappyBirdGameModeBase::UpdateOptionsSignal() {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, CurrentDifficulty);
 	OnOptionsUpdateRequested.ExecuteIfBound(CurrentDifficulty, AvailableDifficulties, OldJumpBind);
 }
 

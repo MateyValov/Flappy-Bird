@@ -47,6 +47,9 @@ public:
 
 protected:
 
+	UFUNCTION()
+		void ScoreUp();
+
 	UPROPERTY(EditDefaultsOnly, Category = "GameStart")
 	FVector BirdSpawnLocation;
 

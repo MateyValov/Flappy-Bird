@@ -45,9 +45,6 @@ void UOptionsWidget::NativeConstruct()
 void UOptionsWidget::UpdateOptions(FString CurrentDifficulty, TSet<FString> Difficulties, FInputActionKeyMapping OldJumpBind)
 {
 
-	
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, CurrentDifficulty);
-
 	JumpBindingSelector->SetSelectedKey(OldJumpBind.Key);
 
 	SelectDifficulty->ClearOptions();

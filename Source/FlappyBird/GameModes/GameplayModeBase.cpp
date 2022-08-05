@@ -43,6 +43,7 @@ void AGameplayModeBase::BeginPlay()
 
 	bird->OnGameEnd.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), & AGameplayHUD::ShowEnd);
 	bird->OnGameEnd.AddDynamic(this, &AGameplayModeBase::OnGameEnd);
+	bird->OnScoreUpdated.AddDynamic(this, &AGameplayModeBase::ScoreUp);
 }
 
 void AGameplayModeBase::SetScore(int Points)
@@ -72,6 +73,11 @@ void AGameplayModeBase::Quit()
 	if (APlayerController* pc = UGameplayStatics::GetPlayerController(GetWorld(), 0)) {
 		pc->ConsoleCommand("quit");
 	}
+}
+
+void AGameplayModeBase::ScoreUp()
+{
+	SetScore(GetScore()+1);
 }
 
 void AGameplayModeBase::OnGameEnd()
