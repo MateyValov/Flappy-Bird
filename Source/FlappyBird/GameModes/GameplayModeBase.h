@@ -43,7 +43,7 @@ public:
 	FScoreUpdatedSignature OnScoreUpdated;
 	FScoreUpdatedSignature OnHighScoreUpdated;
 	FDifficultyPassing OnDifficultyLoaded;
-	FDifficultyPassing OnDifficultyUlocked;
+	//FDifficultyPassing OnDifficultyUlocked;
 
 protected:
 

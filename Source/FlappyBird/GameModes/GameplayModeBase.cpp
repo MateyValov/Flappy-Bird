@@ -55,7 +55,7 @@ void AGameplayModeBase::SetScore(int Points)
 void AGameplayModeBase::UnlockDifficulty(FString DifficultyToUnlock)
 {
 	LoadedGame->UnlockDifficulty(DifficultyToUnlock);
-	OnDifficultyUlocked.ExecuteIfBound(DifficultyToUnlock);
+	//OnDifficultyUlocked.ExecuteIfBound(DifficultyToUnlock);
 }
 
 void AGameplayModeBase::PlayAgain()
