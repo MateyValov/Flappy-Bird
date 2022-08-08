@@ -27,6 +27,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 		class UTextBlock* Difficulty;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
+		class UTextBlock* NewDifficulty;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 		class UTextBlock* CurrentScore;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
 		class UTextBlock* HighScore;
@@ -53,5 +55,8 @@ public:
 
 	UFUNCTION()
 		void SetDifficulty(FString Diff);
+
+	UFUNCTION()
+		void SetDifficultyUlocked(FString Diff);
 
 };

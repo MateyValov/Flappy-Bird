@@ -55,7 +55,7 @@ void AGameplayModeBase::SetScore(int Points)
 void AGameplayModeBase::UnlockDifficulty(FString DifficultyToUnlock)
 {
 	LoadedGame->UnlockDifficulty(DifficultyToUnlock);
-	//OnDifficultyUlocked.ExecuteIfBound(DifficultyToUnlock);
+	OnDifficultyUlocked.ExecuteIfBound(DifficultyToUnlock);
 }
 
 void AGameplayModeBase::PlayAgain()
@@ -93,8 +93,9 @@ void AGameplayModeBase::OnGameEnd()
 	//DifficultySettings.GenerateKeyArray(AllDifficulties);
 
 	if (CurrentSettings.ScoreToAdvance!= -1 && HighScore >= CurrentSettings.ScoreToAdvance) {
-
-			UnlockDifficulty(LoadedGame->CurrentDifficultySettings.DifficultyToUnlock);	
+		if ( !(LoadedGame->AvailableDifficulties.Contains(LoadedGame->CurrentDifficultySettings.DifficultyToUnlock)) ) {
+			UnlockDifficulty(LoadedGame->CurrentDifficultySettings.DifficultyToUnlock);
+		}
 	}
 
 	UGameplayStatics::SaveGameToSlot(LoadedGame, "Options", 0);
