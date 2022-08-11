@@ -35,9 +35,6 @@ public:
     FStartSignature StartDelegate;
     FPauseSignature PauseDelegate;
 
-    FStartSignature GetStartDelegate();
-    FPauseSignature GetPauseDelegate();
-
     void SetControlledCharacter(ACharacter* InCharacter);
 
     virtual void SetupInputComponent() override;

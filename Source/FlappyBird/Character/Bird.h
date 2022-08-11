@@ -19,9 +19,6 @@ public:
 	// Sets default values for this pawn's properties
 	ABird();
 
-	//UFUNCTION()
-	//void SettupMovementComponent();
-
 	UFUNCTION()
 	void EndGame();
 
@@ -42,20 +39,11 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	float JumpForce;
 
-	//UPROPERTY(VisibleAnywhere)
-	//int Score;
-
-	//UPROPERTY(EditDefaultsOnly)
-	//class USkeletalMeshComponent* MeshComponent = nullptr;
-
 	UPROPERTY(EditDefaultsOnly)
 	class USphereComponent* Hitbox = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
 	class UCameraComponent* Camera = nullptr;
-
-	//UPROPERTY(EditDefaultsOnly)
-	//class UProjectileMovementComponent* MovementComponent = nullptr;
 	
 	virtual void Jump() override;
 

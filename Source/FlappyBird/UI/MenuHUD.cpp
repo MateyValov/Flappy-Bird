@@ -7,7 +7,7 @@
 #include "GameFramework/PlayerController.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
-#include "../GameModes/FlappyBirdGameModeBase.h"
+#include "../GameModes/MainMenuModeBase.h"
 #include "Engine/Engine.h"
 
 void AMenuHUD::BeginPlay()

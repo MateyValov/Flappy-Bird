@@ -24,22 +24,25 @@ class FLAPPYBIRD_API AGameplayModeBase : public AGameModeBase
 	GENERATED_BODY()
 public:
 	UFUNCTION()
-		void SetScore(int InScore) ;
-	UFUNCTION()
-		int GetScore() { return Score; };
-	UFUNCTION()
-		void OnGameEnd();
-	UFUNCTION()
-		void UnlockDifficulty(FString DifficultyToUnlock);
+	void SetScore(int InScore) ;
 
 	UFUNCTION()
-		void PlayAgain();
+	int GetScore() { return Score; };
 
 	UFUNCTION()
-		void MainMenu();
+	void OnGameEnd();
 
 	UFUNCTION()
-		void Quit();
+	void UnlockDifficulty(FString DifficultyToUnlock);
+
+	UFUNCTION()
+	void PlayAgain();
+
+	UFUNCTION()
+	void MainMenu();
+
+	UFUNCTION()
+	void Quit();
 
 	FScoreUpdatedSignature OnScoreUpdated;
 	FScoreUpdatedSignature OnHighScoreUpdated;
@@ -52,7 +55,7 @@ public:
 protected:
 
 	UFUNCTION()
-		void ScoreUp();
+	void ScoreUp();
 
 	UPROPERTY(EditDefaultsOnly, Category = "GameStart")
 	FVector BirdSpawnLocation;
@@ -61,12 +64,10 @@ protected:
 	TSubclassOf<ABird> PawnClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "GameStart")
-		TSubclassOf<AObstacleGenerator> GeneratorClass;
+	TSubclassOf<AObstacleGenerator> GeneratorClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "GameStart")
-		FVector GeneratorPosition;
-
-	//UPROPERTY(EditDefaultsOnly, Category = "GameStart")
+	FVector GeneratorPosition;
 
 	virtual void BeginPlay() override;
 

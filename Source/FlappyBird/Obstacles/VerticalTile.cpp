@@ -16,32 +16,32 @@ AVerticalTile::AVerticalTile()
 	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	SetRootComponent(Root);
 
-	Bottom = CreateDefaultSubobject<UChildActorComponent>(TEXT("Bottom Pipe"));
-	Bottom->SetChildActorClass(Pipe);
-	Bottom->SetupAttachment(Root);
+	BottomPipe = CreateDefaultSubobject<UChildActorComponent>(TEXT("Bottom Pipe"));
+	BottomPipe->SetChildActorClass(Pipe);
+	BottomPipe->SetupAttachment(Root);
 
-	Top = CreateDefaultSubobject<UChildActorComponent>(TEXT("Top Pipe"));
-	Top->SetChildActorClass(Pipe);
-	Top->SetupAttachment(Root);
+	TopPipe = CreateDefaultSubobject<UChildActorComponent>(TEXT("Top Pipe"));
+	TopPipe->SetChildActorClass(Pipe);
+	TopPipe->SetupAttachment(Root);
 
 	ScoreBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
-	ScoreBox->OnComponentBeginOverlap.AddDynamic(this, &AVerticalTile::Action);
+	ScoreBox->OnComponentBeginOverlap.AddDynamic(this, &AVerticalTile::OnBeginOverlap);
 	ScoreBox->SetupAttachment(Root);
 
-	movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement"));
-	movement->ProjectileGravityScale = 0;
+	MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement"));
+	MovementComponent->ProjectileGravityScale = 0;
 
 }
 
-void AVerticalTile::Init(float givenSpeed)
+void AVerticalTile::Init(float InSpeed)
 {
-	movement->Velocity = FVector(0, -givenSpeed, 0);
-	movement->InitialSpeed = givenSpeed;
-	movement->MaxSpeed = movement->InitialSpeed;
+	MovementComponent->Velocity = FVector(0, -InSpeed, 0);
+	MovementComponent->InitialSpeed = InSpeed;
+	MovementComponent->MaxSpeed = MovementComponent->InitialSpeed;
 
 }
 
-void AVerticalTile::Action(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void AVerticalTile::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	ABird* bird = Cast<ABird>(OtherActor);
 	if (bird != nullptr) {
@@ -52,8 +52,8 @@ void AVerticalTile::Action(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 
 	AObstacleGenerator* gen = Cast<AObstacleGenerator>(OtherActor);
 	if (gen != nullptr) {
-		Bottom->DestroyChildActor();
-		Top->DestroyChildActor();
+		BottomPipe->DestroyChildActor();
+		TopPipe->DestroyChildActor();
 		Destroy();
 	}
 }

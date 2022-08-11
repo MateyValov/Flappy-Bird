@@ -29,15 +29,6 @@ void AFlappyBirdController::Pause()
 	SetPause(bIsPaused);
 }
 
-FStartSignature AFlappyBirdController::GetStartDelegate()
-{
-	return StartDelegate;
-}
-
-FPauseSignature AFlappyBirdController::GetPauseDelegate()
-{
-	return PauseDelegate;
-}
 
 void AFlappyBirdController::SetControlledCharacter(ACharacter* InCharacter)
 {

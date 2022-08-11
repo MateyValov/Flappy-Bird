@@ -17,19 +17,21 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere)
-		class UStaticMeshComponent* MeshComponent = nullptr;
-	UPROPERTY(EditAnywhere)
-		class UDecalComponent* Decal = nullptr;
-	UPROPERTY(EditAnywhere)
-		class UProjectileMovementComponent* MovementComponent = nullptr;
+	class UStaticMeshComponent* MeshComponent = nullptr;
 
 	UPROPERTY(EditAnywhere)
-		float Speed = 20;
+	class UDecalComponent* Decal = nullptr;
+
+	UPROPERTY(EditAnywhere)
+	class UProjectileMovementComponent* MovementComponent = nullptr;
+
+	UPROPERTY(EditAnywhere)
+	float Speed = 20;
 
 	UPROPERTY(EditInstanceOnly)
-		FVector SpawnLocation;
-
+	FVector SpawnLocation;
+	
 	UFUNCTION()
-		void Teleport(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void Teleport(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 };

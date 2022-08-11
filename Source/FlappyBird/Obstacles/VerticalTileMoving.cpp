@@ -4,8 +4,10 @@
 #include "VerticalTileMoving.h"
 #include "Components/BoxComponent.h"
 
-void AVerticalTileMoving::Init(float givenSpeed)
+void AVerticalTileMoving::Init(float InSpeed)
 {
+
+	Super::Init(InSpeed);
 	int RandBool = (FMath::RandRange(0, 1));
 	if (RandBool == 0) {
 		bMovesUp = false;
@@ -13,12 +15,11 @@ void AVerticalTileMoving::Init(float givenSpeed)
 	else {
 		bMovesUp = true;
 	}
-
-	Speed = givenSpeed;
+	/*Speed = givenSpeed;
 
 	movement->Velocity = FVector(0, -Speed, 0);
 	movement->InitialSpeed = Speed;
-	movement->MaxSpeed = movement->InitialSpeed;
+	movement->MaxSpeed = movement->InitialSpeed;*/
 
 	SwitchDirection();
 }
@@ -27,12 +28,12 @@ void AVerticalTileMoving::SwitchDirection()
 {
 	switch (bMovesUp) {
 	case true:
-		movement->Velocity = FVector(0, -Speed, 50);
+		MovementComponent->Velocity.Z =  50;
 		bMovesUp = false;
 		break;
 
 	case false:
-		movement->Velocity = FVector(0, -Speed, -50);
+		MovementComponent->Velocity.Z = -50;
 		bMovesUp = true;
 		break;
 	}
