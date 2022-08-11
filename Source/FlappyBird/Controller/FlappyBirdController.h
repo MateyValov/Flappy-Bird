@@ -16,7 +16,29 @@ UCLASS()
 class FLAPPYBIRD_API AFlappyBirdController : public APlayerController
 {
     GENERATED_BODY()
+
+private:
+
+    bool bIsStarted = false;
+    bool bIsPaused = false;
+
+    class ACharacter* ControlledCharacter;
+
+
+    UFUNCTION()
+    void Jump();
+
+    //UFUNCTION()
+    virtual void Pause() override;
+
 public:
     FStartSignature StartDelegate;
     FPauseSignature PauseDelegate;
+    FStartSignature GetStartDelegate();
+    FPauseSignature GetPauseDelegate();
+
+    void SetControlledCharacter(ACharacter* InCharacter);
+
+    virtual void SetupInputComponent() override;
+
 };

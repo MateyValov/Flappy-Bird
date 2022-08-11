@@ -30,25 +30,26 @@ void AGameplayModeBase::BeginPlay()
 	CurrentSettings = LoadedGame->CurrentDifficultySettings;
 		 
 	//UpdateHighScore(nullptr);
-	ABird* bird = GetWorld()->SpawnActor<ABird>(PawnClass, BirdSpawnLocation, FRotator());
-	bird->Init(CurrentSettings.WorldGravity, CurrentSettings.BirdJumpForce);
+	ABird* Bird = GetWorld()->SpawnActor<ABird>(PawnClass, BirdSpawnLocation, FRotator());
+	Bird->Init(CurrentSettings.WorldGravity, CurrentSettings.BirdJumpForce);
 	
 	AObstacleGenerator* generator = GetWorld()->SpawnActor<AObstacleGenerator>(GeneratorClass, GeneratorPosition, FRotator());
 	generator->Init(CurrentSettings.ObstacleSpeed, 400 / CurrentSettings.ObstacleSpeed, CurrentSettings.TileToSpawn);
 
 	AFlappyBirdController* PlayerController = Cast<AFlappyBirdController>(UGameplayStatics::GetPlayerController(this, 0));
-	PlayerController->StartDelegate.AddDynamic(generator, &AObstacleGenerator::Generate);
-	PlayerController->StartDelegate.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::ShowScore);
-	PlayerController->PauseDelegate.BindDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::TogglePause);
+	PlayerController->/*Get*/StartDelegate.AddDynamic(generator, &AObstacleGenerator::Generate);
+	PlayerController->/*Get*/StartDelegate.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::ShowScore);
+	PlayerController->/*Get*/PauseDelegate.BindDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::TogglePause);
+	PlayerController->SetControlledCharacter(Bird);
 
-	bird->OnGameEnd.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), & AGameplayHUD::ShowEnd);
-	bird->OnGameEnd.AddDynamic(this, &AGameplayModeBase::OnGameEnd);
-	bird->OnScoreUpdated.AddDynamic(this, &AGameplayModeBase::ScoreUp);
+	Bird->OnGameEnd.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), & AGameplayHUD::ShowEnd);
+	Bird->OnGameEnd.AddDynamic(this, &AGameplayModeBase::OnGameEnd);
+	Bird->OnScoreUpdated.AddDynamic(this, &AGameplayModeBase::ScoreUp);
 }
 
-void AGameplayModeBase::SetScore(int Points)
+void AGameplayModeBase::SetScore(int InScore)
 {
-	Score = Points;
+	Score = InScore;
 	OnScoreUpdated.Broadcast(Score);
 }
 

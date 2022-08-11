@@ -3,36 +3,35 @@
 
 #include "Bird.h"
 #include "../Controller/FlappyBirdController.h"
-#include "Components/BoxComponent.h"
+#include "Components/SphereComponent.h"	
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
-#include "GameFramework/FloatingPawnMovement.h"
-#include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
 // Sets default values
 ABird::ABird()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-
-	MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement Component"));
-	MovementComponent->ProjectileGravityScale = 0;
-	MovementComponent->Velocity = FVector(0, 0, 0);
-
-	MeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Static Mesh"));
 	
-	Hitbox = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
-	Hitbox->SetupAttachment(MeshComponent);
+	Hitbox = CreateDefaultSubobject<USphereComponent>(TEXT("Hitbox"));
+	Hitbox->SetupAttachment(RootComponent);
+	//MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement Component"));
+	GetCharacterMovement()->GravityScale = 0;
+	GetCharacterMovement()->Velocity = FVector(0, 0, 0);
 
+	
+	
+	/*
+MeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Static Mesh"));*/
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	Camera->SetupAttachment(MeshComponent);
+	Camera->SetupAttachment(RootComponent);
 	
-	Score = 0;
 }
 
-void ABird::Init(float GivenGravity, float GivenJumpForce)
+void ABird::Init(float InGravity, float InJumpForce)
 {
-	Gravity = GivenGravity;
-	JumpForce = GivenJumpForce;
+	Gravity = InGravity;
+	JumpForce = InJumpForce;
 }
 
 void ABird::ScoreUp()
@@ -44,40 +43,15 @@ void ABird::ScoreUp()
 
 void ABird::Jump()
 {
-	if (!bPressed) {
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::FromInt(bPressedJump));
+	if (!bStarted) {
 		Camera->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
-
-		//MeshComponent->PlayAnimation(AnimAsset,true);
-		MovementComponent->InitialSpeed = JumpForce;
-		MovementComponent->MaxSpeed = MovementComponent->InitialSpeed*2;
-		MovementComponent->ProjectileGravityScale = Gravity;
-		Cast<AFlappyBirdController>(UGameplayStatics::GetPlayerController(this, 0))->StartDelegate.Broadcast();
-		bPressed = true;
+		bStarted = true;
+		GetCharacterMovement()->GravityScale = Gravity;
+		
 	}
-	MovementComponent->Velocity.Z = JumpForce;
+	GetCharacterMovement()->Velocity.Z = JumpForce;
 	
-}
-
-void ABird::TogglePause()
-{
-	switch (IsPaused) {
-		case true:
-			IsPaused = false;
-			break;
-		case false:
-			IsPaused = true;
-			break;
-	}
-
-	Cast<AFlappyBirdController>(UGameplayStatics::GetPlayerController(this, 0))->PauseDelegate.ExecuteIfBound(IsPaused);
-}
-
-// Called to bind functionality to input
-void ABird::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ABird::Jump);
-	PlayerInputComponent->BindAction("Pause", IE_Pressed, this, &ABird::TogglePause).bExecuteWhenPaused = true;;
 }
 
 

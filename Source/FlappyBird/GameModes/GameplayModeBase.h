@@ -23,7 +23,7 @@ class FLAPPYBIRD_API AGameplayModeBase : public AGameModeBase
 	GENERATED_BODY()
 public:
 	UFUNCTION()
-		void SetScore(int Points) ;
+		void SetScore(int InScore) ;
 	UFUNCTION()
 		int GetScore() { return Score; };
 	UFUNCTION()

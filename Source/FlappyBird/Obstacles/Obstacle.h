@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-#include "PipeObstacle.generated.h"
+#include "Obstacle.generated.h"
 
 UCLASS()
 class FLAPPYBIRD_API APipeObstacle : public AActor

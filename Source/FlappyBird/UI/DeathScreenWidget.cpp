@@ -45,9 +45,7 @@ void UDeathScreenWidget::SetDifficulty(FString Diff)
 
 void UDeathScreenWidget::SetDifficultyUlocked(FString Diff)
 {
-	FString massage = "New ";
-	massage.Append(Diff);
-	massage.Append(" Difficulty Unlocked");
-	NewDifficulty->SetText(FText::FromString(massage));
+	FString Message = "New "+ Diff +" Difficulty Unlocked";
+	NewDifficulty->SetText(FText::FromString(Message));
 }
 

@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-#include "GameFramework/Pawn.h"
+#include "GameFramework/Character.h"
 #include "Bird.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameEndDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FScoreUpdateDelegate);
 
 UCLASS()
-class FLAPPYBIRD_API ABird : public APawn
+class FLAPPYBIRD_API ABird : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -19,16 +19,17 @@ public:
 	// Sets default values for this pawn's properties
 	ABird();
 
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	//UFUNCTION()
+	//void SettupMovementComponent();
 
 	UFUNCTION()
-		void EndGame();
+	void EndGame();
 
 	UFUNCTION()
-		void Init(float GivenGravity, float GivenJumpForce);
+	void Init(float InGravity, float InJumpForce);
 
 	UFUNCTION()
-		void ScoreUp();
+	void ScoreUp();
 
 	FGameEndDelegate OnGameEnd;
 	FScoreUpdateDelegate OnScoreUpdated;
@@ -36,28 +37,31 @@ public:
 protected:
 
 	UPROPERTY(VisibleAnywhere)
-		float Gravity;
+	float Gravity;
+
 	UPROPERTY(VisibleAnywhere)
-		float JumpForce;
-	UPROPERTY(VisibleAnywhere)
-		int Score;
+	float JumpForce;
+
+	//UPROPERTY(VisibleAnywhere)
+	//int Score;
+
+	//UPROPERTY(EditDefaultsOnly)
+	//class USkeletalMeshComponent* MeshComponent = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
-		class USkeletalMeshComponent* MeshComponent = nullptr;
+	class USphereComponent* Hitbox = nullptr;
+
 	UPROPERTY(EditDefaultsOnly)
-		class UBoxComponent* Hitbox = nullptr; 
-	UPROPERTY(EditDefaultsOnly)
-		class UCameraComponent* Camera = nullptr;
-	UPROPERTY(EditDefaultsOnly)
-	class UProjectileMovementComponent* MovementComponent = nullptr;
+	class UCameraComponent* Camera = nullptr;
+
+	//UPROPERTY(EditDefaultsOnly)
+	//class UProjectileMovementComponent* MovementComponent = nullptr;
 	
-	void Jump();
-	void TogglePause();
+	virtual void Jump() override;
 
 private:
 
-	bool bPressed = false;
-	bool IsPaused = false;
+	bool bStarted = false;
 
 
 };

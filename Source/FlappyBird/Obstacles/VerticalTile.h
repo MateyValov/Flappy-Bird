@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "PipeObstacle.h"
+#include "Obstacle.h"
 #include "VerticalTile.generated.h"
 
 UCLASS()

@@ -48,6 +48,9 @@ public:
 	void ShowScore();
 
 	UFUNCTION()
+	void ShowPause();
+
+	UFUNCTION()
 	void TogglePause(bool IsPaused);
 
 	UFUNCTION()

@@ -61,23 +61,24 @@ void AGameplayHUD::ShowScore()
 
 }
 
+void AGameplayHUD::ShowPause()
+{
+	Clear();
+
+	if (PlayerOwner && PauseWidget) {
+		PauseWidget->AddToViewport();
+		PlayerOwner->bShowMouseCursor = true;
+		PlayerOwner->SetInputMode(FInputModeGameOnly());
+	}
+}
+
 void AGameplayHUD::TogglePause(bool IsPaused)
 {
 	if (IsPaused) {
-		UGameplayStatics::GetPlayerController(this, 0)->SetPause(true);
-		
-		Clear();
-
-		if (PlayerOwner && PauseWidget) {
-			PauseWidget->AddToViewport();
-			PlayerOwner->bShowMouseCursor = true;
-			PlayerOwner->SetInputMode(FInputModeGameOnly());
-		}
+		ShowPause();
 	}
-
 	else {
 		ShowScore();
-		UGameplayStatics::GetPlayerController(this, 0)->SetPause(false);
 	}	
 }
 
