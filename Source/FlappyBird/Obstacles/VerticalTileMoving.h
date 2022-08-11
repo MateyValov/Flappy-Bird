@@ -15,17 +15,18 @@ class FLAPPYBIRD_API AVerticalTileMoving : public AVerticalTile
 	GENERATED_BODY()
 
 public:
-	virtual void Init(float givenSpeed) override;
+	virtual void Init(float InSpeed) override;
 
 protected:
 	UPROPERTY(VisibleAnywhere)
-		float Speed;
+	float Speed;
+
 	UPROPERTY(VisibleAnywhere)
-		bool bMovesUp;
+	bool bMovesUp;
 
 	FTimerHandle DirectionHandle;
 
 	UFUNCTION()
-		void SwitchDirection();
+	void SwitchDirection();
 
 };

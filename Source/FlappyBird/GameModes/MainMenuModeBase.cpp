@@ -1,7 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 
-#include "FlappyBirdGameModeBase.h"
+#include "MainMenuModeBase.h"
 #include "Kismet/GameplayStatics.h"
 //#include "GameFramework/InputSettings.h"
 

@@ -16,24 +16,28 @@ public:
 	// Sets default values for this actor's properties
 	AVerticalTile();
 	UFUNCTION()
-		virtual void Init(float givenSpeed);
+	virtual void Init(float InSpeed);
 
 protected:
 	UPROPERTY(EditAnywhere)
-		class USceneComponent* Root = nullptr;
+	class USceneComponent* Root = nullptr;
+
 	UPROPERTY(EditAnywhere)
-		class UChildActorComponent* Bottom = nullptr;
+	class UChildActorComponent* BottomPipe = nullptr;
+
 	UPROPERTY(EditAnywhere)
-		class UChildActorComponent* Top = nullptr;
+	class UChildActorComponent* TopPipe = nullptr;
+
 	UPROPERTY(EditAnywhere)
-		class UBoxComponent* ScoreBox = nullptr;
+	class UBoxComponent* ScoreBox = nullptr;
+
 	UPROPERTY(EditAnywhere)
-		class UProjectileMovementComponent* movement = nullptr;
+	class UProjectileMovementComponent* MovementComponent = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
-		TSubclassOf<class APipeObstacle> Pipe;
+	TSubclassOf<class APipeObstacle> Pipe;
 
 	UFUNCTION()
-		void Action(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
 };
