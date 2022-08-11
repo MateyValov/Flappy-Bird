@@ -45,6 +45,9 @@ void AGameplayModeBase::BeginPlay()
 	Bird->OnGameEnd.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), & AGameplayHUD::ShowEnd);
 	Bird->OnGameEnd.AddDynamic(this, &AGameplayModeBase::OnGameEnd);
 	Bird->OnScoreUpdated.AddDynamic(this, &AGameplayModeBase::ScoreUp);
+
+	OnScoreUp.BindDynamic(Bird, &ABird::ScoreUp);
+	GameOver.BindDynamic(Bird, &ABird::EndGame);
 }
 
 void AGameplayModeBase::SetScore(int InScore)
