@@ -3,14 +3,13 @@
 #include "BGBlock.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Engine.h"
-#include "../Obstacles/Obstacle.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ABGBlock::ABGBlock()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 
 	MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComp"));
 	MovementComponent->ProjectileGravityScale = 0;
@@ -19,19 +18,16 @@ ABGBlock::ABGBlock()
 	MovementComponent->MaxSpeed = MovementComponent->InitialSpeed;
 
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshBottom"));
-	MeshComponent->OnComponentBeginOverlap.AddDynamic(this, &ABGBlock::Teleport);
+	MeshComponent->OnComponentBeginOverlap.AddDynamic(this, &ABGBlock::OnBeginOverlap);
 
 	Decal = CreateDefaultSubobject<UDecalComponent>(TEXT("Decal"));
 	Decal->SetupAttachment(MeshComponent);
 }
 
-void ABGBlock::Teleport(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void ABGBlock::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	APipeObstacle* CollisionOnject = Cast<APipeObstacle>(OtherActor);
-	if (CollisionOnject != nullptr) {
+	SetActorLocation(SpawnLocation);
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("teleportna"));
 
-		SetActorLocation(SpawnLocation);
-	}
-	return;
 }
 

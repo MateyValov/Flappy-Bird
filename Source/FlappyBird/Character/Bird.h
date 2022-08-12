@@ -20,15 +20,12 @@ public:
 	ABird();
 
 	UFUNCTION()
-	void EndGame();
-
-	UFUNCTION()
 	void Init(float InGravity, float InJumpForce);
 
 	UFUNCTION()
 	void ScoreUp();
 
-	FGameEndDelegate OnGameEnd;
+	FGameEndDelegate OnDamageTaken;
 	FScoreUpdateDelegate OnScoreUpdated;
 
 protected:
@@ -39,8 +36,8 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	float JumpForce;
 
-	UPROPERTY(EditDefaultsOnly)
-	class USphereComponent* Hitbox = nullptr;
+	//UPROPERTY(EditDefaultsOnly)
+	//class USphereComponent* Hitbox = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
 	class UCameraComponent* Camera = nullptr;
@@ -48,6 +45,9 @@ protected:
 	virtual void Jump() override;
 
 private:
+
+	UFUNCTION()
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 	bool bStarted = false;
 

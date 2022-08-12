@@ -41,20 +41,26 @@ void AVerticalTile::Init(float InSpeed)
 
 }
 
+void AVerticalTile::Despawn()
+{
+	BottomPipe->DestroyChildActor();
+	TopPipe->DestroyChildActor();
+	Destroy();
+
+}
+
 void AVerticalTile::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	ABird* bird = Cast<ABird>(OtherActor);
-	if (bird != nullptr) {
+	ACharacter* OverlapedCharacter = Cast<ACharacter>(OtherActor);
+	if (OverlapedCharacter != nullptr) {
 		Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->OnScoreUp.ExecuteIfBound();
 		//bird->ScoreUp();
 		return;
 	}
 
-	AObstacleGenerator* gen = Cast<AObstacleGenerator>(OtherActor);
-	if (gen != nullptr) {
-		BottomPipe->DestroyChildActor();
-		TopPipe->DestroyChildActor();
-		Destroy();
+	AObstacleGenerator* Generator = Cast<AObstacleGenerator>(OtherActor);
+	if (Generator != nullptr) {
+		Despawn();
 	}
 }
 

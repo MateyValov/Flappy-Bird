@@ -17,10 +17,14 @@ public:
 	APipeObstacle();
 
 protected:
+
+	//UPROPERTY(EditAnywhere)
+	//class USceneComponent* Root = nullptr;
+
 	UPROPERTY(EditAnywhere)
-		class UStaticMeshComponent* mesh = nullptr;
+	class UStaticMeshComponent* MeshComponent = nullptr;
 
 	UFUNCTION()
-		void kill(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 };

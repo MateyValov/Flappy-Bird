@@ -14,6 +14,12 @@ void AFlappyBirdController::Jump()
 	ControlledCharacter->Jump();
 }
 
+void AFlappyBirdController::OnGameEnd()
+{
+	SetPause(true);
+	EndDelegate.Broadcast();
+}
+
 void AFlappyBirdController::Pause()
 {
 	switch (bIsPaused) {

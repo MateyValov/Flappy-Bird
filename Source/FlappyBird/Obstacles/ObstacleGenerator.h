@@ -19,8 +19,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	//virtual void BeginPlay() override;
-	//UPROPERTY(EditAnywhere)
-	//class USceneComponent* root = nullptr;
+	UPROPERTY(EditAnywhere)
+	class USceneComponent* Root = nullptr;
 
 	UPROPERTY(EditAnywhere)
 	class UBoxComponent* Hitbox = nullptr;
@@ -31,8 +31,8 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	float SpawnTime;
 	
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<class AVerticalTile> ObjectToSpawn;
+	UPROPERTY(VisibleAnywhere)
+	TSubclassOf<class AVerticalTile> ObjectClassToSpawn;
 	
 	FTimerHandle SpawnHandle;
 
@@ -40,7 +40,7 @@ protected:
 	FActorSpawnParameters SpawnInfo;
 
 public:	
-	void Init(float InObstacleSpeed, float InSpawnTime, TSubclassOf<class AVerticalTile> InObjectToSpawn);
+	void Init(float InObstacleSpeed, float InSpawnTime, TSubclassOf<class AVerticalTile> InObjectClassToSpawn);
 
 	UFUNCTION()
 	void Generate();

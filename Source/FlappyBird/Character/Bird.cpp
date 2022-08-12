@@ -13,16 +13,9 @@ ABird::ABird()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 	
-	Hitbox = CreateDefaultSubobject<USphereComponent>(TEXT("Hitbox"));
-	Hitbox->SetupAttachment(RootComponent);
-	//MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement Component"));
 	GetCharacterMovement()->GravityScale = 0;
 	GetCharacterMovement()->Velocity = FVector(0, 0, 0);
-
 	
-	
-	/*
-MeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Static Mesh"));*/
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(RootComponent);
 	
@@ -36,8 +29,6 @@ void ABird::Init(float InGravity, float InJumpForce)
 
 void ABird::ScoreUp()
 {
-	//Score += 1;
-	//Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->SetScore(Score);
 	OnScoreUpdated.Broadcast();
 }
 
@@ -54,12 +45,11 @@ void ABird::Jump()
 	
 }
 
-
-void ABird::EndGame()
-{	
-	UGameplayStatics::GetPlayerController(this, 0)->SetPause(true);
-	OnGameEnd.Broadcast();
-	//Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->showEnd();
+float ABird::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	OnDamageTaken.Broadcast();
+	return DamageAmount;
 }
+
 
 

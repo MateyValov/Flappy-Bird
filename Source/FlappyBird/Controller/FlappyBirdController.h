@@ -9,7 +9,7 @@
 /**
  *
  */
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FStartSignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameStateSignature);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FPauseSignature, bool, IsPaused);
 
 UCLASS()
@@ -18,6 +18,8 @@ class FLAPPYBIRD_API AFlappyBirdController : public APlayerController
     GENERATED_BODY()
 
 private:
+
+    virtual void SetupInputComponent() override;
 
     bool bIsStarted = false;
     bool bIsPaused = false;
@@ -29,14 +31,17 @@ private:
     void Jump();
 
     //UFUNCTION()
-    virtual void Pause() override;
 
 public:
-    FStartSignature StartDelegate;
+    FGameStateSignature StartDelegate;
+    FGameStateSignature EndDelegate;
     FPauseSignature PauseDelegate;
 
-    void SetControlledCharacter(ACharacter* InCharacter);
+    UFUNCTION()
+    void OnGameEnd();
 
-    virtual void SetupInputComponent() override;
+    virtual void Pause() override;
+
+    void SetControlledCharacter(ACharacter* InCharacter);
 
 };

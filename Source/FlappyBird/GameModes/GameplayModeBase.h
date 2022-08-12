@@ -15,7 +15,7 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FScoreUpdatedSignature, int, Score);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FDifficultyPassing, FString, Difficulty);
 DECLARE_DYNAMIC_DELEGATE(FGetScoreSignature);
-DECLARE_DYNAMIC_DELEGATE(FGameOverSignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameOverSignature);
 
 
 UCLASS()
@@ -28,9 +28,6 @@ public:
 
 	UFUNCTION()
 	int GetScore() { return Score; };
-
-	UFUNCTION()
-	void OnGameEnd();
 
 	UFUNCTION()
 	void UnlockDifficulty(FString DifficultyToUnlock);
@@ -50,7 +47,7 @@ public:
 	FDifficultyPassing OnDifficultyUlocked;
 
 	FGetScoreSignature OnScoreUp;
-	FGameOverSignature GameOver;
+	FGameOverSignature OnGameOver;
 
 protected:
 
@@ -74,6 +71,9 @@ protected:
 private:
 	UPROPERTY()
 	class UOptionsSave* LoadedGame;
+
+	UFUNCTION()
+	void GameOver();
 
 	int Score = 0;
 
