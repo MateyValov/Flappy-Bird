@@ -48,7 +48,7 @@ void AGameplayModeBase::BeginPlay()
 	Bird->OnDamageTaken.AddDynamic(this, &AGameplayModeBase::GameOver);
 	Bird->OnScoreUpdated.AddDynamic(this, &AGameplayModeBase::ScoreUp);
 
-	OnScoreUp.BindDynamic(Bird, &ABird::ScoreUp);
+	//OnScoreUp.BindDynamic(Bird, &ABird::ScoreUp);
 	OnGameOver.AddDynamic(PlayerController, &AFlappyBirdController::OnGameEnd);
 }
 
@@ -77,8 +77,8 @@ void AGameplayModeBase::MainMenu()
 
 void AGameplayModeBase::Quit()
 {
-	if (APlayerController* pc = UGameplayStatics::GetPlayerController(GetWorld(), 0)) {
-		pc->ConsoleCommand("quit");
+	if (APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0)) {
+		PC->ConsoleCommand("quit");
 	}
 }
 

@@ -18,10 +18,10 @@ class FLAPPYBIRD_API UPauseWidget : public UUserWidget
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UButton* Menu;
+	class UButton* Menu;
 
 	UFUNCTION()
-		void OnMenuClicked();
+	void OnMenuClicked();
 
 	virtual void NativeConstruct() override;
 

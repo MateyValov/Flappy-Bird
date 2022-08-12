@@ -46,7 +46,6 @@ public:
 	FDifficultyPassing OnDifficultyLoaded;
 	FDifficultyPassing OnDifficultyUlocked;
 
-	FGetScoreSignature OnScoreUp;
 	FGameOverSignature OnGameOver;
 
 protected:

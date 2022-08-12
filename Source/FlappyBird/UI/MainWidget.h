@@ -17,37 +17,41 @@ UCLASS()
 class FLAPPYBIRD_API UMainWidget : public UUserWidget
 {
 	GENERATED_BODY()
-	private:
+private:
 
-		bool bImpossibleUnlocked = false;
+	bool bImpossibleUnlocked = false;
 
-		UFUNCTION()
-			void OnPlayClicked();
-		UFUNCTION()
-			void OnQuitClicked();
-		UFUNCTION()
-			void OnOptionsClicked();
-		UFUNCTION()
-			void OnTitleClicked();
-	protected:
+	UFUNCTION()
+	void OnPlayClicked();
 
-		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-			class UButton* ImpossibleDifficultyUnlock;
+	UFUNCTION()
+	void OnQuitClicked();
 
-		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-			class UButton* Play;
+	UFUNCTION()
+	void OnOptionsClicked();
 
-		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-			class UButton* Quit;
+	UFUNCTION()
+	void OnTitleClicked();
+
+protected:
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
+	class UButton* ImpossibleDifficultyUnlock;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
+	class UButton* Play;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
+	class UButton* Quit;
 		
-		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-			class UButton* Options;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
+	class UButton* Options;
 		
+	virtual void NativeConstruct() override;
 
-		virtual void NativeConstruct() override;
-	public:
-		FButtonClicked OptionsClicked;
-		FButtonClicked TitleClicked;
-		FButtonClicked PlayClicked;
-		FButtonClicked QuitClicked;
+public:
+	FButtonClicked OptionsClicked;
+	FButtonClicked TitleClicked;
+	FButtonClicked PlayClicked;
+	FButtonClicked QuitClicked;
 };

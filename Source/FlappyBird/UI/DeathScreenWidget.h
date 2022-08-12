@@ -19,26 +19,34 @@ class FLAPPYBIRD_API UDeathScreenWidget : public UUserWidget
 	GENERATED_BODY()
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UButton* Play;
+	class UButton* Play;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UButton* Quit;
+	class UButton* Quit;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UButton* Main;
+	class UButton* Main;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UTextBlock* Difficulty;
+	class UTextBlock* Difficulty;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UTextBlock* NewDifficulty;
+	class UTextBlock* NewDifficulty;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UTextBlock* CurrentScore;
+	class UTextBlock* CurrentScore;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UTextBlock* HighScore;
+	class UTextBlock* HighScore;
 
 	UFUNCTION()
-		void OnPlayClicked();
+	void OnPlayClicked();
 	UFUNCTION()
-		void OnQuitClicked();
+
+	void OnQuitClicked();
 	UFUNCTION()
-		void OnMainClicked();
+
+	void OnMainClicked();
 
 	virtual void NativeConstruct() override;
 
@@ -48,15 +56,15 @@ public:
 	FButtonClicked MainClicked;
 
 	UFUNCTION()
-		void SetScore(int32 Score);
+	void SetScore(int32 Score);
 
 	UFUNCTION()
-		void SetHighScore(int32 Score);
+	void SetHighScore(int32 Score);
 
 	UFUNCTION()
-		void SetDifficulty(FString Diff);
+	void SetDifficulty(FString Diff);
 
 	UFUNCTION()
-		void SetDifficultyUlocked(FString Diff);
+	void SetDifficultyUlocked(FString Diff);
 
 };

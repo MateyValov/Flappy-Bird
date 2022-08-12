@@ -13,5 +13,13 @@
 UCLASS()
 class FLAPPYBIRD_API UPregameWidget : public UUserWidget
 {
-	GENERATED_BODY()		
+	GENERATED_BODY()	
+
+protected:
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
+	class UTextBlock* JumpToStart;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
+	class UTextBlock* PauseText;
 };

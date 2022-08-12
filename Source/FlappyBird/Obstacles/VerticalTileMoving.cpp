@@ -15,11 +15,6 @@ void AVerticalTileMoving::Init(float InSpeed)
 	else {
 		bMovesUp = true;
 	}
-	/*Speed = givenSpeed;
-
-	movement->Velocity = FVector(0, -Speed, 0);
-	movement->InitialSpeed = Speed;
-	movement->MaxSpeed = movement->InitialSpeed;*/
 
 	SwitchDirection();
 }

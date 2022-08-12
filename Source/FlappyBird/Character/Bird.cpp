@@ -3,7 +3,8 @@
 
 #include "Bird.h"
 #include "../Controller/FlappyBirdController.h"
-#include "Components/SphereComponent.h"	
+#include "../Obstacles/VerticalTile.h"
+#include "Components/CapsuleComponent.h"	
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -15,10 +16,11 @@ ABird::ABird()
 	
 	GetCharacterMovement()->GravityScale = 0;
 	GetCharacterMovement()->Velocity = FVector(0, 0, 0);
-	
+
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(RootComponent);
 	
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &ABird::OnBeginOverlap);
 }
 
 void ABird::Init(float InGravity, float InJumpForce)
@@ -45,11 +47,22 @@ void ABird::Jump()
 	
 }
 
+void ABird::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	AVerticalTile* OverlapedTile = Cast<AVerticalTile>(OtherActor);
+	if (OverlapedTile!=nullptr) {
+		
+		ScoreUp();
+	}
+}
+
 float ABird::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	OnDamageTaken.Broadcast();
 	return DamageAmount;
 }
+
+
 
 
 
