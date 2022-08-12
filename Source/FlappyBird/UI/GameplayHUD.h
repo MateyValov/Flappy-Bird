@@ -20,10 +20,13 @@ class FLAPPYBIRD_API AGameplayHUD : public AHUD
 protected:	
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UDeathScreenWidget> EndWidgetClass;
+
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UScoreWidget> ScoreWidgetClass;
+
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UPregameWidget> PregameWidgetClass;
+
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UPauseWidget> PauseWidgetClass;
 

@@ -34,8 +34,10 @@ protected:
 	virtual void BeginPlay()override;
 
 public:
+
 	UFUNCTION()
 	void ShowMenu();
+
 	UFUNCTION()
 	void ShowOptions();
 };

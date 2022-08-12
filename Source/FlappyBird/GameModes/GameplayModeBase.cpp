@@ -33,22 +33,25 @@ void AGameplayModeBase::BeginPlay()
 	ABird* Bird = GetWorld()->SpawnActor<ABird>(PawnClass, BirdSpawnLocation, FRotator());
 	Bird->Init(CurrentSettings.WorldGravity, CurrentSettings.BirdJumpForce);
 	
-	AObstacleGenerator* generator = GetWorld()->SpawnActor<AObstacleGenerator>(GeneratorClass, GeneratorPosition, FRotator());
-	generator->Init(CurrentSettings.ObstacleSpeed, 400 / CurrentSettings.ObstacleSpeed, CurrentSettings.TileToSpawn);
+	AObstacleGenerator* Generator = GetWorld()->SpawnActor<AObstacleGenerator>(GeneratorClass, GeneratorPosition, FRotator());
+	Generator->Init(CurrentSettings.ObstacleSpeed, 400 / CurrentSettings.ObstacleSpeed, CurrentSettings.TileToSpawn);
 
-	AFlappyBirdController* PlayerController = Cast<AFlappyBirdController>(UGameplayStatics::GetPlayerController(this, 0));
-	PlayerController->/*Get*/StartDelegate.AddDynamic(generator, &AObstacleGenerator::Generate);
+	AFlappyBirdController* PlayerController = Cast<AFlappyBirdController>(Bird->Controller);
+	PlayerController->/*Get*/StartDelegate.AddDynamic(Generator, &AObstacleGenerator::Generate);
 	PlayerController->/*Get*/StartDelegate.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::ShowScore);
 	PlayerController->/*Get*/PauseDelegate.BindDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::TogglePause);
+	PlayerController->/*Get*/EndDelegate.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::ShowEnd);
+
 	PlayerController->SetControlledCharacter(Bird);
 
-	Bird->OnGameEnd.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), & AGameplayHUD::ShowEnd);
-	Bird->OnGameEnd.AddDynamic(this, &AGameplayModeBase::OnGameEnd);
+
+	Bird->OnDamageTaken.AddDynamic(this, &AGameplayModeBase::GameOver);
 	Bird->OnScoreUpdated.AddDynamic(this, &AGameplayModeBase::ScoreUp);
 
-	OnScoreUp.BindDynamic(Bird, &ABird::ScoreUp);
-	GameOver.BindDynamic(Bird, &ABird::EndGame);
+	//OnScoreUp.BindDynamic(Bird, &ABird::ScoreUp);
+	OnGameOver.AddDynamic(PlayerController, &AFlappyBirdController::OnGameEnd);
 }
+
 
 void AGameplayModeBase::SetScore(int InScore)
 {
@@ -74,8 +77,8 @@ void AGameplayModeBase::MainMenu()
 
 void AGameplayModeBase::Quit()
 {
-	if (APlayerController* pc = UGameplayStatics::GetPlayerController(GetWorld(), 0)) {
-		pc->ConsoleCommand("quit");
+	if (APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0)) {
+		PC->ConsoleCommand("quit");
 	}
 }
 
@@ -84,7 +87,7 @@ void AGameplayModeBase::ScoreUp()
 	SetScore(GetScore()+1);
 }
 
-void AGameplayModeBase::OnGameEnd()
+void AGameplayModeBase::GameOver()
 {
 
 	if (HighScore < Score) {
@@ -107,6 +110,8 @@ void AGameplayModeBase::OnGameEnd()
 	OnHighScoreUpdated.Broadcast(HighScore);
 
 	OnDifficultyLoaded.ExecuteIfBound(Difficulty);
+
+	OnGameOver.Broadcast();
 }
 
 

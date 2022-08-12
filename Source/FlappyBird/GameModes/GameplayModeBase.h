@@ -15,7 +15,7 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FScoreUpdatedSignature, int, Score);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FDifficultyPassing, FString, Difficulty);
 DECLARE_DYNAMIC_DELEGATE(FGetScoreSignature);
-DECLARE_DYNAMIC_DELEGATE(FGameOverSignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameOverSignature);
 
 
 UCLASS()
@@ -24,35 +24,34 @@ class FLAPPYBIRD_API AGameplayModeBase : public AGameModeBase
 	GENERATED_BODY()
 public:
 	UFUNCTION()
-		void SetScore(int InScore) ;
-	UFUNCTION()
-		int GetScore() { return Score; };
-	UFUNCTION()
-		void OnGameEnd();
-	UFUNCTION()
-		void UnlockDifficulty(FString DifficultyToUnlock);
+	void SetScore(int InScore) ;
 
 	UFUNCTION()
-		void PlayAgain();
+	int GetScore() { return Score; };
 
 	UFUNCTION()
-		void MainMenu();
+	void UnlockDifficulty(FString DifficultyToUnlock);
 
 	UFUNCTION()
-		void Quit();
+	void PlayAgain();
+
+	UFUNCTION()
+	void MainMenu();
+
+	UFUNCTION()
+	void Quit();
 
 	FScoreUpdatedSignature OnScoreUpdated;
 	FScoreUpdatedSignature OnHighScoreUpdated;
 	FDifficultyPassing OnDifficultyLoaded;
 	FDifficultyPassing OnDifficultyUlocked;
 
-	FGetScoreSignature OnScoreUp;
-	FGameOverSignature GameOver;
+	FGameOverSignature OnGameOver;
 
 protected:
 
 	UFUNCTION()
-		void ScoreUp();
+	void ScoreUp();
 
 	UPROPERTY(EditDefaultsOnly, Category = "GameStart")
 	FVector BirdSpawnLocation;
@@ -61,18 +60,19 @@ protected:
 	TSubclassOf<ABird> PawnClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "GameStart")
-		TSubclassOf<AObstacleGenerator> GeneratorClass;
+	TSubclassOf<AObstacleGenerator> GeneratorClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "GameStart")
-		FVector GeneratorPosition;
-
-	//UPROPERTY(EditDefaultsOnly, Category = "GameStart")
+	FVector GeneratorPosition;
 
 	virtual void BeginPlay() override;
 
 private:
 	UPROPERTY()
 	class UOptionsSave* LoadedGame;
+
+	UFUNCTION()
+	void GameOver();
 
 	int Score = 0;
 

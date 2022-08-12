@@ -1,7 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 
-#include "FlappyBirdGameModeBase.h"
+#include "MainMenuModeBase.h"
 #include "Kismet/GameplayStatics.h"
 //#include "GameFramework/InputSettings.h"
 
@@ -75,8 +75,8 @@ void AFlappyBirdGameModeBase::StartGame()
 
 void AFlappyBirdGameModeBase::QuitGame()
 {
-	if (APlayerController* pc = UGameplayStatics::GetPlayerController(GetWorld(), 0)) {
-		pc->ConsoleCommand("quit");
+	if (APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0)) {
+		PC->ConsoleCommand("quit");
 	}
 }
 

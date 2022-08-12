@@ -26,29 +26,29 @@ class FLAPPYBIRD_API UOptionsWidget : public UUserWidget
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UTextBlock* Dificulty;
+	class UTextBlock* Dificulty;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UButton* Exit;
+	class UButton* Exit;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UButton* Save;
+	class UButton* Save;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UComboBoxString* SelectDifficulty;
+	class UComboBoxString* SelectDifficulty;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget))
-		class UInputKeySelector* JumpBindingSelector;
+	class UInputKeySelector* JumpBindingSelector;
 
 	UFUNCTION()
-		void OnExitClicked();
+	void OnExitClicked();
 	UFUNCTION()
-		void OnSaveClicked();
+	void OnSaveClicked();
 	UFUNCTION()
-		void OnBindSelected(FInputChord SelectedKey);
+	void OnBindSelected(FInputChord SelectedKey);
 
 	UFUNCTION()
-		void OnDifficultySelected(FString SelectedItem, ESelectInfo::Type SelectionType);
+	void OnDifficultySelected(FString SelectedItem, ESelectInfo::Type SelectionType);
 
 	virtual void NativeConstruct() override;
 	

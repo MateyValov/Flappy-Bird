@@ -14,6 +14,12 @@ void AFlappyBirdController::Jump()
 	ControlledCharacter->Jump();
 }
 
+void AFlappyBirdController::OnGameEnd()
+{
+	SetPause(true);
+	EndDelegate.Broadcast();
+}
+
 void AFlappyBirdController::Pause()
 {
 	switch (bIsPaused) {
@@ -29,15 +35,6 @@ void AFlappyBirdController::Pause()
 	SetPause(bIsPaused);
 }
 
-FStartSignature AFlappyBirdController::GetStartDelegate()
-{
-	return StartDelegate;
-}
-
-FPauseSignature AFlappyBirdController::GetPauseDelegate()
-{
-	return PauseDelegate;
-}
 
 void AFlappyBirdController::SetControlledCharacter(ACharacter* InCharacter)
 {

@@ -9,20 +9,22 @@
 APipeObstacle::APipeObstacle()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
+	//Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	//SetRootComponent(Root);
 
-	mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	mesh->OnComponentBeginOverlap.AddDynamic(this, &APipeObstacle::kill);
+	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+	MeshComponent->OnComponentBeginOverlap.AddDynamic(this, &APipeObstacle::OnBeginOverlap);
+	//MeshComponent->SetupAttachment(Root);
+	SetRootComponent(MeshComponent);
 }
 
-void APipeObstacle::kill(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+
+void APipeObstacle::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	ABird* bird = Cast<ABird>(OtherActor);
-	if (bird != nullptr) {
-		//DON'T TOUCH THE GENGINE
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("umrq"));
-		//bird->EndGame();
-		Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameOver.ExecuteIfBound();
+	ACharacter* OverlapedCharacter = Cast<ACharacter>(OtherActor);
+	if (OverlapedCharacter != nullptr) {
+		OverlapedCharacter->TakeDamage(1, FDamageEvent::FDamageEvent(), OverlapedCharacter->Controller, this);
 	}
 }
 

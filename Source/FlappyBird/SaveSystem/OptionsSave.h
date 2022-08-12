@@ -16,29 +16,30 @@ struct FDifficultyProperties
 {
 	GENERATED_BODY()
 
-		UPROPERTY(EditDefaultsOnly)
-		float WorldGravity;
+	UPROPERTY(EditDefaultsOnly)
+	float WorldGravity;
 
 	UPROPERTY(EditDefaultsOnly)
-		float ObstacleSpeed;
+	float ObstacleSpeed;
 
 	UPROPERTY(EditDefaultsOnly)
-		float BirdJumpForce;
+	float BirdJumpForce;
 
 	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<AVerticalTile> TileToSpawn;
+	TSubclassOf<AVerticalTile> TileToSpawn;
 
 	UPROPERTY(EditDefaultsOnly)
-		int ScoreToAdvance;
+	int ScoreToAdvance;
 
 	UPROPERTY(EditDefaultsOnly)
-		FString DifficultyToUnlock;
+	FString DifficultyToUnlock;
 };
 
 UCLASS()
 class FLAPPYBIRD_API UOptionsSave : public USaveGame
 {
 	GENERATED_BODY()
+
 public:
 	UPROPERTY(EditDefaultsOnly)
 	TMap<FString, FDifficultyProperties> DifficultySettings;
@@ -59,5 +60,5 @@ public:
 	void UnlockDifficulty(FString DifficultyToUnlock);
 
 	UFUNCTION()
-		void SortDifficulties();
+	void SortDifficulties();
 };

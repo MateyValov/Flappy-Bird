@@ -3,7 +3,8 @@
 
 #include "Bird.h"
 #include "../Controller/FlappyBirdController.h"
-#include "Components/SphereComponent.h"	
+#include "../Obstacles/VerticalTile.h"
+#include "Components/CapsuleComponent.h"	
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -13,19 +14,13 @@ ABird::ABird()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 	
-	Hitbox = CreateDefaultSubobject<USphereComponent>(TEXT("Hitbox"));
-	Hitbox->SetupAttachment(RootComponent);
-	//MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement Component"));
 	GetCharacterMovement()->GravityScale = 0;
 	GetCharacterMovement()->Velocity = FVector(0, 0, 0);
 
-	
-	
-	/*
-MeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Static Mesh"));*/
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(RootComponent);
 	
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &ABird::OnBeginOverlap);
 }
 
 void ABird::Init(float InGravity, float InJumpForce)
@@ -36,8 +31,6 @@ void ABird::Init(float InGravity, float InJumpForce)
 
 void ABird::ScoreUp()
 {
-	//Score += 1;
-	//Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->SetScore(Score);
 	OnScoreUpdated.Broadcast();
 }
 
@@ -54,12 +47,22 @@ void ABird::Jump()
 	
 }
 
-
-void ABird::EndGame()
-{	
-	UGameplayStatics::GetPlayerController(this, 0)->SetPause(true);
-	OnGameEnd.Broadcast();
-	//Cast<AGameplayHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD())->showEnd();
+void ABird::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	AVerticalTile* OverlapedTile = Cast<AVerticalTile>(OtherActor);
+	if (OverlapedTile!=nullptr) {
+		
+		ScoreUp();
+	}
 }
+
+float ABird::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	OnDamageTaken.Broadcast();
+	return DamageAmount;
+}
+
+
+
 
 

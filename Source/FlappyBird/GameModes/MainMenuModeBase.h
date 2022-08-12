@@ -6,7 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "../SaveSystem/OptionsSave.h"
 #include "GameFramework/InputSettings.h"
-#include "FlappyBirdGameModeBase.generated.h"
+#include "MainMenuModeBase.generated.h"
 
 /**
  * 

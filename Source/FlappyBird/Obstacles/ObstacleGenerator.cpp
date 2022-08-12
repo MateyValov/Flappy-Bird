@@ -10,30 +10,30 @@ AObstacleGenerator::AObstacleGenerator()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
-	SetRootComponent(root);
+	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	SetRootComponent(Root);
 	
-	hitbox = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
-	hitbox->SetupAttachment(root);
+	Hitbox = CreateDefaultSubobject<UBoxComponent>(TEXT("Hitbox"));
+	Hitbox->SetupAttachment(RootComponent);
+	//SetRootComponent(Hitbox);
 }
 
 
 void AObstacleGenerator::Generate()
 {
-	if (Spawnable) {
+	if (IsValid(ObjectClassToSpawn)) {
 		float gapPosition = (FMath::RandRange(-150, 150));
 		AVerticalTile* VertTile = nullptr;
-		VertTile = (AVerticalTile*)GetWorld()->SpawnActor<AVerticalTile>(Spawnable, FVector(GetActorLocation().X, GetActorLocation().Y, gapPosition), Rotation, SpawnInfo);
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Spawned an obstacle"));
+		VertTile = GetWorld()->SpawnActor<AVerticalTile>(ObjectClassToSpawn, FVector(GetActorLocation().X, GetActorLocation().Y, gapPosition), Rotation, SpawnInfo);
 		
-		VertTile->Init(Speed);
+		VertTile->Init(ObstacleSpeed);
 
-		GetWorldTimerManager().SetTimer(spawnHandle, this, &AObstacleGenerator::Generate, SpawnTime, false);
+		GetWorldTimerManager().SetTimer(SpawnHandle, this, &AObstacleGenerator::Generate, SpawnTime, false);
 	}
 }
-void AObstacleGenerator::Init(float GivenSpeed, float GivenSpawnTime, TSubclassOf<class AVerticalTile> ObjectToSpawn)
+void AObstacleGenerator::Init(float InObstacleSpeed, float InSpawnTime, TSubclassOf<class AVerticalTile> InObjectClassToSpawn)
 {
-	Speed = GivenSpeed;
-	SpawnTime = GivenSpawnTime;
-	Spawnable = ObjectToSpawn;
+	ObstacleSpeed = InObstacleSpeed;
+	SpawnTime = InSpawnTime;
+	ObjectClassToSpawn = InObjectClassToSpawn;
 }
