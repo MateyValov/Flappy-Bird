@@ -19,6 +19,9 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	//virtual void BeginPlay() override;
+	//UPROPERTY(EditAnywhere)
+	//class USceneComponent* root = nullptr;
+
 	UPROPERTY(EditAnywhere)
 	class USceneComponent* Root = nullptr;
 
