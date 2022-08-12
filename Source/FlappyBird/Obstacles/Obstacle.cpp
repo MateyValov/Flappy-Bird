@@ -2,6 +2,8 @@
 
 #include "Obstacle.h"
 #include "../Character/Bird.h"
+#include "../GameModes/GameplayModeBase.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 APipeObstacle::APipeObstacle()
@@ -19,7 +21,8 @@ void APipeObstacle::kill(UPrimitiveComponent* OverlappedComponent, AActor* Other
 	if (bird != nullptr) {
 		//DON'T TOUCH THE GENGINE
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("umrq"));
-		bird->EndGame();
+		//bird->EndGame();
+		Cast<AGameplayModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameOver.ExecuteIfBound();
 	}
 }
 

@@ -34,6 +34,7 @@ private:
 public:
     FStartSignature StartDelegate;
     FPauseSignature PauseDelegate;
+
     FStartSignature GetStartDelegate();
     FPauseSignature GetPauseDelegate();
 

@@ -14,7 +14,8 @@
  */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FScoreUpdatedSignature, int, Score);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FDifficultyPassing, FString, Difficulty);
-
+DECLARE_DYNAMIC_DELEGATE(FGetScoreSignature);
+DECLARE_DYNAMIC_DELEGATE(FGameOverSignature);
 
 
 UCLASS()
@@ -44,6 +45,9 @@ public:
 	FScoreUpdatedSignature OnHighScoreUpdated;
 	FDifficultyPassing OnDifficultyLoaded;
 	FDifficultyPassing OnDifficultyUlocked;
+
+	FGetScoreSignature OnScoreUp;
+	FGameOverSignature GameOver;
 
 protected:
 
