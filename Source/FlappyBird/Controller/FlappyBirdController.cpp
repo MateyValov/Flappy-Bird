@@ -11,7 +11,7 @@ void AFlappyBirdController::Jump()
 
 		bIsStarted = true;
 	}
-	ControlledCharacter->Jump();
+	JumpDelegate.Broadcast();
 }
 
 void AFlappyBirdController::OnGameEnd()

@@ -41,8 +41,7 @@ void AGameplayModeBase::BeginPlay()
 	PlayerController->/*Get*/StartDelegate.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::ShowScore);
 	PlayerController->/*Get*/PauseDelegate.BindDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::TogglePause);
 	PlayerController->/*Get*/EndDelegate.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::ShowEnd);
-
-	PlayerController->SetControlledCharacter(Bird);
+	PlayerController->JumpDelegate.AddDynamic(Bird, &ABird::Jump);
 
 
 	Bird->OnGameEnd.AddDynamic(this, &AGameplayModeBase::GameOver);

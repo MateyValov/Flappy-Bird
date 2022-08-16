@@ -10,6 +10,7 @@
  *
  */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameStateSignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInputSignature);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FPauseSignature, bool, IsPaused);
 
 UCLASS()
@@ -36,6 +37,7 @@ public:
     FGameStateSignature StartDelegate;
     FGameStateSignature EndDelegate;
     FPauseSignature PauseDelegate;
+    FInputSignature JumpDelegate;
 
     UFUNCTION()
     void OnGameEnd();

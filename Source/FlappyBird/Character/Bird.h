@@ -25,6 +25,8 @@ public:
 	UFUNCTION()
 	void ScoreUp();
 
+	virtual void Jump() override;
+
 	FGameEndDelegate OnGameEnd;
 	FScoreUpdateDelegate OnScoreUpdated;
 
@@ -36,13 +38,9 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	float JumpForce;
 
-	//UPROPERTY(EditDefaultsOnly)
-	//class USphereComponent* Hitbox = nullptr;
-
 	UPROPERTY(EditDefaultsOnly)
 	class UCameraComponent* Camera = nullptr;
 	
-	virtual void Jump() override;
 
 private:
 
