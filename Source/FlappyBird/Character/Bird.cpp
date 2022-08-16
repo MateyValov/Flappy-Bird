@@ -21,6 +21,8 @@ ABird::ABird()
 	Camera->SetupAttachment(RootComponent);
 	
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &ABird::OnBeginOverlap);
+
+	OnTakeAnyDamage.AddDynamic(this, &ABird::OnDamageTaken);
 }
 
 void ABird::Init(float InGravity, float InJumpForce)
@@ -56,10 +58,9 @@ void ABird::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 	}
 }
 
-float ABird::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+void ABird::OnDamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
 {
-	OnDamageTaken.Broadcast();
-	return DamageAmount;
+	OnGameEnd.Broadcast();
 }
 
 

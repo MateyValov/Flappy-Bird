@@ -45,7 +45,7 @@ void AGameplayModeBase::BeginPlay()
 	PlayerController->SetControlledCharacter(Bird);
 
 
-	Bird->OnDamageTaken.AddDynamic(this, &AGameplayModeBase::GameOver);
+	Bird->OnGameEnd.AddDynamic(this, &AGameplayModeBase::GameOver);
 	Bird->OnScoreUpdated.AddDynamic(this, &AGameplayModeBase::ScoreUp);
 
 	//OnScoreUp.BindDynamic(Bird, &ABird::ScoreUp);
