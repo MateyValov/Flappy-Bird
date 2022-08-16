@@ -8,18 +8,15 @@
 #include "Obstacle.generated.h"
 
 UCLASS()
-class FLAPPYBIRD_API APipeObstacle : public AActor
+class FLAPPYBIRD_API AObstacle : public AActor
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
-	APipeObstacle();
+	AObstacle();
 
 protected:
-
-	//UPROPERTY(EditAnywhere)
-	//class USceneComponent* Root = nullptr;
 
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* MeshComponent = nullptr;

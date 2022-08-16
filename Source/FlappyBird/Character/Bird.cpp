@@ -38,7 +38,6 @@ void ABird::ScoreUp()
 
 void ABird::Jump()
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::FromInt(bPressedJump));
 	if (!bStarted) {
 		Camera->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
 		bStarted = true;
@@ -52,7 +51,7 @@ void ABird::Jump()
 void ABird::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	AVerticalTile* OverlapedTile = Cast<AVerticalTile>(OtherActor);
-	if (OverlapedTile!=nullptr) {
+	if (IsValid(OverlapedTile)) {
 		
 		ScoreUp();
 	}

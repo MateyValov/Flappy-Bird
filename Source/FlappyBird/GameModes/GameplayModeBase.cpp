@@ -39,16 +39,17 @@ void AGameplayModeBase::BeginPlay()
 	AFlappyBirdController* PlayerController = Cast<AFlappyBirdController>(Bird->Controller);
 	PlayerController->/*Get*/StartDelegate.AddDynamic(Generator, &AObstacleGenerator::Generate);
 	PlayerController->/*Get*/StartDelegate.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::ShowScore);
-	PlayerController->/*Get*/PauseDelegate.BindDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::TogglePause);
+	PlayerController->/*Get*/PauseDelegate.AddDynamic(this, &AGameplayModeBase::TogglePause);
 	PlayerController->/*Get*/EndDelegate.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::ShowEnd);
-	PlayerController->JumpDelegate.AddDynamic(Bird, &ABird::Jump);
+
+	PlayerController->SetControlledCharacter(Bird);
 
 
 	Bird->OnGameEnd.AddDynamic(this, &AGameplayModeBase::GameOver);
 	Bird->OnScoreUpdated.AddDynamic(this, &AGameplayModeBase::ScoreUp);
 
-	//OnScoreUp.BindDynamic(Bird, &ABird::ScoreUp);
 	OnGameOver.AddDynamic(PlayerController, &AFlappyBirdController::OnGameEnd);
+	OnGamePaused.AddDynamic(Cast<AGameplayHUD>(PlayerController->GetHUD()), &AGameplayHUD::TogglePause);
 }
 
 
@@ -111,6 +112,13 @@ void AGameplayModeBase::GameOver()
 	OnDifficultyLoaded.ExecuteIfBound(Difficulty);
 
 	OnGameOver.Broadcast();
+}
+
+void AGameplayModeBase::TogglePause(APlayerController* Controller)
+{
+	bIsPaused = !bIsPaused;
+	Controller->SetPause(bIsPaused);
+	OnGamePaused.Broadcast(bIsPaused);
 }
 
 

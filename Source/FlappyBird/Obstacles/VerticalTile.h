@@ -36,7 +36,7 @@ protected:
 	class UProjectileMovementComponent* MovementComponent = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
-	TSubclassOf<class APipeObstacle> Pipe;
+	TSubclassOf<class AObstacle> Pipe;
 
 	UFUNCTION()
 	void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

@@ -23,12 +23,12 @@ void AVerticalTileMoving::SwitchDirection()
 {
 	switch (bMovesUp) {
 	case true:
-		MovementComponent->Velocity.Z =  50;
+		MovementComponent->Velocity.Z = VerticalSpeed;
 		bMovesUp = false;
 		break;
 
 	case false:
-		MovementComponent->Velocity.Z = -50;
+		MovementComponent->Velocity.Z = -VerticalSpeed;
 		bMovesUp = true;
 		break;
 	}

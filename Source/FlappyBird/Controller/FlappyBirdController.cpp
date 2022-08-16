@@ -4,14 +4,14 @@
 #include "FlappyBirdController.h"
 #include "../Character/Bird.h"
 
-void AFlappyBirdController::Jump()
+void AFlappyBirdController::Action()
 {
 	if (!bIsStarted) {
 		StartDelegate.Broadcast();
 
 		bIsStarted = true;
 	}
-	JumpDelegate.Broadcast();
+	ControlledCharacter->Jump();
 }
 
 void AFlappyBirdController::OnGameEnd()
@@ -22,17 +22,7 @@ void AFlappyBirdController::OnGameEnd()
 
 void AFlappyBirdController::Pause()
 {
-	switch (bIsPaused) {
-	case true:
-		bIsPaused = false;
-		break;
-	case false:
-		bIsPaused = true;
-		break;
-	}
-
-	PauseDelegate.ExecuteIfBound(bIsPaused);
-	SetPause(bIsPaused);
+	PauseDelegate.Broadcast(this);
 }
 
 
@@ -44,6 +34,6 @@ void AFlappyBirdController::SetControlledCharacter(ACharacter* InCharacter)
 void AFlappyBirdController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
-	InputComponent->BindAction("Jump", IE_Pressed, this, &AFlappyBirdController::Jump);
+	InputComponent->BindAction("Jump", IE_Pressed, this, &AFlappyBirdController::Action);
 	InputComponent->BindAction("Pause", IE_Pressed, this, &AFlappyBirdController::Pause).bExecuteWhenPaused = true;
 }

@@ -29,4 +29,6 @@ protected:
 	UFUNCTION()
 	void SwitchDirection();
 
+	UPROPERTY(EditDefaultsOnly)
+		float VerticalSpeed = 50;
 };

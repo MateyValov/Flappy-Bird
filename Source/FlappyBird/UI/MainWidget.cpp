@@ -22,8 +22,8 @@ void UMainWidget::OnOptionsClicked()
 void UMainWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	Play->OnClicked.AddDynamic(this, &UMainWidget::OnPlayClicked);
 	Quit->OnClicked.AddDynamic(this, &UMainWidget::OnQuitClicked);
+	Play->OnClicked.AddDynamic(this, &UMainWidget::OnPlayClicked);
 	Options->OnClicked.AddDynamic(this, &UMainWidget::OnOptionsClicked);
 	ImpossibleDifficultyUnlock->OnClicked.AddDynamic(this, &UMainWidget::OnTitleClicked);
 }

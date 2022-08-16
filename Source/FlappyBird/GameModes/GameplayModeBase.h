@@ -16,7 +16,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FScoreUpdatedSignature, int, Score);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FDifficultyPassing, FString, Difficulty);
 DECLARE_DYNAMIC_DELEGATE(FGetScoreSignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameOverSignature);
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGamePauseSignature, bool, bIsPaused);
 
 UCLASS()
 class FLAPPYBIRD_API AGameplayModeBase : public AGameModeBase
@@ -47,6 +47,7 @@ public:
 	FDifficultyPassing OnDifficultyUlocked;
 
 	FGameOverSignature OnGameOver;
+	FGamePauseSignature OnGamePaused;
 
 protected:
 
@@ -74,6 +75,9 @@ private:
 	UFUNCTION()
 	void GameOver();
 
+	UFUNCTION()
+	void TogglePause(APlayerController* Controller);
+
 	int Score = 0;
 
 	int32 HighScore = 0;
@@ -81,4 +85,6 @@ private:
 	FString Difficulty = "";
 
 	FDifficultyProperties CurrentSettings;
+
+	bool bIsPaused = false;
 };

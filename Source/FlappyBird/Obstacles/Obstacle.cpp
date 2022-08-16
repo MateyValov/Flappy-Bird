@@ -6,21 +6,18 @@
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
-APipeObstacle::APipeObstacle()
+AObstacle::AObstacle()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-	//Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
-	//SetRootComponent(Root);
 
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	MeshComponent->OnComponentBeginOverlap.AddDynamic(this, &APipeObstacle::OnBeginOverlap);
-	//MeshComponent->SetupAttachment(Root);
+	MeshComponent->OnComponentBeginOverlap.AddDynamic(this, &AObstacle::OnBeginOverlap);
 	SetRootComponent(MeshComponent);
 }
 
 
-void APipeObstacle::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void AObstacle::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	ACharacter* OverlapedCharacter = Cast<ACharacter>(OtherActor);
 	if (OverlapedCharacter != nullptr) {

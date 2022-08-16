@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "BGBlock.generated.h"
+#include "Background.generated.h"
 
 UCLASS()
-class FLAPPYBIRD_API ABGBlock : public AActor
+class FLAPPYBIRD_API ABackground : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ABGBlock();
+	ABackground();
 
 protected:
 	UPROPERTY(EditAnywhere)
